@@ -54,9 +54,7 @@ public abstract class PlanningPeriod {
     {
         ArrayList<Date> days = new ArrayList<>();
         return days;
-    }
-    
-    public abstract void addAsignment();    
+    }   
         
     public ArrayList<Asignment> getAsignments() 
     {
@@ -82,7 +80,7 @@ public abstract class PlanningPeriod {
         //TODO
         return absents;
     }
-    public abstract void replan(Date pointReference);
-
+    
+    public abstract void replan(Date pointRefernce);
 }
 

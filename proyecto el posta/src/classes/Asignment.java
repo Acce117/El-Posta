@@ -5,36 +5,40 @@ import java.util.Date;
 
 public class Asignment{
     private Date day;
-
-    private Turn turn;
-
+    private String schedule;
+    private boolean done;
     private Person personOnWantch;
 
     public Asignment(Person personOnWatch, Date day, String schedule){
         this.day = day;
         setPersonOnWatch(personOnWatch);
-        setTurn(schedule);
+        setSchedule(schedule);
     }
-
+    public void setSchedule(String schedule) {
+    	this.schedule = schedule;
+    }
+    
     public void setPersonOnWatch(Person personOnWatch){
-        this.personOnWantch = personOnWantch;
-    }
-
-    private boolean validateSchedule(String schedule){
-        boolean check = true;
-        
-        if(schedule == null || schedule.equals(""))
-            check = false;
-        
-        return check;
+        this.personOnWantch = personOnWatch;
     }
     
-    public void setTurn(String schedule){
-        if(!validateSchedule(schedule))
-            throw new IllegalArgumentException("Horario no válido");
-        
-        this.turn = new Turn(schedule);
+    public Date getDay() {
+		return day;
+	}
+    
+    public Person getPersonOnWantch() {
+		return personOnWantch;
+	}
+    
+    public void setDone(boolean done){
+        this.done = done;
+    }
+
+    public boolean isDone(){
+        return this.done;
     }
     
-
+    public String getSchedule() {
+		return schedule;
+	}
 }
