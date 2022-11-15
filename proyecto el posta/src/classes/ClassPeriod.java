@@ -11,17 +11,26 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     //Pense trabajar a las estudiantes por separado igual como a los profesores, me parece mas facil
     private ArrayList<Student> femaleStudents;
     //Esto es para saber a quienes les toca hacer la guardia en fin de semana, si a estudiantes o a trabajadors
+    
     private boolean lastPersonWorker;
+    
     private ArrayList<Worker> workers;
     private ArrayList<Student> absent;
+    
+    private ArrayList<Person> noActivePeople;
     private ArrayList<Asignment> asignments;
 
     public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
         super(start, end);
+        
+        this.absent = new ArrayList<>();
         this.maleStudents = new ArrayList<>();
         this.femaleStudents = new ArrayList<>();
         this.workers = new ArrayList<>();
+        
         this.asignments = new ArrayList<>();
+        this.noActivePeople = new ArrayList<>();
+        
         this.lastPersonWorker = false;
 
         split(personList);
@@ -30,21 +39,18 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     }
     
     //Metodos para verificar que pueda hacer guardia------------------------------------------------------------------------------------------------------
-    
-    public boolean canMatchMale(Person person){
-    	if(((Student)person).getActualState() == Student)
-    }
-    public boolean canMatch(Person person, Date date){
-    	boolean check = true;
-    	if(person instanceof Student)
-    		if(person.getSex() == Genre.MALE)
-    			check = canMatchMale(person);
-    		else
-    			check = canMatchFemale(person);
+
+    public boolean canMatch(Person person){
+    	boolean check = false;
+    	if(person instanceof Student){
+    		if(((Student)person).getActualState() == StatesStudent.ACTIVE)
+    			check = true;
+    	}
     	else
-    		check = canMatchWorker
+    		if(((Worker)person).getActualState() == StatesWorker.ACTIVE)
+    			check = true;
     	
-        return false;
+        return check;
     }
 
     public int countAbsent(){
@@ -59,14 +65,17 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
             throw new IllegalArgumentException("Lista vacía, no se puede planificar guardia sin personal");
         
         for(Person p: personList){
-            if(p instanceof Student){
-                if(p.getSex() == Genre.MALE)
-                    maleStudents.add((Student) p);
-                else
-                    femaleStudents.add((Student) p);
-            }
-            else
-                workers.add((Worker) p);
+        	if(canMatch(p))
+        		if(p instanceof Student){
+        			if(p.getSex() == Genre.MALE)
+        				maleStudents.add((Student) p);
+        			else
+        				femaleStudents.add((Student) p);
+        		}
+        		else
+        			workers.add((Worker) p);
+        	else
+        		noActivePeople.add(p);
         }
     }
 
@@ -78,67 +87,47 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	asignments.add(asignment);
     }
     
+    //Metodo de organizacion----------------------------------------------------------------------------------
     public void organize(Date start, Date end){
-        if(start.compareTo(end) > 0)
-        	throw new IllegalArgumentException("Fecha de inicio y fin no v�lidas, la de fin debe ser despu�s de la de inicio");
-        
-        Person aux;
-        int mS = 0;
-        int fS = 0;
-        int w = 0;
-        
-        while(start.compareTo(end) < 0){
-        	if(canMatch(maleStudents.get(mS), start)){
-        		match(maleStudents.get(mS), start, Schedules.MALE_SCHEDULE.getSchedule());
-        		aux = maleStudents.get(mS);
-        		maleStudents.remove(mS);
-        		maleStudents.add((Student)aux);
-        		if(mS > 0)
-                    mS--;
-                if(isWeekend(start)){
-                    if(!lastPersonWorker){
-                        match(workers.get(w++), start, Schedules.WORKER_SCHEDULE_1.getSchedule());
-                        match(workers.get(w), start, Schedules.WORKER_SCHEDULE_2.getSchedule());
-                        if(w == workers.size()){
-                            lastPersonWorker = true;
-                            w = 0;
-                    	}
-                        else
-                            w++;
-                    }
-                    else{
-                        match(femaleStudents.get(fS), start, Schedules.FEMALE_SCHEDULE.getSchedule());
-                        if(fS == femaleStudents.size()){
-                            lastPersonWorker = false;
-                            fS = 0;
-                        }
-                        else
-                            fS++;
-                    }
+    	Person aux;
+    	int w = 0;
+    	int fS = 0;
+    	
+    	while(start.compareTo(end) < 0){
+    		aux = maleStudents.get(0);
+    		match(aux, start, Schedules.MALE_SCHEDULE.getSchedule());
+    		maleStudents.remove(aux);
+    		maleStudents.add((Student)aux);
+    		
+    		if(isWeekend(start)){
+    			if(!lastPersonWorker){
+                    match(workers.get(w++), start, Schedules.WORKER_SCHEDULE_1.getSchedule());
+                    if(w < workers.size())
+                    	match(workers.get(w++), start, Schedules.WORKER_SCHEDULE_2.getSchedule());
+                    
+                    if(w == workers.size() - 1){
+                        lastPersonWorker = true;
+                        w = 0;
+                	}
                 }
-                start = new Date(start.getTime() + 86400000);
-        	}
-        	else{
-                mS++;
-        	}
-        }
-    }
+                else{
+                    match(femaleStudents.get(fS), start, Schedules.FEMALE_SCHEDULE.getSchedule());
+                    if(fS == femaleStudents.size()){
+                        lastPersonWorker = false;
+                        fS = 0;
+                    }
+                    else
+                        fS++;
+                }
+    		}
+    		
+    		start = new Date(start.getTime() + 86400000);
+    	}
+    }    
+    //-----------------------------------------------------------------------------------------------------------
 
-    public void fullOrganize() {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-	@Override
 	public void replan(Date pointReference) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addAsignment() {
-		// TODO Auto-generated method stub
+		organize(pointReference, end);
 		
 	}
 
