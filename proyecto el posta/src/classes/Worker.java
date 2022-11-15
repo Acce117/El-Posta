@@ -34,12 +34,13 @@ public class Worker extends Person{
     
     public void setActualState(StatesWorker newState, Date changeState)
     {
-    	boolean repeat = (actualState == newState);
+    	/*boolean repeat = (actualState == newState);
     	if(!repeat)
     	{
     		notifyAllObservers(changeState);
     		newState = actualState;
-    	}
+    	}*/
+    	actualState = newState;
     }
 
     public StatesWorker getActualState()

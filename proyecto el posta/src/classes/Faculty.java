@@ -13,6 +13,7 @@ public class Faculty{
     private Faculty(){
         this.people = new ArrayList<>();
         this.periods = new ArrayList<>();
+        people.add(new Worker("a", "a", Genre.MALE, StatesWorker.ACTIVE, null));
     }
     
     public static Faculty getInstance(){
@@ -101,5 +102,15 @@ public class Faculty{
 			}
 		}
 		return students;
+	}
+
+	public ArrayList<Worker> getWorkers() {
+		ArrayList<Worker> workers = new ArrayList<>();
+		
+		for(Person person: people){
+			if(person instanceof Worker)
+				workers.add((Worker)person);
+		}
+		return workers;
 	}
 }

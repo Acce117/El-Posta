@@ -40,7 +40,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     
     //Metodos para verificar que pueda hacer guardia------------------------------------------------------------------------------------------------------
 
-    public boolean canMatch(Person person){
+    /*public boolean canMatch(Person person){
     	boolean check = false;
     	if(person instanceof Student){
     		if(((Student)person).getActualState() == StatesStudent.ACTIVE)
@@ -51,7 +51,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     			check = true;
     	
         return check;
-    }
+    }*/
 
     public int countAbsent(){
         return absent.size();
@@ -65,7 +65,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
             throw new IllegalArgumentException("Lista vacía, no se puede planificar guardia sin personal");
         
         for(Person p: personList){
-        	if(canMatch(p))
+        	if(p.isActive())
         		if(p instanceof Student){
         			if(p.getSex() == Genre.MALE)
         				maleStudents.add((Student) p);

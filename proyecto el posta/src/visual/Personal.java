@@ -36,6 +36,7 @@ import java.awt.Toolkit;
 
 import classes.Faculty;
 import classes.Student;
+import classes.Worker;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -100,6 +101,7 @@ public class Personal extends JDialog {
 	private JButton btnCancelar_1;
 	DefaultTableModel studentModel;
 	private Faculty faculty = Faculty.getInstance();
+	private DefaultTableModel workerModel;
 	
 	public Personal() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
@@ -390,6 +392,8 @@ public class Personal extends JDialog {
 		}
 		return scrollPane;
 	}
+	
+	//----------------------------------------------------------------------------------------------------------
 	private JTable getStudentListTable() {
 		if (studentListTable == null) {
 			
@@ -426,6 +430,7 @@ public class Personal extends JDialog {
 		
 		return studentModel;
 	}
+	//----------------------------------------------------------------------------------------------------------
 	
 	private JButton getNewStudent() {
 		if (newStudent == null) {
@@ -551,35 +556,13 @@ public class Personal extends JDialog {
 		}
 		return scrollPane_1;
 	}
+	
+	//----------------------------------------------------------------------------------------------------------
 	private JTable getTable_1() {
 		if (workerListTable == null) {
 			workerListTable = new JTable();
 			workerListTable.setFillsViewportHeight(true);
-			workerListTable.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-				},
-				new String[] {
-					"ID", "Nombre", "Apellidos", "Sexo", "Estado", "Fecha de retorno"
-				}
-			));
+			workerListTable.setModel(getWorkerModel());
 			workerListTable.getColumnModel().getColumn(0).setPreferredWidth(67);
 			workerListTable.getColumnModel().getColumn(3).setPreferredWidth(35);
 			workerListTable.getColumnModel().getColumn(4).setPreferredWidth(44);
@@ -587,6 +570,40 @@ public class Personal extends JDialog {
 		}
 		return workerListTable;
 	}
+	
+	private DefaultTableModel getWorkerModel(){
+		if(workerModel == null){
+			workerModel = new DefaultTableModel();
+			workerModel.addColumn("CI");
+			workerModel.addColumn("Nombre");
+			workerModel.addColumn("Apellido");
+			workerModel.addColumn("Sexo");
+			workerModel.addColumn("Estado");
+			workerModel.addColumn("Fecha de retorno");
+			
+			String worker[] = new String[6];
+			
+			ArrayList<Worker> workers= faculty.getWorkers();
+			String date;
+			for(Worker w: workers){
+				worker[0] = w.getId();
+				worker[1] = w.getName();
+				worker[2] = w.getName(); 
+				worker[3] = w.getSex().getName(); 
+				worker[4] = w.getActualState().getName();
+				if(w.getComebackDate() == null)
+					date = ""; 
+				else
+					date = w.getComebackDate().toString();
+				worker[5] = date;
+				workerModel.addRow(worker);
+			}
+		}
+		
+		return workerModel;
+	}
+	//----------------------------------------------------------------------------------------------------------
+	
 	private JButton getBtnEliminar() {
 		if (btnEliminar == null) {
 			btnEliminar = new JButton("Eliminar");
