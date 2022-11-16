@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import utils.Schedules;
+
 
 public abstract class PlanningPeriod {
 
@@ -18,9 +20,8 @@ public abstract class PlanningPeriod {
         setEnd(end);
         
     }
-    public abstract boolean canMatch(Person person, Date date);
 
-    public abstract void match(Person actualPerson, Date actualDate, String schedule);
+    public abstract void match(Person actualPerson, Date actualDate, Schedules schedule);
 
 
     public void setStart(Date start) 
@@ -54,9 +55,7 @@ public abstract class PlanningPeriod {
     {
         ArrayList<Date> days = new ArrayList<>();
         return days;
-    }
-    
-    public abstract void addAsignment();    
+    }        
         
     public ArrayList<Asignment> getAsignments() 
     {
@@ -83,6 +82,5 @@ public abstract class PlanningPeriod {
         return absents;
     }
     public abstract void replan(Date pointReference);
-
 }
 

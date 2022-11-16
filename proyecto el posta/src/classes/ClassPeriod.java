@@ -30,11 +30,13 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     }
     
     //Metodos para verificar que pueda hacer guardia------------------------------------------------------------------------------------------------------
-    
+    /*
     public boolean canMatchMale(Person person){
     	if(((Student)person).getActualState() == Student)
     }
+    */
     public boolean canMatch(Person person, Date date){
+    	/*
     	boolean check = true;
     	if(person instanceof Student)
     		if(person.getSex() == Genre.MALE)
@@ -44,9 +46,9 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	else
     		check = canMatchWorker
     	
+    	 */
         return false;
     }
-
     public int countAbsent(){
         return absent.size();
 
@@ -72,13 +74,14 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 
 
-    
-    public void match(Person person, Date date, String schedule){
+    @Override
+    public void match(Person person, Date date, Schedules schedule){
     	Asignment asignment = new Asignment(person, date, schedule);
     	asignments.add(asignment);
     }
     
     public void organize(Date start, Date end){
+    	/*
         if(start.compareTo(end) > 0)
         	throw new IllegalArgumentException("Fecha de inicio y fin no v�lidas, la de fin debe ser despu�s de la de inicio");
         
@@ -86,7 +89,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
         int mS = 0;
         int fS = 0;
         int w = 0;
-        
         while(start.compareTo(end) < 0){
         	if(canMatch(maleStudents.get(mS), start)){
         		match(maleStudents.get(mS), start, Schedules.MALE_SCHEDULE.getSchedule());
@@ -122,8 +124,8 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
                 mS++;
         	}
         }
+    	 */
     }
-
     public void fullOrganize() {
         // TODO Auto-generated method stub
         
@@ -136,10 +138,5 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		
 	}
 
-	@Override
-	public void addAsignment() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

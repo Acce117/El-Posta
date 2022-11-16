@@ -1,14 +1,22 @@
 package classes;
 
+import interfaces.IMatcherVerify;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-public class VacationPeriod extends PlanningPeriod{
+import utils.PeriodValidator;
+import utils.Schedules;
 
-    public VacationPeriod(Date start, Date end) {
+public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
+{
+	private Schedules possibleSchedules[] = {Schedules.WORKER_SCHEDULE_1,Schedules.WORKER_SCHEDULE_2};
+	private ArrayList<Worker> workers;
+    public VacationPeriod(Date start, Date end) 
+    {
         super(start, end);
-        
+        workers = new ArrayList<Worker>();
     }
 
 	@Override
@@ -17,27 +25,103 @@ public class VacationPeriod extends PlanningPeriod{
 		
 	}
 
-	public Collection<? extends Worker> getWorkers() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Worker> getWorkers() 
+	{
+		return workers;
 	}
 
 	@Override
-	public boolean canMatch(Person person, Date date) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void match(Person actualPerson, Date actualDate) {
-		// TODO Auto-generated method stub
+	public boolean canMatch(Person person, Date date, Schedules schedule) 
+	{
+		boolean can = true;//La variable que retorno
 		
+		if(date.before(start) || date.after(end) || !isWeekend(date)) //si no se encuentra en el periodo no puede
+			can = false;
+		
+		if(can)
+		{
+			Asignment actualAsignment;
+			for(int i = 0; i < asignments.size() && can; i++)
+			{
+				actualAsignment = asignments.get(i);				
+				can = (actualAsignment.getDay().equals(date) && actualAsignment.getSchedule() == schedule);				
+			}						
+		}
+
+		return can;		
 	}
+	
 
 	@Override
-	public void addAsignment() {
-		// TODO Auto-generated method stub
+	public void match(Person actualPerson, Date actualDate, Schedules schedule) 
+	{
+		if(actualPerson != null && actualDate != null)
+		{
+			asignments.add(new Asignment(actualPerson,actualDate,schedule));
+		}
+	}
+	
+	public void asign(Worker newWorker, ArrayList<Date> watches)
+	{
 		
+		boolean asigned = false;
+		Date actualDate;
+		//Se recorren las fechas que decidio el trabajador
+		for(int i = 0; i < watches.size() && !asigned; i++)
+		{
+			actualDate = watches.get(i);
+			asigned = false;
+			//Si no puede hacerlo en un turno lo prueba con otro 
+			for(int j = 0; j < possibleSchedules.length && !asigned; j++)
+			{
+				if(canMatch(newWorker,actualDate,possibleSchedules[j]))
+				{
+					asigned = true;
+					match(newWorker,actualDate,possibleSchedules[j]);
+				}				
+			}
+			if(!asigned)
+			{
+				throw new IllegalArgumentException("No se pudo planificar para el dia" + i);
+			}
+		}
+	}
+	
+	public void addDay(Worker actualWorker, Date newDate)
+	{
+		if(actualWorker==null || newDate == null)
+			throw new IllegalArgumentException("Parametros vacios");
+		boolean asigned = false;
+		for(int i = 0; i < possibleSchedules.length && !asigned; i++)
+		{
+			if(canMatch(actualWorker, newDate, possibleSchedules[i]))
+			{
+				asigned = true;
+				match(actualWorker,newDate,possibleSchedules[i]);
+			}
+		}
+	}
+	
+	public void updateDate(Worker actualWorker, Date oldDate, Date newDate)
+	{
+		if(actualWorker == null)
+			throw new IllegalArgumentException("Parametro vacio");
+		boolean deleted = false;		
+		//Buscar fecha vieja
+		for(int i = 0; i < asignments.size() && !deleted; i++)
+		{
+			if(asignments.get(i).equals(oldDate))
+			{
+				//Verificar si se puede hacer match con la fecha vieja
+				//Matchear la nueva
+				addDay(actualWorker,newDate);//TODO Pensar mejor esta parte para no repetir codigo
+				//Eliminar la vieja
+				asignments.remove(i);
+				deleted = true;
+			}
+			
+		}
 	}
     
+
 }

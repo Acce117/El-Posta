@@ -20,7 +20,7 @@ public class Student extends Person{
     	if(!repeat)
     	{
     		notifyAllObservers(changeState);
-    		newState = actualState;
+    		  actualState = newState;
     	}
     }
 
@@ -28,5 +28,11 @@ public class Student extends Person{
     {
         return actualState;
     }
+
+	@Override
+	public boolean isActive() 
+	{
+		return (actualState == StatesStudent.ACTIVE);
+	}
     
 }

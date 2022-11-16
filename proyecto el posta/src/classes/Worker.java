@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import utils.Genre;
+import utils.StatesStudent;
 import utils.StatesWorker;
 
 public class Worker extends Person{
@@ -38,7 +39,7 @@ public class Worker extends Person{
     	if(!repeat)
     	{
     		notifyAllObservers(changeState);
-    		newState = actualState;
+    		 actualState = newState;
     	}
     }
 
@@ -46,6 +47,12 @@ public class Worker extends Person{
     {
         return actualState;
     }
+
+	@Override
+	public boolean isActive() 
+	{
+		return (actualState == StatesWorker.ACTIVE);
+	}
 
 
 }

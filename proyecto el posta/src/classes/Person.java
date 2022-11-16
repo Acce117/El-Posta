@@ -2,11 +2,12 @@ package classes;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import utils.Observer;
+import utils.Genre;
+import utils.PersonalValidator;
 
-import utils.Genre;;
-
-public class Person{
+public abstract class Person{
 	protected ArrayList<Observer> observers = new ArrayList<>();
 	protected String id;
     protected String name;
@@ -48,4 +49,13 @@ public class Person{
     public void addObserver(Observer observer){
     	observers.add(observer);
     }
+    
+    protected void notifyAllObservers(Date pointReference)
+    {
+        for(Observer i : observers)
+        {
+            i.update(pointReference);
+        }
+    }
+    public abstract boolean isActive();
 }

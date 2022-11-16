@@ -2,39 +2,66 @@
 package classes;
 import java.util.Date;
 
+import utils.Schedules;
+
 
 public class Asignment{
-    private Date day;
+    
 
-    private Turn turn;
+	private Date day;
+    private boolean done;
+    private Schedules schedule;
+    
 
-    private Person personOnWantch;
+    private Person personOnWatch;
 
-    public Asignment(Person personOnWatch, Date day, String schedule){
-        this.day = day;
-        setPersonOnWatch(personOnWatch);
-        setTurn(schedule);
+
+	public Asignment(Person personOnWatch, Date day, Schedules schedule){
+        this.setDay(day);
+        this.setPersonOnWatch(personOnWatch);
+        this.setSchedule(schedule);
     }
+	
+	public void setDone(boolean done) {
+		this.done = done;
+	}
 
     public void setPersonOnWatch(Person personOnWatch){
-        this.personOnWantch = personOnWantch;
+        this.personOnWatch = personOnWatch;
+    }
+    
+    public Person getPersonOnWatch() {
+    	return personOnWatch;
     }
 
-    private boolean validateSchedule(String schedule){
+    private boolean validateSchedule(Schedules schedule){
         boolean check = true;
         
-        if(schedule == null || schedule.equals(""))
+        if(schedule == null)
             check = false;
         
         return check;
     }
     
-    public void setTurn(String schedule){
-        if(!validateSchedule(schedule))
-            throw new IllegalArgumentException("Horario no válido");
-        
-        this.turn = new Turn(schedule);
+    public boolean isDone(){
+        return this.done;
     }
+
+	public Date getDay() {
+		return day;
+	}
+
+	public void setDay(Date day) {
+		this.day = day;
+	}
+
+	public Schedules getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedules schedule) {
+		this.schedule = schedule;
+	}
     
 
 }
