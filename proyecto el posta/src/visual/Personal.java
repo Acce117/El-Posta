@@ -21,6 +21,8 @@ import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import utils.Genre;
+import utils.PersonalValidator;
 import utils.StatesWorker;
 import utils.StatesStudent;
 
@@ -36,6 +38,7 @@ import java.awt.Toolkit;
 
 import classes.Faculty;
 import classes.Student;
+import classes.Worker;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -100,7 +103,8 @@ public class Personal extends JDialog {
 	private JButton btnCancelar_1;
 	DefaultTableModel studentModel;
 	private Faculty faculty = Faculty.getInstance();
-	
+	private DefaultTableModel workerModel;
+
 	public Personal() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
 		setTitle("Gesti\u00F3n del personal");
@@ -144,6 +148,7 @@ public class Personal extends JDialog {
 	private JLabel getLblStudentName() {
 		if (lblStudentName == null) {
 			lblStudentName = new JLabel("Nombre:");
+			lblStudentName.setForeground(Color.BLACK);
 			lblStudentName.setBounds(20, 30, 71, 14);
 			lblStudentName.setHorizontalAlignment(SwingConstants.LEFT);
 		}
@@ -174,7 +179,7 @@ public class Personal extends JDialog {
 					studentName.setText("");
 				}
 			});
-			
+
 			studentName.setHorizontalAlignment(SwingConstants.LEFT);
 			studentName.setColumns(10);
 		}
@@ -252,7 +257,7 @@ public class Personal extends JDialog {
 		}
 		return studentsGroupFyM;
 	}
-	
+
 	private ButtonGroup workersGroupFyM(){
 		if(workersGroupFyM == null){
 			workersGroupFyM = new ButtonGroup();
@@ -344,12 +349,12 @@ public class Personal extends JDialog {
 			StatesWorker list[] = StatesWorker.values();			
 			String listShow[] = new String[list.length];
 			//De momento esta hecho a fuerza bruta. Buscar un metodo para simplificar
-			
+
 			for(int i = 0; i < list.length; i++) 
 			{
 				listShow[i] = list[i].getName();
 			}
-			
+
 			workerState.setModel(new DefaultComboBoxModel<Object>(listShow));
 			workerState.setSelectedIndex(-1);
 		}
@@ -386,17 +391,19 @@ public class Personal extends JDialog {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setViewportView(getStudentListTable());
-			
+
 		}
 		return scrollPane;
 	}
+
+	//Tabla de Estudiantes--------------------------------------------------------------------------------------
 	private JTable getStudentListTable() {
 		if (studentListTable == null) {
-			
+
 			studentListTable = new JTable();
 			studentListTable.setFillsViewportHeight(true);
 			studentListTable.setModel(getStudentModel());
-			
+
 			studentListTable.getColumnModel().getColumn(3).setPreferredWidth(40);
 			studentListTable.getColumnModel().getColumn(4).setPreferredWidth(60);
 		}
@@ -411,9 +418,9 @@ public class Personal extends JDialog {
 			studentModel.addColumn("Sexo");
 			studentModel.addColumn("Estado");
 			String student[] = new String[5];
-			
+
 			ArrayList<Student> students= faculty.getStudents();
-			
+
 			for(Student s: students){
 				student[0] = s.getId();
 				student[1] = s.getName();
@@ -423,17 +430,77 @@ public class Personal extends JDialog {
 				studentModel.addRow(student);
 			}
 		}
-		
+
 		return studentModel;
+	}
+
+	//Entrada de datos de estudiantes------------------------------------------------------------------------------------------------------------------
+	private Genre checkSex() throws Exception{
+		Genre sex;
+		if(studentFemale.isSelected())
+			sex = Genre.FEMALE;
+		else if(studentMale.isSelected())
+			sex = Genre.MALE;
+		else
+			throw new Exception("El sexo no ha sido seleccionado");
+		
+		return sex;
 	}
 	
 	private JButton getNewStudent() {
 		if (newStudent == null) {
 			newStudent = new JButton("Agregar");
+			newStudent.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String name = null;
+					String lastName = null;
+					String secLastName = null;
+					String id = null;
+					Genre sex = null;
+					StatesStudent state = null;
+					Student student;
+					try{
+						name = studentName.getText();
+						lastName = studentLastName.getText();
+						secLastName = studentSecLastName.getText();
+						id = studentID.getText();
+						sex = checkSex();
+						
+						PersonalValidator.checkName(name);
+						PersonalValidator.checkName(lastName);
+						PersonalValidator.checkName(secLastName);
+						
+						PersonalValidator.checkID(id, sex);	
+						
+						
+						switch((String)studentState.getSelectedItem()){
+							case "Activo":
+								state = StatesStudent.ACTIVE;
+								break;
+							case "Licencia":
+								state = StatesStudent.LICENCE;
+								break;
+							case "Baja":
+								state = StatesStudent.DROPPED_OUT;
+								break;
+							default:
+								throw new Exception("No se ha elegido el estado");
+						}
+						
+						
+						name = name + lastName + secLastName;
+						
+						faculty.addStudent(id, name, sex, state);
+					}catch(Exception error){
+						error.printStackTrace();
+					}
+				}
+			});
 			newStudent.setBounds(135, 343, 85, 23);
 		}
 		return newStudent;
 	}
+	//------------------------------------------------------------------------------------------------------------------------------------------------
 	private JButton getDeleteStudent() {
 		if (deleteStudent == null) {
 			deleteStudent = new JButton("Eliminar");
@@ -551,35 +618,13 @@ public class Personal extends JDialog {
 		}
 		return scrollPane_1;
 	}
+
+	//Tabla de Trabajadores-------------------------------------------------------------------------------------
 	private JTable getTable_1() {
 		if (workerListTable == null) {
 			workerListTable = new JTable();
 			workerListTable.setFillsViewportHeight(true);
-			workerListTable.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-					{null, null, null, null, null, null},
-				},
-				new String[] {
-					"ID", "Nombre", "Apellidos", "Sexo", "Estado", "Fecha de retorno"
-				}
-			));
+			workerListTable.setModel(getWorkerModel());
 			workerListTable.getColumnModel().getColumn(0).setPreferredWidth(67);
 			workerListTable.getColumnModel().getColumn(3).setPreferredWidth(35);
 			workerListTable.getColumnModel().getColumn(4).setPreferredWidth(44);
@@ -587,6 +632,40 @@ public class Personal extends JDialog {
 		}
 		return workerListTable;
 	}
+
+	private DefaultTableModel getWorkerModel(){
+		if(workerModel == null){
+			workerModel = new DefaultTableModel();
+			workerModel.addColumn("CI");
+			workerModel.addColumn("Nombre");
+			workerModel.addColumn("Apellido");
+			workerModel.addColumn("Sexo");
+			workerModel.addColumn("Estado");
+			workerModel.addColumn("Fecha de retorno");
+
+			String worker[] = new String[6];
+
+			ArrayList<Worker> workers= faculty.getWorkers();
+			String date;
+			for(Worker w: workers){
+				worker[0] = w.getId();
+				worker[1] = w.getName();
+				worker[2] = w.getName(); 
+				worker[3] = w.getSex().getName(); 
+				worker[4] = w.getActualState().getName();
+				if(w.getComebackDate() == null)
+					date = ""; 
+				else
+					date = w.getComebackDate().toString();
+				worker[5] = date;
+				workerModel.addRow(worker);
+			}
+		}
+
+		return workerModel;
+	}
+	//----------------------------------------------------------------------------------------------------------
+
 	private JButton getBtnEliminar() {
 		if (btnEliminar == null) {
 			btnEliminar = new JButton("Eliminar");

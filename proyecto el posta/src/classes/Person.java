@@ -22,18 +22,18 @@ public class Person{
         return id;
     }
     public void setId(String id){
-    	PersonalValidator.checkID(id, sex);
+    	//PersonalValidator.checkID(id, sex);
     	this.id = id;
     }
    
     public String getName() {
-    	PersonalValidator.checkName(name);
+    	
         return name;
     }
 
     public void setName(String name){
         
-    	PersonalValidator.checkName(name);
+    	//PersonalValidator.checkName(name);
         this.name = name;
     }
 
