@@ -2,7 +2,9 @@ package classes;
 
 import java.util.Date;
 
+import utils.DateManager;
 import utils.Genre;
+import utils.Schedule;
 import utils.StatesStudent;
 
 public class Student extends Person{
@@ -19,8 +21,8 @@ public class Student extends Person{
     	boolean repeat = (actualState == newState);
     	if(!repeat)
     	{
-    		notifyAllObservers(changeState);
-    		newState = actualState;
+    		  actualState = newState;
+    		  notifyAllObservers(changeState);
     	}
     }
 
@@ -28,5 +30,24 @@ public class Student extends Person{
     {
         return actualState;
     }
+
+	@Override
+	public boolean isActive() 
+	{
+		return (actualState == StatesStudent.ACTIVE);
+	}
+
+	@Override
+	public boolean canMatch(Date newDate, Schedule newSchedule) 
+	{
+		boolean check = true;
+		
+		if(!isActive() && newSchedule != Schedule.MALE_STUDENT_SCHEDULE && sex == Genre.MALE)
+			check = false;
+		else if(!isActive() && newSchedule != Schedule.FEMALE_STUDENT_SCHEDULE && sex == Genre.FEMALE && !DateManager.isWeekend(newDate))
+			check = false;
+		
+		return check;
+	}
     
 }

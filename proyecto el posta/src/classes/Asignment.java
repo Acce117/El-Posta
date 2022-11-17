@@ -2,6 +2,8 @@
 package classes;
 import java.util.Date;
 
+import utils.Schedule;
+
 
 public class Asignment{
     private Date day;
@@ -37,6 +39,22 @@ public class Asignment{
     public boolean isDone(){
         return this.done;
     }
+
+	public Date getDay() {
+		return day;
+	}
+
+	public void setDay(Date day) {
+		this.day = day;
+	}
+
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
     
     public String getSchedule() {
 		return schedule;

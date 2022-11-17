@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import utils.Schedule;
+
 
 public abstract class PlanningPeriod {
 
@@ -19,7 +21,7 @@ public abstract class PlanningPeriod {
         
     }
 
-    public abstract void match(Person actualPerson, Date actualDate, String schedule);
+    public abstract void match(Person actualPerson, Date actualDate, Schedule schedule);
 
 
     public void setStart(Date start) 
@@ -53,25 +55,11 @@ public abstract class PlanningPeriod {
     {
         ArrayList<Date> days = new ArrayList<>();
         return days;
-    }   
+    }        
         
     public ArrayList<Asignment> getAsignments() 
     {
     	return asignments;
-    }
-    
-    public static boolean isWeekend(Date day)
-    {
-    	boolean check = false;
-    	SimpleDateFormat df = new SimpleDateFormat( "dd/MM/yy" );  
-        df.applyPattern( "EEE" ); 
-        String date= df.format( day );
-        if(date.equals("sáb") || date.equals("dom")) 
-        { 
-            check = true;
-        } 
-    	
-    	return check;
     }
 
     public int countAbsent()
@@ -80,7 +68,8 @@ public abstract class PlanningPeriod {
         //TODO
         return absents;
     }
-    
-    public abstract void replan(Date pointRefernce);
+
+    public abstract void replan(Date pointReference, Person changedPerson);
+
 }
 

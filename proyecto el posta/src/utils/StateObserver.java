@@ -11,8 +11,8 @@ public class StateObserver extends Observer
 		super(observable);
 	}
 
-	public void update(Date pointReference)
+	public void update(Date pointReference, Person observer)
 	{
-		faculty.replan(pointReference);
+		faculty.replan(pointReference, observer);
 	}
 }
