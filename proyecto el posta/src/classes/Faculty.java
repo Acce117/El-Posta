@@ -78,11 +78,11 @@ public class Faculty{
         people.add(new Worker(id, name, sex, state, day));
     }
     
-    public void replan(Date pointReference) 
+    public void replan(Date pointReference, Person observer) 
     {
         for(PlanningPeriod i : periods)
         {
-            i.replan(pointReference);
+            i.replan(pointReference,observer);
         }
     }
 

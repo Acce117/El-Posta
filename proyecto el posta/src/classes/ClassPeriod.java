@@ -75,8 +75,8 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 
 
-    
-    public void match(Person person, Date date, String schedule){
+    @Override
+    public void match(Person person, Date date, Schedule schedule){
     	Asignment asignment = new Asignment(person, date, schedule);
     	asignments.add(asignment);
     }
@@ -159,6 +159,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     }
     
     public void organize(Date start, Date end){
+
     	int w = 0;
     	int f = 0;
     	int index = 0;
@@ -217,10 +218,12 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
                     if(fS == femaleStudents.size()){
                         lastPersonWorker = false;
                         fS = 0;
+
                     }
                     else
                         fS++;
                 }
+
     		}
     		
     		start = new Date(start.getTime() + 86400000);
@@ -241,4 +244,5 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		organize(pointReference, end);
 		
 	}
+
 }
