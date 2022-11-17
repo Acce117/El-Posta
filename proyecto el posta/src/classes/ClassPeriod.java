@@ -19,6 +19,12 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     
     private ArrayList<Person> noActivePeople;
     private ArrayList<Asignment> asignments;
+    
+    private Person lastPersonHolidayMale;
+    private Person lastPersonHolidayFemale;
+    private Person lastPersonHolidayWorker1;
+    private Person lastPersonHolidayWorker2;
+    private Holiday holidays;
 
     public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
         super(start, end);
@@ -35,29 +41,17 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
         split(personList);
         organize(start, end);
+        
+        holidays = Holiday.getInstance();
 
     }
-    
-    //Metodos para verificar que pueda hacer guardia------------------------------------------------------------------------------------------------------
-
-    /*public boolean canMatch(Person person){
-    	boolean check = false;
-    	if(person instanceof Student){
-    		if(((Student)person).getActualState() == StatesStudent.ACTIVE)
-    			check = true;
-    	}
-    	else
-    		if(((Worker)person).getActualState() == StatesWorker.ACTIVE)
-    			check = true;
-    	
-        return check;
-    }*/
 
     public int countAbsent(){
         return absent.size();
 
     }
     //----------------------------------------------------------------------------------------------------------
+    
     //Splitea la lista completa de personas en trabajadores y estudiantes
 
     protected void split(ArrayList<Person> personList){
@@ -88,30 +82,138 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     }
     
     //Metodo de organizacion----------------------------------------------------------------------------------
-    public void organize(Date start, Date end){
+    
+    private void asignMaleStudent(Date day){
     	Person aux;
-    	int w = 0;
-    	int fS = 0;
+    	boolean check = false;
+    	for(int i = 0; i < maleStudents.size() && !check; i++){
+    		aux = maleStudents.get(i);
+    		if(holidays.isHoliday(day) && lastPersonHolidayMale != aux){
+    			aux = maleStudents.get(0);
+				match(aux, start, "20:00 - 8:00");
+				maleStudents.remove(aux);
+				maleStudents.add((Student)aux);
+				lastPersonHolidayMale = maleStudents.get(i);
+				check = true;
+    		}
+    		else if(!holidays.isHoliday(day)){
+    			aux = maleStudents.get(0);
+    			match(aux, start, "20:00 - 8:00");
+				maleStudents.remove(aux);
+				maleStudents.add((Student)aux);
+				check = true;
+    		}
+    	}
+    }
+    
+    private void asignFemaleStudent(Date day){
+    	Person aux;
+    	boolean check = false;
     	
+    	for(int i = 0; i < femaleStudents.size() && !check; i++){
+    		aux = femaleStudents.get(i);
+    		if(holidays.isHoliday(day) && lastPersonHolidayFemale != aux){
+    			aux = femaleStudents.get(0);
+				match(aux, start, "8:00 - 20:00");
+				lastPersonHolidayMale = femaleStudents.get(i);
+				check = true;
+    		}
+    		else if(!holidays.isHoliday(day)){
+    			aux = femaleStudents.get(0);
+    			match(aux, start, "8:00 - 20:00");
+				check = true;
+    		}
+    	}
+    }
+    
+    private int asignWorker(Date day, String schedule, int index){
+    	Person lastPersonHolidayWorker;
+    	if(schedule.equals("9:00 - 14:00"))
+    		lastPersonHolidayWorker = lastPersonHolidayWorker1;
+    	else
+    		lastPersonHolidayWorker = lastPersonHolidayWorker2;
+    	
+    	Person aux;
+    	boolean check = false;
+    	for(int i = index; i < workers.size() && !check; i++){
+    		aux = workers.get(i);
+    		if(holidays.isHoliday(day) && lastPersonHolidayWorker != aux){
+    			aux = workers.get(0);
+				match(aux, start, schedule);
+				if(lastPersonHolidayWorker == lastPersonHolidayWorker1)
+					lastPersonHolidayWorker1 = workers.get(i);
+				else
+					lastPersonHolidayWorker2 = workers.get(i);
+				
+				check = true;
+    		}
+    		else if(!holidays.isHoliday(day)){
+    			aux = workers.get(0);
+    			match(aux, start, schedule);
+				check = true;
+    		}
+    		index = i;
+    	}
+    	
+    	return index;
+    }
+    
+    public void organize(Date start, Date end){
+    	int w = 0;
+    	int f = 0;
+    	int index = 0;
     	while(start.compareTo(end) < 0){
-    		aux = maleStudents.get(0);
-    		match(aux, start, Schedules.MALE_SCHEDULE.getSchedule());
-    		maleStudents.remove(aux);
-    		maleStudents.add((Student)aux);
-    		
+    		asignMaleStudent(start);
     		if(isWeekend(start)){
     			if(!lastPersonWorker){
-                    match(workers.get(w++), start, Schedules.WORKER_SCHEDULE_1.getSchedule());
-                    if(w < workers.size())
-                    	match(workers.get(w++), start, Schedules.WORKER_SCHEDULE_2.getSchedule());
+    				index = asignWorker(start, "9:00 - 14:00", 0);
+    				asignWorker(start, "14:00 - 19:00", index);
+    			}
+    			else{
+    				asignFemaleStudent(start);
+    				if(f < femaleStudents.size())
+    					f++;
+    				else
+    					lastPersonWorker = !lastPersonWorker;
+    			}
+    		}
+    		start = new Date(start.getTime() + 86400000);
+    	}
+    }
+    /*public void organize(Date start, Date end){
+    	Person aux;
+    	boolean check = false;
+    	//int fS = 0;
+    	
+    	while(start.compareTo(end) < 0){
+    		for(int i = 0; i < maleStudents.size() && !check; i++){
+    			if((holidays.isHoliday(start) && lastPersonHolidayMale != aux) || !holidays.isHoliday(start)){
+    				aux = maleStudents.get(0);
+    				match(aux, start, "20:00 - 8:00");
+    				maleStudents.remove(aux);
+    				maleStudents.add((Student)aux);
+    				check = true;
+    				if(holidays.isHoliday(start))
+    					lastPersonHolidayMale = maleStudents.get(i);
+    			}
+    		}
+    		check = false;
+    		if(isWeekend(start)){
+    			if(!lastPersonWorker){
+    				for(int i = 0; i < workers.size() && !check; i++){    					
+    					aux = workers.get(i);
+    					if((holidays.isHoliday(start) && lastPersonHolidayWorker != aux) || !holidays.isHoliday(start))
+    						match(aux, start, "9:00 - 14:00");
+    					if(i < workers.size() - 1)
+    						match(workers.get(i++), start, "14:00 - 19:00");
                     
-                    if(w == workers.size() - 1){
-                        lastPersonWorker = true;
-                        w = 0;
-                	}
-                }
+    					if(i == workers.size() - 1){
+    						lastPersonWorker = true;
+    					}
+    				}
+    			}
                 else{
-                    match(femaleStudents.get(fS), start, Schedules.FEMALE_SCHEDULE.getSchedule());
+                    match(femaleStudents.get(fS), start, "8:00 - 20:00");
                     if(fS == femaleStudents.size()){
                         lastPersonWorker = false;
                         fS = 0;
@@ -123,12 +225,20 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		
     		start = new Date(start.getTime() + 86400000);
     	}
-    }    
+    	
+    	private void asignWorker(String schedule, Date start, int index){
+    		boolean check = false;
+    		Person aux;
+    		for(int i = index; i < workers.size() && !check; i++){    					
+				aux = workers.get(i);
+				if((holidays.isHoliday(start) && lastPersonHolidayWorker != aux) || !holidays.isHoliday(start))
+					match(aux, start, "9:00 - 14:00");	
+    	}
+    }*/
     //-----------------------------------------------------------------------------------------------------------
 
 	public void replan(Date pointReference) {
 		organize(pointReference, end);
 		
 	}
-
 }

@@ -13,7 +13,6 @@ public class Faculty{
     private Faculty(){
         this.people = new ArrayList<>();
         this.periods = new ArrayList<>();
-        people.add(new Worker("a", "a", Genre.MALE, StatesWorker.ACTIVE, null));
     }
     
     public static Faculty getInstance(){
@@ -89,7 +88,7 @@ public class Faculty{
 
 	public ArrayList<Person> getPeople() {
 		// TODO Auto-generated method stub
-		return null;
+		return people;
 	}
 
 	public ArrayList<Student> getStudents() {
@@ -112,5 +111,29 @@ public class Faculty{
 				workers.add((Worker)person);
 		}
 		return workers;
+	}
+
+	public ArrayList<ClassPeriod> getClassPeriods() {
+		ArrayList<ClassPeriod> classPeriods = new ArrayList<>();
+		
+		for(PlanningPeriod period: periods){
+			if(period instanceof ClassPeriod){
+				classPeriods.add((ClassPeriod)period);
+			}
+		}
+		
+		return classPeriods;
+	}
+
+	public ArrayList<VacationPeriod> getVacationPeriods() {
+		ArrayList<VacationPeriod> vacationPeriods = new ArrayList<>();
+		
+		for(PlanningPeriod period: periods){
+			if(period instanceof VacationPeriod){
+				vacationPeriods.add((VacationPeriod)period);
+			}
+		}
+		
+		return vacationPeriods;
 	}
 }

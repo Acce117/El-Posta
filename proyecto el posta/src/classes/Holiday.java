@@ -3,10 +3,11 @@ package classes;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Holidays{
+public class Holiday{
+	private static Holiday instance;
     private ArrayList<Date> daysList;
 
-    public Holidays(){
+    public Holiday(){
         this.daysList = new ArrayList<>();
     }
 
@@ -30,5 +31,13 @@ public class Holidays{
             throw new IllegalArgumentException("No se encuentra registrado como día festivo, no se puede eliminar");
         
         daysList.remove(day);
+    }
+    
+    public static Holiday getInstance(){
+    	if(instance == null){
+    		instance = new Holiday();
+    	}
+    	
+    	return instance;
     }
 }

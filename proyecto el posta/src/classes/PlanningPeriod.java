@@ -18,7 +18,6 @@ public abstract class PlanningPeriod {
         setEnd(end);
         
     }
-    public abstract boolean canMatch(Person person, Date date);
 
     public abstract void match(Person actualPerson, Date actualDate, String schedule);
 
@@ -60,6 +59,7 @@ public abstract class PlanningPeriod {
     {
     	return asignments;
     }
+    
     public static boolean isWeekend(Date day)
     {
     	boolean check = false;

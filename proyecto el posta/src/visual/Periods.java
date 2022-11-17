@@ -5,20 +5,30 @@ package visual;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
+
 import java.awt.Color;
+
+import classes.ClassPeriod;
+import classes.Faculty;
+import classes.VacationPeriod;
+
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.Toolkit;
+
 import javax.swing.border.LineBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 
 public class Periods extends JDialog {
 	/**
@@ -59,11 +69,15 @@ public class Periods extends JDialog {
 	private JPanel panel_4;
 	private JButton button_3;
 	private JButton btnEditar;
+	private DefaultTableModel classPeriodModel;
+	private DefaultTableModel vacationPeriodModel;
+	private Faculty faculty;
 
 	/**
 	 * Create the dialog.
 	 */
 	public Periods() {
+		faculty = Faculty.getInstance();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
 		setTitle("Gesti\u00F3n de periodos");
 		setBounds(100, 100, 630, 460);
@@ -71,6 +85,7 @@ public class Periods extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		getContentPane().add(getTabbedPane_1());
+		
 	}
 	private JTabbedPane getTabbedPane_1() {
 		if (tabbedPane == null) {
@@ -281,48 +296,39 @@ public class Periods extends JDialog {
 		}
 		return scrollPane_1;
 	}
+	//Tabla de peridos vacacionales------------------------------------------------------------------------------------------------------------------------
 	private JTable getTable_1() {
 		if (table_1 == null) {
 			table_1 = new JTable();
 			table_1.setFillsViewportHeight(true);
-			table_1.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-				},
-				new String[] {
-					"No", "Fecha Inicio", "Fecha Fin"
-				}
-			) {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-				boolean[] columnEditables = new boolean[] {
-					false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
+			table_1.setModel(getVacationPeriodModel());
 		}
 		return table_1;
 	}
+	
+	private DefaultTableModel getVacationPeriodModel(){
+		if(vacationPeriodModel == null){
+			vacationPeriodModel = new DefaultTableModel();
+			vacationPeriodModel.addColumn("No");
+			vacationPeriodModel.addColumn("Fecha de inicio");
+			vacationPeriodModel.addColumn("Fecha de fin");
+			
+			String period[] = new String[3];
+			ArrayList<VacationPeriod> periods= faculty.getVacationPeriods();
+			
+			Integer no = 0;
+			for(VacationPeriod p: periods){
+				period[0] = no.toString();
+				no++;
+				period[1] = p.getStart().toString();
+				period[2] = p.getEnd().toString();
+			}
+			
+		}
+		
+		return vacationPeriodModel;
+	}
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------
 	private JScrollPane getScrollPane_2() {
 		if (scrollPane_2 == null) {
 			scrollPane_2 = new JScrollPane();
@@ -330,37 +336,41 @@ public class Periods extends JDialog {
 		}
 		return scrollPane_2;
 	}
+	
+	//Tabla de Periodos lectivos--------------------------------------------------------------------------------
 	private JTable getTable_2() {
 		if (table_2 == null) {
 			table_2 = new JTable();
 			table_2.setFillsViewportHeight(true);
-			table_2.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-				},
-				new String[] {
-					"No", "Fecha Inicio", "Fecha Fin"
-				}
-			));
+			table_2.setModel(getClassPeriodModel());
 		}
 		return table_2;
 	}
+	
+	private DefaultTableModel getClassPeriodModel(){
+		if(classPeriodModel == null){
+			classPeriodModel = new DefaultTableModel();
+			classPeriodModel.addColumn("No");
+			classPeriodModel.addColumn("Fecha de inicio");
+			classPeriodModel.addColumn("Fecha de fin");
+			
+			String period[] = new String[3];
+			
+			ArrayList<ClassPeriod> classPeriods = faculty.getClassPeriods(); 
+			
+			Integer no = 1;
+			
+			for(ClassPeriod p: classPeriods){
+				period[0] = no.toString();
+				no++;
+				period[1] = p.getStart().toString();
+				period[2] = p.getEnd().toString();
+				classPeriodModel.addRow(period);
+			}
+		}
+		return classPeriodModel;
+	}
+	//----------------------------------------------------------------------------------------------------------
 	private JButton getBtnQuitar() {
 		if (btnQuitar == null) {
 			btnQuitar = new JButton("Eliminar");

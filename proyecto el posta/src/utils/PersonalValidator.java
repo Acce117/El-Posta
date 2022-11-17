@@ -14,14 +14,15 @@ public final class PersonalValidator
         boolean check = false;
 
         ArrayList<Person> list = Faculty.getInstance().getPeople();
-
-        for(int i = 0; i < list.size() && !check; i++)
-        {
-            check = (id.equals(list.get(i).getId()));
-        }
+        if(!list.isEmpty())
+        	for(int i = 0; i < list.size() && !check; i++)
+        	{
+        		check = (id.equals(list.get(i).getId()));
+        	}
 
         return check;
     }
+	
 	public static void checkID(String id, Genre sex)    
 	{
         if(id == null)
@@ -78,15 +79,14 @@ public final class PersonalValidator
                 //Buscando error en el a�o
                 Date actualDate = new Date();
                 int year = 10*(id.charAt(0)-'0') + (id.charAt(1)-'0');//Obtengo los primeros digitos del ID
-                int actually = actualDate.getYear();
+                int actually = actualDate.getYear() + 1900;
                 year+= (actually - actually%100);
-    
                 if(year>actually)year-=100;
     
                 int age = actually - year;
                 if(age < MINIMUM_AGE || age > MAXIMUM_AGE)
                     throw new IllegalArgumentException("Error en la edad");   
-                    int genre = id.charAt(10)-'0';
+                    int genre = id.charAt(9)-'0';
                 
                 //TODO Falta verificar el siglo con la edad septimo digito
                 int centuryDigit = id.charAt(6)-'0';
@@ -101,11 +101,16 @@ public final class PersonalValidator
                     centuryExpected = 19;
 
                 if(centuryExpected != birthCentury)
-                    throw new IllegalArgumentException("Error en el siglo");
+                {
+                	System.out.println(centuryExpected + "\n"  + year);
+                	throw new IllegalArgumentException("Error en el siglo");
+                }
                     
 
-                if((genre%2 == 1 && sex == Genre.FEMALE) || (genre%2 == 0 && sex == Genre.MALE)) 
-                    throw new IllegalArgumentException("Error sexo no compatible con el id");                                        
+                if(!(genre%2 == 1 && sex == Genre.FEMALE) && !(genre%2 == 0 && sex == Genre.MALE)) 
+                    {
+                	throw new IllegalArgumentException("Error sexo no compatible con el id");
+                    }                                        
                 
                 if(sameID(id))
                     throw new IllegalArgumentException("ID repetido");
@@ -115,20 +120,16 @@ public final class PersonalValidator
 	}
 
 
-    public static void checkStudentState(StatesStudent state, Date changeState)
+    public static void checkStudentState(StatesStudent state)
     {
         if(state == null)
             throw new IllegalArgumentException("Estado vacio");
-        if(changeState == null)            
-            throw new IllegalArgumentException("Fecha vacia");
     }
 
-    public static void checkWorkerState(StatesWorker state, Date changeState)
+    public static void checkWorkerState(StatesWorker state)
     {
         if(state == null)
-            throw new IllegalArgumentException("Estado vacio"); 
-        if(changeState == null)            
-            throw new IllegalArgumentException("Fecha vacia");            
+            throw new IllegalArgumentException("Estado vacio");            
     }
 
     public static void checkName(String name)
