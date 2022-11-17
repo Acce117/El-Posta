@@ -174,11 +174,6 @@ public class Personal extends JDialog {
 		if (studentName == null) {
 			studentName = new JTextField();
 			studentName.setBounds(20, 46, 200, 20);
-			studentName.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
-					studentName.setText("");
-				}
-			});
 
 			studentName.setHorizontalAlignment(SwingConstants.LEFT);
 			studentName.setColumns(10);
@@ -189,11 +184,6 @@ public class Personal extends JDialog {
 		if (studentLastName == null) {
 			studentLastName = new JTextField();
 			studentLastName.setBounds(20, 92, 200, 20);
-			studentLastName.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
-					studentLastName.setText("");
-				}
-			});
 			studentLastName.setHorizontalAlignment(SwingConstants.LEFT);
 			studentLastName.setColumns(10);
 		}
@@ -203,11 +193,6 @@ public class Personal extends JDialog {
 		if (studentID == null) {
 			studentID = new JTextField();
 			studentID.setBounds(20, 188, 200, 20);
-			studentID.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
-					studentID.setText("");
-				}
-			});
 			studentID.setHorizontalAlignment(SwingConstants.LEFT);
 			studentID.setColumns(10);
 		}
@@ -217,11 +202,6 @@ public class Personal extends JDialog {
 		if (studentSecLastName == null) {
 			studentSecLastName = new JTextField();
 			studentSecLastName.setBounds(20, 140, 200, 20);
-			studentSecLastName.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent arg0) {
-					studentSecLastName.setText("");
-				}
-			});
 			studentSecLastName.setHorizontalAlignment(SwingConstants.LEFT);
 			studentSecLastName.setColumns(10);
 		}
@@ -491,6 +471,7 @@ public class Personal extends JDialog {
 						name = name + lastName + secLastName;
 						
 						faculty.addStudent(id, name, sex, state);
+						
 					}catch(Exception error){
 						error.printStackTrace();
 					}
