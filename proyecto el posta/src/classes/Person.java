@@ -6,6 +6,7 @@ import java.util.Date;
 import utils.Observer;
 import utils.Genre;
 import utils.PersonalValidator;
+import utils.Schedule;
 
 public abstract class Person{
 	protected ArrayList<Observer> observers = new ArrayList<>();
@@ -54,8 +55,9 @@ public abstract class Person{
     {
         for(Observer i : observers)
         {
-            i.update(pointReference);
+            i.update(pointReference,this);
         }
     }
     public abstract boolean isActive();
+    public abstract boolean canMatch(Date newDate, Schedule newSchedule); 
 }

@@ -75,7 +75,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 
     @Override
-    public void match(Person person, Date date, Schedules schedule){
+    public void match(Person person, Date date, Schedule schedule){
     	Asignment asignment = new Asignment(person, date, schedule);
     	asignments.add(asignment);
     }
@@ -133,7 +133,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 
 	@Override
-	public void replan(Date pointReference) {
+	public void replan(Date pointReference, Person observer) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,28 +1,57 @@
 package classes;
 
-import interfaces.IMatcherVerify;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import utils.PeriodValidator;
-import utils.Schedules;
+import org.omg.PortableServer.POAManagerPackage.State;
 
-public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
+import utils.DateManager;
+import utils.PeriodValidator;
+import utils.Schedule;
+import utils.StatesWorker;
+
+public class VacationPeriod extends PlanningPeriod
 {
-	private Schedules possibleSchedules[] = {Schedules.WORKER_SCHEDULE_1,Schedules.WORKER_SCHEDULE_2};
+	private Schedule possibleSchedules[] = {Schedule.WORKER_SCHEDULE_1,Schedule.WORKER_SCHEDULE_2};
 	private ArrayList<Worker> workers;
     public VacationPeriod(Date start, Date end) 
     {
-        super(start, end);
+        super(start, end);        
         workers = new ArrayList<Worker>();
     }
 
 	@Override
-	public void replan(Date pointReference) {
-		// TODO Auto-generated method stub
+	public void replan(Date pointReference, Person newPerson) 
+	{
+		if(pointReference.before(start) || pointReference.after(end))
+		{
+			throw new IllegalArgumentException("La fecha no se encuentra en el periodo");
+		}
+			
+		//Buscar la persona 
+		int toFindWorkerPosition; 
+		toFindWorkerPosition = workers.indexOf(newPerson);
 		
+		if(toFindWorkerPosition != -1)
+		{
+			//Revisar el estado de la persona
+			
+			//Si no es activo se quita del listado
+			if(workers.get(toFindWorkerPosition).getActualState() != StatesWorker.ACTIVE)
+			{
+				//Para quitar del listado tengo que ver que asignments tienen esa persona y una fecha mayor q la que doy de referencia
+				for(int i = 0; i < asignments.size(); i++)
+				{
+					if(asignments.get(i).getDay().after(pointReference) && asignments.get(i).getPersonOnWatch().equals(newPerson))
+					{
+						asignments.remove(i);
+						i--;
+					}
+				}
+			}
+			
+		}		
 	}
 
 	public ArrayList<Worker> getWorkers() 
@@ -30,12 +59,11 @@ public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
 		return workers;
 	}
 
-	@Override
-	public boolean canMatch(Person person, Date date, Schedules schedule) 
+	public boolean canAsign(Person person, Date date, Schedule schedule) 
 	{
 		boolean can = true;//La variable que retorno
 		
-		if(date.before(start) || date.after(end) || !isWeekend(date)) //si no se encuentra en el periodo no puede
+		if(date.before(start) || date.after(end)) //si no se encuentra en el periodo no puede
 			can = false;
 		
 		if(can)
@@ -43,8 +71,8 @@ public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
 			Asignment actualAsignment;
 			for(int i = 0; i < asignments.size() && can; i++)
 			{
-				actualAsignment = asignments.get(i);				
-				can = (actualAsignment.getDay().equals(date) && actualAsignment.getSchedule() == schedule);				
+				actualAsignment = asignments.get(i);								
+				can = (!person.canMatch(date, schedule) || !actualAsignment.getDay().equals(date));
 			}						
 		}
 
@@ -53,7 +81,7 @@ public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
 	
 
 	@Override
-	public void match(Person actualPerson, Date actualDate, Schedules schedule) 
+	public void match(Person actualPerson, Date actualDate, Schedule schedule) 
 	{
 		if(actualPerson != null && actualDate != null)
 		{
@@ -74,7 +102,7 @@ public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
 			//Si no puede hacerlo en un turno lo prueba con otro 
 			for(int j = 0; j < possibleSchedules.length && !asigned; j++)
 			{
-				if(canMatch(newWorker,actualDate,possibleSchedules[j]))
+				if(canAsign(newWorker,actualDate,possibleSchedules[j]))
 				{
 					asigned = true;
 					match(newWorker,actualDate,possibleSchedules[j]);
@@ -94,7 +122,7 @@ public class VacationPeriod extends PlanningPeriod implements IMatcherVerify
 		boolean asigned = false;
 		for(int i = 0; i < possibleSchedules.length && !asigned; i++)
 		{
-			if(canMatch(actualWorker, newDate, possibleSchedules[i]))
+			if(canAsign(actualWorker, newDate, possibleSchedules[i]))
 			{
 				asigned = true;
 				match(actualWorker,newDate,possibleSchedules[i]);

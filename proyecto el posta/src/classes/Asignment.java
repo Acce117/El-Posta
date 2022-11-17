@@ -2,7 +2,7 @@
 package classes;
 import java.util.Date;
 
-import utils.Schedules;
+import utils.Schedule;
 
 
 public class Asignment{
@@ -10,13 +10,13 @@ public class Asignment{
 
 	private Date day;
     private boolean done;
-    private Schedules schedule;
+    private Schedule schedule;
     
 
     private Person personOnWatch;
 
 
-	public Asignment(Person personOnWatch, Date day, Schedules schedule){
+	public Asignment(Person personOnWatch, Date day, Schedule schedule){
         this.setDay(day);
         this.setPersonOnWatch(personOnWatch);
         this.setSchedule(schedule);
@@ -34,7 +34,7 @@ public class Asignment{
     	return personOnWatch;
     }
 
-    private boolean validateSchedule(Schedules schedule){
+    private boolean validateSchedule(Schedule schedule){
         boolean check = true;
         
         if(schedule == null)
@@ -55,11 +55,11 @@ public class Asignment{
 		this.day = day;
 	}
 
-	public Schedules getSchedule() {
+	public Schedule getSchedule() {
 		return schedule;
 	}
 
-	public void setSchedule(Schedules schedule) {
+	public void setSchedule(Schedule schedule) {
 		this.schedule = schedule;
 	}
     
