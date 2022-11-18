@@ -162,7 +162,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	while(start.compareTo(end) < 0){
     		asignMaleStudent(start);
     		if(DateManager.isWeekend(start)){
-    			if(!lastPersonWorker){
+    			if(!lastPersonWorker && !workers.isEmpty()){
     				index = asignWorker(start, Schedule.WORKER_SCHEDULE_1, 0);
     				asignWorker(start, Schedule.WORKER_SCHEDULE_1, index);
     			}
@@ -177,63 +177,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		start = new Date(start.getTime() + 86400000);
     	}
     }
-    /*public void organize(Date start, Date end){
-    	Person aux;
-    	boolean check = false;
-    	//int fS = 0;
-    	
-    	while(start.compareTo(end) < 0){
-    		for(int i = 0; i < maleStudents.size() && !check; i++){
-    			if((holidays.isHoliday(start) && lastPersonHolidayMale != aux) || !holidays.isHoliday(start)){
-    				aux = maleStudents.get(0);
-    				match(aux, start, "20:00 - 8:00");
-    				maleStudents.remove(aux);
-    				maleStudents.add((Student)aux);
-    				check = true;
-    				if(holidays.isHoliday(start))
-    					lastPersonHolidayMale = maleStudents.get(i);
-    			}
-    		}
-    		check = false;
-    		if(isWeekend(start)){
-    			if(!lastPersonWorker){
-    				for(int i = 0; i < workers.size() && !check; i++){    					
-    					aux = workers.get(i);
-    					if((holidays.isHoliday(start) && lastPersonHolidayWorker != aux) || !holidays.isHoliday(start))
-    						match(aux, start, "9:00 - 14:00");
-    					if(i < workers.size() - 1)
-    						match(workers.get(i++), start, "14:00 - 19:00");
-                    
-    					if(i == workers.size() - 1){
-    						lastPersonWorker = true;
-    					}
-    				}
-    			}
-                else{
-                    match(femaleStudents.get(fS), start, "8:00 - 20:00");
-                    if(fS == femaleStudents.size()){
-                        lastPersonWorker = false;
-                        fS = 0;
-
-                    }
-                    else
-                        fS++;
-                }
-
-    		}
-    		
-    		start = new Date(start.getTime() + 86400000);
-    	}
-    	
-    	private void asignWorker(String schedule, Date start, int index){
-    		boolean check = false;
-    		Person aux;
-    		for(int i = index; i < workers.size() && !check; i++){    					
-				aux = workers.get(i);
-				if((holidays.isHoliday(start) && lastPersonHolidayWorker != aux) || !holidays.isHoliday(start))
-					match(aux, start, "9:00 - 14:00");	
-    	}
-    }*/
     //-----------------------------------------------------------------------------------------------------------
 
 	public void replan(Date pointReference, Person personToChange) {

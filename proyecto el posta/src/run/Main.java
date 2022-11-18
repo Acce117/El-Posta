@@ -2,6 +2,8 @@ package run;
 
 import java.awt.EventQueue;
 
+import classes.Faculty;
+
 import com.formdev.flatlaf.FlatLightLaf;
 
 import visual.MainMenu;
