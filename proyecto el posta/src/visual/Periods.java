@@ -292,6 +292,12 @@ public class Periods extends JDialog {
 	private JButton getBtnAgregar() {
 		if (btnAgregar == null) {
 			btnAgregar = new JButton("Agregar");
+			btnAgregar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					WorkersToVacationPeriod wtvp = new WorkersToVacationPeriod();
+					wtvp.setVisible(true);
+				}
+			});
 			btnAgregar.setBounds(44, 129, 80, 23);
 		}
 		return btnAgregar;

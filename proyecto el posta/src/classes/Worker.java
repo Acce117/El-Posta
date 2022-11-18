@@ -2,13 +2,11 @@ package classes;
 
 import interfaces.GeneralState;
 
-import java.util.ArrayList;
-import java.util.Date;
 
+import java.util.Date;
 import utils.DateManager;
 import utils.Genre;
 import utils.Schedule;
-import utils.StatesStudent;
 import utils.StatesWorker;
 import utils.StatesWorkerWithComebackDate;
 

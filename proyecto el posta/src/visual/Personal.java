@@ -22,10 +22,13 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 import utils.Genre;
+import utils.PersonTableModel;
 import utils.PersonalValidator;
 import utils.StatesWorker;
 import utils.StatesStudent;
 import utils.StatesWorkerWithComebackDate;
+
+
 
 
 import javax.swing.JScrollPane;
@@ -45,6 +48,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.border.LineBorder;
 
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -103,8 +107,8 @@ public class Personal extends JDialog {
 	private JPanel panel_1;
 	private JButton btnCancelar_1;
 	private PersonTableModel studentModel;
-	private Faculty faculty = Faculty.getInstance();
-	private PersonTableModel workerModel;
+	private static Faculty faculty = Faculty.getInstance();
+	private static PersonTableModel workerModel;
 
 	public Personal() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
@@ -339,7 +343,7 @@ public class Personal extends JDialog {
 			list.add(new StatesWorkerWithComebackDate());
 			
 			String listShow[] = new String[list.size()];
-			//De momento esta hecho a fuerza bruta. Buscar un metodo para simplificar
+			//TODO De momento esta hecho a fuerza bruta. Buscar un metodo para simplificar
 
 			for(int i = 0; i < list.size(); i++) 
 			{
@@ -578,7 +582,7 @@ public class Personal extends JDialog {
 					String secLastName = null;
 					String id = null;
 					Genre sex = null;
-					StatesWorker state = null;
+					GeneralState state = null;
 					//Student student;
 					Date comeBackDate = null;
 					try{
@@ -595,20 +599,26 @@ public class Personal extends JDialog {
 						PersonalValidator.checkID(id, sex);	
 						
 						
-						/*switch((String)studentState.getSelectedItem()){
+						switch((String)workerState.getSelectedItem()){
 							case "Activo":
-								state = StatesStudent.ACTIVE;
+								state = StatesWorker.ACTIVE;
 								break;
 							case "Licencia":
-								state = StatesStudent.LICENCE;
+								state = StatesWorker.LICENCE;
 								break;
 							case "Baja":
-								state = StatesStudent.DROPPED_OUT;
+								state = StatesWorker.DROPPED_OUT;
+								break;
+							case "Extranjero":
+								state = new StatesWorkerWithComebackDate();
 								break;
 							default:
 								throw new Exception("No se ha elegido el estado");
-						}*/
+						}
 						
+						if(comeBackDateChooser.isEnabled()){
+							comeBackDate = comeBackDateChooser.getDate();
+						}
 						
 						name = name + lastName + secLastName;
 						
@@ -654,40 +664,8 @@ public class Personal extends JDialog {
 		}
 		return workerListTable;
 	}
-
-	/*private DefaultTableModel getWorkerModel(){
-		if(workerModel == null){
-			workerModel = new DefaultTableModel();
-			workerModel.addColumn("CI");
-			workerModel.addColumn("Nombre");
-			workerModel.addColumn("Apellido");
-			workerModel.addColumn("Sexo");
-			workerModel.addColumn("Estado");
-			workerModel.addColumn("Fecha de retorno");
-
-			String worker[] = new String[6];
-
-			ArrayList<Worker> workers= faculty.getWorkers();
-			String date;
-			for(Worker w: workers){
-				worker[0] = w.getId();
-				worker[1] = w.getName();
-				worker[2] = w.getName(); 
-				worker[3] = w.getSex().getName(); 
-				worker[4] = w.getActualState().getName();
-				if(w.getComebackDate() == null)
-					date = ""; 
-				else
-					date = w.getComebackDate().toString();
-				worker[5] = date;
-				workerModel.addRow(worker);
-			}
-		}
-
-		return workerModel;
-	}*/
 	
-	private PersonTableModel getWorkerModel(){
+	public static PersonTableModel getWorkerModel(){
 		if(workerModel == null){
 			workerModel = new PersonTableModel();
 			workerModel.addColumn("CI");

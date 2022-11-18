@@ -33,6 +33,10 @@ public class Faculty{
     		PeriodValidator.checkCollisionOnPeriods(i, newClassPeriod);
     	}
         periods.add(newClassPeriod);
+        ArrayList<Asignment> a = periods.get(0).getAsignments();
+        for(Asignment b: a){
+        	System.out.println(b.getPersonOnWatch().getName());
+        }
         
     }
 
