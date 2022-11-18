@@ -428,6 +428,7 @@ public class Personal extends JDialog {
 	}
 	
 	private JButton getNewStudent() {
+
 		if (newStudent == null) {
 			newStudent = new JButton("Agregar");
 			newStudent.addActionListener(new ActionListener() {

@@ -27,7 +27,13 @@ public class Faculty{
 
     public void planningClassPeriod(Date start, Date end)
     {
-        periods.add(new ClassPeriod(start,end,people));
+    	ClassPeriod newClassPeriod = new ClassPeriod(start,end,people);
+    	for(PlanningPeriod i : periods)
+    	{
+    		PeriodValidator.checkCollisionOnPeriods(i, newClassPeriod);
+    	}
+        periods.add(newClassPeriod);
+        
     }
 
     public void planningVacationPeriod(Date start, Date end)

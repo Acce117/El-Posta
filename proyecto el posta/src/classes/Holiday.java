@@ -7,15 +7,27 @@ public class Holiday{
 	private static Holiday instance;
     private ArrayList<Date> daysList;
 
-    public Holiday(){
+    private Holiday(){
         this.daysList = new ArrayList<>();
+        daysList.add(new Date("12/24/2022"));
     }
 
     public boolean isHoliday(Date day){
+    	if(day == null)
+    		throw new IllegalArgumentException("La fecha introducida no existe");
         boolean check = false;
-        if(daysList.indexOf(day) != -1)
-            check = true;
-
+        Date actualDate;
+        int toCheckDay = day.getDate();
+        int toCheckMonth = day.getMonth();
+        int actualDay;
+        int actualMonth;
+        for(int i = 0; i < daysList.size() && !check; i++)
+        {
+        	actualDate = daysList.get(i);
+        	actualDay = actualDate.getDate();
+        	actualMonth = actualDate.getMonth();
+        	check = ((actualDay == toCheckDay) && (actualMonth == toCheckMonth));
+        }
         return check;
     }
 

@@ -18,7 +18,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     private ArrayList<Student> absent;
     
     private ArrayList<Person> noActivePeople;
-    private ArrayList<Asignment> asignments;
     
     private Person lastPersonHolidayMale;
     private Person lastPersonHolidayFemale;
@@ -27,22 +26,19 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     private Holiday holidays;
 
     public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
-        super(start, end);
-        
+        super(start, end);        
         this.absent = new ArrayList<>();
         this.maleStudents = new ArrayList<>();
         this.femaleStudents = new ArrayList<>();
         this.workers = new ArrayList<>();
-        
-        this.asignments = new ArrayList<>();
         this.noActivePeople = new ArrayList<>();
         
         this.lastPersonWorker = false;
+        holidays = Holiday.getInstance();
 
         split(personList);
         organize(start, end);
         
-        holidays = Holiday.getInstance();
 
     }
 

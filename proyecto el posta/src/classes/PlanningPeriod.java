@@ -18,6 +18,7 @@ public abstract class PlanningPeriod {
     {
         setStart(start);
         setEnd(end);
+        asignments = new ArrayList<Asignment>();
         
     }
 

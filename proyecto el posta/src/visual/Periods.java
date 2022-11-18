@@ -63,7 +63,7 @@ public class Periods extends JDialog {
 	private JScrollPane scrollPane_1;
 	private JTable table_1;
 	private JScrollPane scrollPane_2;
-	private JTable table_2;
+	private JTable classPeriodTable;
 	private JButton btnQuitar;
 	private JButton btnEliminar;
 	private JButton btnOrganizar_1;
@@ -183,7 +183,9 @@ public class Periods extends JDialog {
 					try
 					{
 						PeriodValidator.checkPeriods(start, end);
-						PlanningPeriod newPeriod = new ClassPeriod(start,end,Faculty.getInstance().getPeople());
+						Faculty.getInstance().planningClassPeriod(start, end);
+						
+						
 					}
 					catch(IllegalArgumentException ex)
 					{
@@ -348,19 +350,19 @@ public class Periods extends JDialog {
 	private JScrollPane getScrollPane_2() {
 		if (scrollPane_2 == null) {
 			scrollPane_2 = new JScrollPane();
-			scrollPane_2.setViewportView(getTable_2());
+			scrollPane_2.setViewportView(getClassPeriodTable());
 		}
 		return scrollPane_2;
 	}
 	
 	//Tabla de Periodos lectivos--------------------------------------------------------------------------------
-	private JTable getTable_2() {
-		if (table_2 == null) {
-			table_2 = new JTable();
-			table_2.setFillsViewportHeight(true);
-			table_2.setModel(getClassPeriodModel());
+	private JTable getClassPeriodTable() {
+		if (classPeriodTable == null) {
+			classPeriodTable = new JTable();
+			classPeriodTable.setFillsViewportHeight(true);
+			classPeriodTable.setModel(getClassPeriodModel());
 		}
-		return table_2;
+		return classPeriodTable;
 	}
 	
 	private DefaultTableModel getClassPeriodModel(){
@@ -386,6 +388,8 @@ public class Periods extends JDialog {
 		}
 		return classPeriodModel;
 	}
+		
+	
 	//----------------------------------------------------------------------------------------------------------
 	private JButton getBtnQuitar() {
 		if (btnQuitar == null) {
