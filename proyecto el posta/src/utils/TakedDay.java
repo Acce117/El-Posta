@@ -22,7 +22,7 @@ public class TakedDay
 	{
 		
 		boolean check = false;
-		check = (newDate != null);
+		check = (newDate == null);
 		for(int i = 0; i < takedDays.size() && !check; i++)
 		{
 			check = takedDays.equals(newDate);
