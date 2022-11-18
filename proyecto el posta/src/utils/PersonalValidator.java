@@ -5,12 +5,25 @@ import interfaces.GeneralState;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JRadioButton;
+
 import classes.Faculty;
 import classes.Person;
 
 public final class PersonalValidator 
 {
-
+	public static Genre checkSex(JRadioButton male, JRadioButton female) throws Exception{
+		Genre sex;
+		if(female.isSelected())
+			sex = Genre.FEMALE;
+		else if(male.isSelected())
+			sex = Genre.MALE;
+		else
+			throw new Exception("El sexo no ha sido seleccionado");
+		
+		return sex;
+	}
+	
 	private static boolean sameID(String id)
     {
         boolean check = false;
