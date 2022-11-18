@@ -625,7 +625,7 @@ public class Personal extends JDialog {
 						faculty.addWorker(id, name, sex, state, comeBackDate);
 						workerModel.refreshWorker(faculty.getWorkers());
 					}catch(Exception error){
-						error.printStackTrace();
+						JOptionPane.showMessageDialog(null, error.getMessage());
 					}
 				}
 			});

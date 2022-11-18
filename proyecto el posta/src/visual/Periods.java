@@ -27,7 +27,9 @@ import java.awt.Toolkit;
 
 import javax.swing.border.LineBorder;
 
+import utils.PeriodTableModel;
 import utils.PeriodValidator;
+import utils.PersonTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -74,8 +76,8 @@ public class Periods extends JDialog {
 	private JPanel panel_4;
 	private JButton button_3;
 	private JButton btnEditar;
-	private DefaultTableModel classPeriodModel;
-	private DefaultTableModel vacationPeriodModel;
+	private PeriodTableModel classPeriodModel;
+	private PeriodTableModel vacationPeriodModel;
 	private Faculty faculty;
 
 	/**
@@ -185,7 +187,7 @@ public class Periods extends JDialog {
 						PeriodValidator.checkPeriods(start, end);
 						Faculty.getInstance().planningClassPeriod(start, end);
 						
-						
+						classPeriodModel.refreshClassPeriod(faculty.getClassPeriods());
 					}
 					catch(IllegalArgumentException ex)
 					{
@@ -330,24 +332,16 @@ public class Periods extends JDialog {
 		return table_1;
 	}
 	
-	private DefaultTableModel getVacationPeriodModel(){
+	private PeriodTableModel getVacationPeriodModel(){
 		if(vacationPeriodModel == null){
-			vacationPeriodModel = new DefaultTableModel();
+			vacationPeriodModel = new PeriodTableModel();
 			vacationPeriodModel.addColumn("No");
 			vacationPeriodModel.addColumn("Fecha de inicio");
 			vacationPeriodModel.addColumn("Fecha de fin");
 			
-			String period[] = new String[3];
 			ArrayList<VacationPeriod> periods= faculty.getVacationPeriods();
 			
-			Integer no = 0;
-			for(VacationPeriod p: periods){
-				period[0] = no.toString();
-				no++;
-				period[1] = p.getStart().toString();
-				period[2] = p.getEnd().toString();
-			}
-			
+			vacationPeriodModel.refreshVacationPeriod(periods);
 		}
 		
 		return vacationPeriodModel;
@@ -371,26 +365,16 @@ public class Periods extends JDialog {
 		return classPeriodTable;
 	}
 	
-	private DefaultTableModel getClassPeriodModel(){
+	private PeriodTableModel getClassPeriodModel(){
 		if(classPeriodModel == null){
-			classPeriodModel = new DefaultTableModel();
+			classPeriodModel = new PeriodTableModel();
 			classPeriodModel.addColumn("No");
 			classPeriodModel.addColumn("Fecha de inicio");
-			classPeriodModel.addColumn("Fecha de fin");
-			
-			String period[] = new String[3];
+			classPeriodModel.addColumn("Fecha de fin");		
 			
 			ArrayList<ClassPeriod> classPeriods = faculty.getClassPeriods(); 
 			
-			Integer no = 1;
-			
-			for(ClassPeriod p: classPeriods){
-				period[0] = no.toString();
-				no++;
-				period[1] = p.getStart().toString();
-				period[2] = p.getEnd().toString();
-				classPeriodModel.addRow(period);
-			}
+			classPeriodModel.refreshClassPeriod(classPeriods);
 		}
 		return classPeriodModel;
 	}
@@ -422,8 +406,7 @@ public class Periods extends JDialog {
 					{
 						PeriodValidator.checkPeriods(start, end);
 						Faculty.getInstance().planningVacationPeriod(start, end);
-						
-						
+						vacationPeriodModel.refreshVacationPeriod(faculty.getVacationPeriods());
 					}
 					catch(IllegalArgumentException ex)
 					{
@@ -496,4 +479,5 @@ public class Periods extends JDialog {
 		}
 		return btnEditar;
 	}
+
 }

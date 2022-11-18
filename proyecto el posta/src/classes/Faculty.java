@@ -163,6 +163,7 @@ public class Faculty{
 
 		return vacationPeriods;
 	}
+	
 
 	public ArrayList<Date> getVacationDays(Worker worker) 
 	{
