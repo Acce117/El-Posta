@@ -24,6 +24,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JLabel;
 
 import utils.DateModel;
+import utils.TakedDay;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -131,7 +132,6 @@ public class WorkersToVacationPeriod extends JDialog {
 					ArrayList<Worker> workers = faculty.getWorkers();
 					Worker worker = workers.get(index);
 					faculty.addVacationDate(worker, dateChooser.getDate());
-					System.out.println(faculty.getVacationDays(worker).get(0));
 					dateModel.refresh(faculty.getVacationDays(worker));
 				}
 			});

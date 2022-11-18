@@ -25,7 +25,7 @@ public class TakedDay
 		check = (newDate == null);
 		for(int i = 0; i < takedDays.size() && !check; i++)
 		{
-			check = takedDays.equals(newDate);
+			check = (DateManager.sameDate(takedDays.get(i), newDate));
 		}
 		
 		return check;

@@ -27,6 +27,7 @@ public class PeriodValidator
     	
     }
     
+
     private static boolean between(Date a, Date b, Date c)
     {
     	return ((a.after(b) || a.equals(b)) && (a.before(c) || a.equals(c)));

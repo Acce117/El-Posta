@@ -51,8 +51,8 @@ public class Periods extends JDialog {
 	private JLabel lblFechaFin;
 	private JButton btnOrganizar;
 	private JPanel panel_1;
-	private JDateChooser dateChooser_2;
-	private JDateChooser dateChooser_3;
+	private JDateChooser vacationPeriodStart;
+	private JDateChooser vacationPeriodEnd;
 	private JLabel label;
 	private JLabel label_1;
 	private JPanel panel_2;
@@ -203,8 +203,8 @@ public class Periods extends JDialog {
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo periodo vacacional", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(10, 11, 240, 372);
-			panel_1.add(getDateChooser_2());
-			panel_1.add(getDateChooser_3());
+			panel_1.add(getVacationPeriodStart());
+			panel_1.add(getVacationPeriodEnd());
 			panel_1.add(getLabel());
 			panel_1.add(getLabel_1());
 			panel_1.add(getPanel_2());
@@ -212,19 +212,19 @@ public class Periods extends JDialog {
 		}
 		return panel_1;
 	}
-	private JDateChooser getDateChooser_2() {
-		if (dateChooser_2 == null) {
-			dateChooser_2 = new JDateChooser();
-			dateChooser_2.setBounds(20, 48, 197, 20);
+	private JDateChooser getVacationPeriodStart() {
+		if (vacationPeriodStart == null) {
+			vacationPeriodStart = new JDateChooser();
+			vacationPeriodStart.setBounds(20, 48, 197, 20);
 		}
-		return dateChooser_2;
+		return vacationPeriodStart;
 	}
-	private JDateChooser getDateChooser_3() {
-		if (dateChooser_3 == null) {
-			dateChooser_3 = new JDateChooser();
-			dateChooser_3.setBounds(20, 96, 197, 20);
+	private JDateChooser getVacationPeriodEnd() {
+		if (vacationPeriodEnd == null) {
+			vacationPeriodEnd = new JDateChooser();
+			vacationPeriodEnd.setBounds(20, 96, 197, 20);
 		}
-		return dateChooser_3;
+		return vacationPeriodEnd;
 	}
 	private JLabel getLabel() {
 		if (label == null) {
@@ -414,6 +414,23 @@ public class Periods extends JDialog {
 	private JButton getBtnOrganizar_1() {
 		if (btnOrganizar_1 == null) {
 			btnOrganizar_1 = new JButton("Organizar");
+			btnOrganizar_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Date start = vacationPeriodStart.getDate();
+					Date end = vacationPeriodEnd.getDate();
+					try
+					{
+						PeriodValidator.checkPeriods(start, end);
+						Faculty.getInstance().planningVacationPeriod(start, end);
+						
+						
+					}
+					catch(IllegalArgumentException ex)
+					{
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+			});
 			btnOrganizar_1.setBounds(139, 338, 91, 23);
 		}
 		return btnOrganizar_1;

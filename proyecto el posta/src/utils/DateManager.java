@@ -18,4 +18,11 @@ public class DateManager
     	
     	return check;
     }
+    
+    public static boolean sameDate(Date start, Date end)
+    {
+    	return (start.getDate() == end.getDate() && start.getMonth() == end.getMonth() && start.getYear() == end.getYear());
+    }
+    
+    
 }
