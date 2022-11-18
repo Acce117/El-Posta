@@ -1,5 +1,7 @@
 package classes;
 
+import interfaces.GeneralState;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,12 +35,15 @@ public class Faculty{
         periods.add(new VacationPeriod(start,end));
     }
 
-    public int countAbsent()
+    public int countAbsent(Date start, Date end)
     {
         int absents = 0;
-        for(PlanningPeriod i : periods)
+        if(!periods.isEmpty())
         {
-            absents += i.countAbsent();
+        	for(PlanningPeriod i : periods)
+        	{
+        		absents += i.countAbsent(start,end);
+        	}
         }
         return absents;
     }
@@ -73,7 +78,7 @@ public class Faculty{
         people.add(new Student(id, name, sex, state));
     }
 
-    public void addWorker(String id, String name, Genre sex, StatesWorker state, Date day)
+    public void addWorker(String id, String name, Genre sex, GeneralState state, Date day)
     {
         people.add(new Worker(id, name, sex, state, day));
     }
@@ -86,8 +91,8 @@ public class Faculty{
         }
     }
 
-	public ArrayList<Person> getPeople() {
-		// TODO Auto-generated method stub
+	public ArrayList<Person> getPeople() 
+	{
 		return people;
 	}
 

@@ -1,5 +1,7 @@
 package utils;
 
+import interfaces.GeneralState;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,7 +27,7 @@ public final class PersonalValidator
 	
 	public static void checkID(String id, Genre sex)    
 	{
-        if(id == null)
+        if(id == null || id.trim().equals(""))
             throw new IllegalArgumentException("ID vacio");
         if(sex == null)
             throw new IllegalArgumentException("Genero vacio");
@@ -126,7 +128,7 @@ public final class PersonalValidator
             throw new IllegalArgumentException("Estado vacio");
     }
 
-    public static void checkWorkerState(StatesWorker state)
+    public static void checkWorkerState(GeneralState state)
     {
         if(state == null)
             throw new IllegalArgumentException("Estado vacio");            
@@ -136,7 +138,7 @@ public final class PersonalValidator
     {
         if(name == null)
             throw new IllegalArgumentException("Nombre vacio");
-        if(name.equals(""))
+        if(name.equals("") || name.trim().equals(""))
             throw new IllegalArgumentException("Nombre vacio");
     }
 

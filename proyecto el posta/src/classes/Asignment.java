@@ -7,16 +7,17 @@ import utils.Schedule;
 
 public class Asignment{
     private Date day;
-    private String schedule;
+    private Schedule schedule;
     private boolean done;
     private Person personOnWantch;
 
-    public Asignment(Person personOnWatch, Date day, String schedule){
+    public Asignment(Person personOnWatch, Date day, Schedule schedule){
         this.day = day;
         setPersonOnWatch(personOnWatch);
         setSchedule(schedule);
     }
-    public void setSchedule(String schedule) {
+    public void setSchedule(Schedule schedule) 
+    {
     	this.schedule = schedule;
     }
     
@@ -28,7 +29,7 @@ public class Asignment{
 		return day;
 	}
     
-    public Person getPersonOnWantch() {
+    public Person getPersonOnWatch() {
 		return personOnWantch;
 	}
     
@@ -40,23 +41,12 @@ public class Asignment{
         return this.done;
     }
 
-	public Date getDay() {
-		return day;
-	}
 
 	public void setDay(Date day) {
 		this.day = day;
 	}
 
 	public Schedule getSchedule() {
-		return schedule;
-	}
-
-	public void setSchedule(Schedule schedule) {
-		this.schedule = schedule;
-	}
-    
-    public String getSchedule() {
 		return schedule;
 	}
 }

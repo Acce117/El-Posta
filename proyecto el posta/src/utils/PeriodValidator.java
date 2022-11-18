@@ -12,6 +12,8 @@ public class PeriodValidator
     		throw new IllegalArgumentException("Fecha final Vacia");
     	if(start.equals(end))
     		throw new IllegalArgumentException("Fechas iguales");
+    	if(start.after(end))
+    		throw new IllegalArgumentException("Las fechas estan intercambiadas");
     	int startMonth = start.getMonth();
     	int endMonth = end.getMonth();
     	if(startMonth > endMonth)    	
