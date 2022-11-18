@@ -53,6 +53,10 @@ public class Faculty{
 		}
 	}
 
+	public ArrayList<WorkerWithDates> getVacationWatches() {
+		return vacationWatches;
+	}
+
 	public int countAbsent(Date start, Date end)
 	{
 		int absents = 0;
