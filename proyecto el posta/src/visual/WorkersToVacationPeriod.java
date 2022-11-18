@@ -126,7 +126,6 @@ public class WorkersToVacationPeriod extends JDialog {
 					ArrayList<Worker> workers = faculty.getWorkers();
 					Worker worker = workers.get(index);
 					faculty.addVacationDate(worker, dateChooser.getDate());
-					System.out.println(TakedDay.getInstance().getTakedDays());
 					dateModel.refresh(faculty.getVacationDays(worker));
 				}
 			});

@@ -42,9 +42,15 @@ public class Faculty{
 
 	}
 
-	public void planningVacationPeriod(Date start, Date end, ArrayList<WorkerWithDates> newListToAsign)
+	public void planningVacationPeriod(Date start, Date end)
 	{
-		periods.add(new VacationPeriod(start,end,newListToAsign));
+		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches); 
+		periods.add(newVacationPeriod);
+		
+		ArrayList<Asignment> a = periods.get(0).getAsignments();
+		for(Asignment b: a){
+			System.out.println(b.getPersonOnWatch().getName());
+		}
 	}
 
 	public int countAbsent(Date start, Date end)
