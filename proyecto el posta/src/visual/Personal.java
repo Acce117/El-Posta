@@ -1,6 +1,8 @@
 package visual;
 
 
+import interfaces.GeneralState;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -25,6 +27,7 @@ import utils.Genre;
 import utils.PersonalValidator;
 import utils.StatesWorker;
 import utils.StatesStudent;
+import utils.StatesWorkerWithComebackDate;
 
 import javax.swing.JScrollPane;
 
@@ -326,15 +329,25 @@ public class Personal extends JDialog {
 			});
 			workerState.setBounds(20, 263, 200, 20);
 			//Converti el arreglo de enums a String
-			StatesWorker list[] = StatesWorker.values();			
-			String listShow[] = new String[list.length];
+			ArrayList<GeneralState> list = new ArrayList<>();
+			
+			StatesWorker statesWorkerList[] = StatesWorker.values();
+			
+			for(int i = 0; i < statesWorkerList.length; i++)
+			{
+				list.add(statesWorkerList[i]);
+			}
+			
+			list.add(new StatesWorkerWithComebackDate());
+			
+			String listShow[] = new String[list.size()];
 			//De momento esta hecho a fuerza bruta. Buscar un metodo para simplificar
 
-			for(int i = 0; i < list.length; i++) 
+			for(int i = 0; i < list.size(); i++) 
 			{
-				listShow[i] = list[i].getName();
+				listShow[i] = list.get(i).getName();
 			}
-
+			
 			workerState.setModel(new DefaultComboBoxModel<Object>(listShow));
 			workerState.setSelectedIndex(-1);
 		}

@@ -4,31 +4,25 @@ import java.util.Date;
 
 import interfaces.GeneralState;
 
-public enum StatesWorkerWithComebackDate implements GeneralState 
+public class StatesWorkerWithComebackDate implements GeneralState 
 {
-    AWARE("Extranjero");
-    
-	private StatesWorkerWithComebackDate(String s)
-	{
-		name = s;
-	}
-	private String name;
-    private Date comebackDate;
-	
-	public void setCombackDate(Date comebackDate)
-	{
-		this.comebackDate = comebackDate;		
-	}
-	
-	public Date getCombackDate()
-	{
-		return comebackDate;
-	}
-	
-	@Override
-	public String getName() 
-	{
-		return name;
-	}
+    private final String name = "Extranjero";
+    private Date date;
+
+    public void setCombackDate(Date d)
+    {
+        this.date = d;
+    }
+
+    public Date getCombackDate()
+    {
+        return date;
+    }
+
+    @Override
+    public String getName() 
+    {
+        return name;
+    }
 
 }

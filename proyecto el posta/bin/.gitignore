@@ -1,4 +1,6 @@
 /classes
-/visual
-/utils
+/interfaces
+/org
 /run
+/utils
+/visual

@@ -38,7 +38,7 @@ public class VacationPeriod extends PlanningPeriod
 			//Revisar el estado de la persona
 			
 			//Si no es activo se quita del listado
-			if(workers.get(toFindWorkerPosition).getActualState() != StatesWorker.ACTIVE)
+			if(!workers.get(toFindWorkerPosition).isActive())
 			{
 				//Para quitar del listado tengo que ver que asignments tienen esa persona y una fecha mayor q la que doy de referencia
 				for(int i = 0; i < asignments.size(); i++)

@@ -13,9 +13,8 @@ import utils.StatesWorker;
 import utils.StatesWorkerWithComebackDate;
 
 public class Worker extends Person{
-    private Date comebackDate;
 
-    protected GeneralState actualState;
+	protected GeneralState actualState;
 
 
 
@@ -28,15 +27,16 @@ public class Worker extends Person{
 
     public Date getComebackDate() 
     {
+    	Date comebackDate = null;
+        if(actualState instanceof StatesWorkerWithComebackDate)
+            comebackDate = ((StatesWorkerWithComebackDate)(this.actualState)).getCombackDate();
         return comebackDate;
     }
 
     public void setComebackDate(Date comebackDate) 
     {
-        if(actualState == StatesWorkerWithComebackDate.AWARE)
-            this.comebackDate = comebackDate;
-        else
-            this.comebackDate = null;
+        if(actualState instanceof StatesWorkerWithComebackDate)
+            ((StatesWorkerWithComebackDate)(this.actualState)).setCombackDate(comebackDate);
     }
     
     public void setActualState(GeneralState newState, Date changeState)
@@ -57,7 +57,7 @@ public class Worker extends Person{
 	@Override
 	public boolean isActive() 
 	{
-		return (actualState == StatesWorker.ACTIVE);
+		return ((actualState instanceof StatesWorkerWithComebackDate) &&(actualState == StatesWorker.ACTIVE));
 	}
 
 	@Override
