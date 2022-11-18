@@ -198,7 +198,7 @@ public class WorkersToVacationPeriod extends JDialog {
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					Periods.getVolunteerWorkersModel().refresh(faculty.getVacationWatches());
 				}
 			});
 			btnAceptar.setBounds(520, 11, 89, 23);
