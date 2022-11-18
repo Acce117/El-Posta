@@ -15,6 +15,7 @@ public class Main {
 				try {
 					MainMenu window = new MainMenu();
 					window.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

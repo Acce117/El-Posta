@@ -18,6 +18,7 @@ public abstract class PlanningPeriod {
     {
         setStart(start);
         setEnd(end);
+        asignments = new ArrayList<Asignment>();
         
     }
 
@@ -62,10 +63,18 @@ public abstract class PlanningPeriod {
     	return asignments;
     }
 
-    public int countAbsent()
+    public int countAbsent(Date start, Date end)
     {
-        int absents = 0;
-        //TODO
+        int absents = 0; 
+        Date actualDate;
+        for(Asignment i : asignments)
+        {
+        	actualDate = i.getDay();
+        	if((actualDate.after(start) || actualDate.equals(start)) && ((actualDate.before(end) || actualDate.equals(end)) && !i.isDone()))
+        	{
+        		absents++;
+        	}
+        }
         return absents;
     }
 

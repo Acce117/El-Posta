@@ -13,10 +13,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import classes.Faculty;
+
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
 import javax.swing.SwingConstants;
+
+import utils.PeriodValidator;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Date;
 
 public class AbsentAmount extends JDialog {
 	/**
@@ -33,7 +44,7 @@ public class AbsentAmount extends JDialog {
 	private JTable table;
 	private JButton btnMostrarAusentes;
 	private JLabel lblCantidadTotalDe;
-	private JLabel lblNewLabel;
+	private JLabel lblAnswer;
 	private final JPanel contentPanel = new JPanel();
 	/**
 	 * Create the dialog.
@@ -75,7 +86,7 @@ public class AbsentAmount extends JDialog {
 			panel_1.setLayout(null);
 			panel_1.add(getScrollPane());
 			panel_1.add(getLblCantidadTotalDe());
-			panel_1.add(getLblNewLabel());
+			panel_1.add(getLblAnswer());
 		}
 		return panel_1;
 	}
@@ -144,6 +155,14 @@ public class AbsentAmount extends JDialog {
 	private JButton getBtnMostrarAusentes() {
 		if (btnMostrarAusentes == null) {
 			btnMostrarAusentes = new JButton("Aceptar");
+			btnMostrarAusentes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Date start = dateChooser.getDate();
+					Date end = dateChooser_1.getDate();
+					PeriodValidator.checkPeriods(start, end);
+					lblAnswer.setText(Faculty.getInstance().countAbsent(start, end)+"");
+				}
+			});
 			btnMostrarAusentes.setBounds(539, 74, 91, 23);
 		}
 		return btnMostrarAusentes;
@@ -156,13 +175,13 @@ public class AbsentAmount extends JDialog {
 		}
 		return lblCantidadTotalDe;
 	}
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("");
-			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel.setBorder(new LineBorder(Color.black, 1));
-			lblNewLabel.setBounds(185, 198, 93, 24);
+	private JLabel getLblAnswer() {
+		if (lblAnswer == null) {
+			lblAnswer = new JLabel("");
+			lblAnswer.setHorizontalAlignment(SwingConstants.CENTER);
+			lblAnswer.setBorder(new LineBorder(Color.black, 1));
+			lblAnswer.setBounds(185, 198, 93, 24);
 		}
-		return lblNewLabel;
+		return lblAnswer;
 	}
 }

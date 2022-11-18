@@ -18,7 +18,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     private ArrayList<Student> absent;
     
     private ArrayList<Person> noActivePeople;
-    private ArrayList<Asignment> asignments;
     
     private Person lastPersonHolidayMale;
     private Person lastPersonHolidayFemale;
@@ -27,22 +26,19 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     private Holiday holidays;
 
     public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
-        super(start, end);
-        
+        super(start, end);        
         this.absent = new ArrayList<>();
         this.maleStudents = new ArrayList<>();
         this.femaleStudents = new ArrayList<>();
         this.workers = new ArrayList<>();
-        
-        this.asignments = new ArrayList<>();
         this.noActivePeople = new ArrayList<>();
         
         this.lastPersonWorker = false;
+        holidays = Holiday.getInstance();
 
         split(personList);
         organize(start, end);
         
-        holidays = Holiday.getInstance();
 
     }
 
@@ -90,7 +86,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = maleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayMale != aux){
     			aux = maleStudents.get(0);
-				match(aux, start, "20:00 - 8:00");
+				match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
 				maleStudents.remove(aux);
 				maleStudents.add((Student)aux);
 				lastPersonHolidayMale = maleStudents.get(i);
@@ -98,7 +94,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = maleStudents.get(0);
-    			match(aux, start, "20:00 - 8:00");
+    			match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
 				maleStudents.remove(aux);
 				maleStudents.add((Student)aux);
 				check = true;
@@ -114,21 +110,21 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = femaleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayFemale != aux){
     			aux = femaleStudents.get(0);
-				match(aux, start, "8:00 - 20:00");
+				match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
 				lastPersonHolidayMale = femaleStudents.get(i);
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = femaleStudents.get(0);
-    			match(aux, start, "8:00 - 20:00");
+    			match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
 				check = true;
     		}
     	}
     }
     
-    private int asignWorker(Date day, String schedule, int index){
+    private int asignWorker(Date day, Schedule schedule, int index){
     	Person lastPersonHolidayWorker;
-    	if(schedule.equals("9:00 - 14:00"))
+    	if(schedule.equals(Schedule.WORKER_SCHEDULE_1))
     		lastPersonHolidayWorker = lastPersonHolidayWorker1;
     	else
     		lastPersonHolidayWorker = lastPersonHolidayWorker2;
@@ -165,10 +161,10 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	int index = 0;
     	while(start.compareTo(end) < 0){
     		asignMaleStudent(start);
-    		if(isWeekend(start)){
+    		if(DateManager.isWeekend(start)){
     			if(!lastPersonWorker){
-    				index = asignWorker(start, "9:00 - 14:00", 0);
-    				asignWorker(start, "14:00 - 19:00", index);
+    				index = asignWorker(start, Schedule.WORKER_SCHEDULE_1, 0);
+    				asignWorker(start, Schedule.WORKER_SCHEDULE_1, index);
     			}
     			else{
     				asignFemaleStudent(start);
@@ -240,7 +236,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     }*/
     //-----------------------------------------------------------------------------------------------------------
 
-	public void replan(Date pointReference) {
+	public void replan(Date pointReference, Person personToChange) {
 		organize(pointReference, end);
 		
 	}

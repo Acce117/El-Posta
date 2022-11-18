@@ -4,6 +4,7 @@ package visual;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
@@ -12,6 +13,7 @@ import java.awt.Color;
 
 import classes.ClassPeriod;
 import classes.Faculty;
+import classes.PlanningPeriod;
 import classes.VacationPeriod;
 
 import com.toedter.calendar.JDateChooser;
@@ -25,10 +27,13 @@ import java.awt.Toolkit;
 
 import javax.swing.border.LineBorder;
 
+import utils.PeriodValidator;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Periods extends JDialog {
 	/**
@@ -40,8 +45,8 @@ public class Periods extends JDialog {
 	private JPanel vacationPeriodPanel;
 	private JPanel newClassPeriodPanel;
 	private JPanel listClassPeriodPanel;
-	private JDateChooser dateChooser;
-	private JDateChooser dateChooser_1;
+	private JDateChooser classPeriodStart;
+	private JDateChooser classPeriodEnd;
 	private JLabel lblFechaInicio;
 	private JLabel lblFechaFin;
 	private JButton btnOrganizar;
@@ -58,7 +63,7 @@ public class Periods extends JDialog {
 	private JScrollPane scrollPane_1;
 	private JTable table_1;
 	private JScrollPane scrollPane_2;
-	private JTable table_2;
+	private JTable classPeriodTable;
 	private JButton btnQuitar;
 	private JButton btnEliminar;
 	private JButton btnOrganizar_1;
@@ -122,8 +127,8 @@ public class Periods extends JDialog {
 			newClassPeriodPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo periodo de clases", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			newClassPeriodPanel.setBounds(10, 11, 601, 104);
 			newClassPeriodPanel.setLayout(null);
-			newClassPeriodPanel.add(getDateChooser());
-			newClassPeriodPanel.add(getDateChooser_1());
+			newClassPeriodPanel.add(getClassPeriodStart());
+			newClassPeriodPanel.add(getClassPeriodEnd());
 			newClassPeriodPanel.add(getLblFechaInicio());
 			newClassPeriodPanel.add(getLblFechaFin());
 			newClassPeriodPanel.add(getBtnOrganizar());
@@ -140,19 +145,19 @@ public class Periods extends JDialog {
 		}
 		return listClassPeriodPanel;
 	}
-	private JDateChooser getDateChooser() {
-		if (dateChooser == null) {
-			dateChooser = new JDateChooser();
-			dateChooser.setBounds(101, 32, 190, 20);
+	private JDateChooser getClassPeriodStart() {
+		if (classPeriodStart == null) {
+			classPeriodStart = new JDateChooser();
+			classPeriodStart.setBounds(101, 32, 190, 20);
 		}
-		return dateChooser;
+		return classPeriodStart;
 	}
-	private JDateChooser getDateChooser_1() {
-		if (dateChooser_1 == null) {
-			dateChooser_1 = new JDateChooser();
-			dateChooser_1.setBounds(376, 32, 190, 20);
+	private JDateChooser getClassPeriodEnd() {
+		if (classPeriodEnd == null) {
+			classPeriodEnd = new JDateChooser();
+			classPeriodEnd.setBounds(376, 32, 190, 20);
 		}
-		return dateChooser_1;
+		return classPeriodEnd;
 	}
 	private JLabel getLblFechaInicio() {
 		if (lblFechaInicio == null) {
@@ -173,6 +178,19 @@ public class Periods extends JDialog {
 			btnOrganizar = new JButton("Insertar");
 			btnOrganizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Date start = classPeriodStart.getDate();
+					Date end = classPeriodEnd.getDate();
+					try
+					{
+						PeriodValidator.checkPeriods(start, end);
+						Faculty.getInstance().planningClassPeriod(start, end);
+						
+						
+					}
+					catch(IllegalArgumentException ex)
+					{
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
 				}
 			});
 			btnOrganizar.setBounds(500, 70, 91, 23);
@@ -332,19 +350,19 @@ public class Periods extends JDialog {
 	private JScrollPane getScrollPane_2() {
 		if (scrollPane_2 == null) {
 			scrollPane_2 = new JScrollPane();
-			scrollPane_2.setViewportView(getTable_2());
+			scrollPane_2.setViewportView(getClassPeriodTable());
 		}
 		return scrollPane_2;
 	}
 	
 	//Tabla de Periodos lectivos--------------------------------------------------------------------------------
-	private JTable getTable_2() {
-		if (table_2 == null) {
-			table_2 = new JTable();
-			table_2.setFillsViewportHeight(true);
-			table_2.setModel(getClassPeriodModel());
+	private JTable getClassPeriodTable() {
+		if (classPeriodTable == null) {
+			classPeriodTable = new JTable();
+			classPeriodTable.setFillsViewportHeight(true);
+			classPeriodTable.setModel(getClassPeriodModel());
 		}
-		return table_2;
+		return classPeriodTable;
 	}
 	
 	private DefaultTableModel getClassPeriodModel(){
@@ -370,6 +388,8 @@ public class Periods extends JDialog {
 		}
 		return classPeriodModel;
 	}
+		
+	
 	//----------------------------------------------------------------------------------------------------------
 	private JButton getBtnQuitar() {
 		if (btnQuitar == null) {
