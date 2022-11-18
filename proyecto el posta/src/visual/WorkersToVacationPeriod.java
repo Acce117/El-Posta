@@ -16,12 +16,20 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
+import classes.Faculty;
+import classes.Worker;
+
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JLabel;
 
 import utils.DateModel;
+
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Date;
+import java.util.ArrayList;
 
 
 public class WorkersToVacationPeriod extends JDialog {
@@ -38,10 +46,12 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JTable table;
 	private JTable table_1;
 	private DateModel dateModel;
+	private Faculty faculty;
 	/**
 	 * Create the dialog.
 	 */
 	public WorkersToVacationPeriod() {
+		faculty = Faculty.getInstance();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WorkersToVacationPeriod.class.getResource("/img/logo mejorado.png")));
 		setBounds(100, 100, 655, 450);
 		setModal(true);
@@ -109,6 +119,16 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JButton getBtnAgregar() {
 		if (btnAgregar == null) {
 			btnAgregar = new JButton("Agregar");
+			btnAgregar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = table.getSelectedRow();
+					ArrayList<Worker> workers = faculty.getWorkers();
+					Worker worker = workers.get(index);
+					faculty.addVacationDate(worker, dateChooser.getDate());
+					
+					dateModel.refresh(faculty.getVacationDays(worker));
+				}
+			});
 			btnAgregar.setBounds(101, 76, 89, 23);
 		}
 		return btnAgregar;
@@ -146,7 +166,7 @@ public class WorkersToVacationPeriod extends JDialog {
 			dateModel = new DateModel();
 			dateModel.addColumn("Fecha");
 			
-			//dateModel.refresh(va algo);
+			dateModel.refresh(faculty.getVacationDays(table.getSelectedRow()));
 		}
 		return dateModel;
 	}
