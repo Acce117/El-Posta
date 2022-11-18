@@ -6,23 +6,23 @@ import interfaces.GeneralState;
 
 public class StatesWorkerWithComebackDate implements GeneralState 
 {
-    private final String name = "Extranjero";
-    private Date date;
+    private final String NAME = "Extranjero";
+    private Date ocmebackDate;
 
-    public void setCombackDate(Date d)
+    public void setCombackDate(Date comebackDate)
     {
-        this.date = d;
+        this.ocmebackDate = comebackDate;
     }
 
     public Date getCombackDate()
     {
-        return date;
+        return ocmebackDate;
     }
 
     @Override
     public String getName() 
     {
-        return name;
+        return NAME;
     }
 
 }

@@ -1,4 +1,4 @@
-package classes;
+package utils;
 import java.util.Date;
 import java.util.ArrayList;
 public class TakedDay 

@@ -11,6 +11,7 @@ public class Faculty{
 	private static Faculty instance;
     private ArrayList<Person> people;
     private ArrayList<PlanningPeriod> periods;
+    private ArrayList<WorkerWithDates> vacationWatches;
 
     private Faculty(){
         this.people = new ArrayList<>();
@@ -36,9 +37,9 @@ public class Faculty{
         
     }
 
-    public void planningVacationPeriod(Date start, Date end)
+    public void planningVacationPeriod(Date start, Date end, ArrayList<WorkerWithDates> newListToAsign)
     {
-        periods.add(new VacationPeriod(start,end));
+        periods.add(new VacationPeriod(start,end,newListToAsign));
     }
 
     public int countAbsent(Date start, Date end)
@@ -147,4 +148,54 @@ public class Faculty{
 		
 		return vacationPeriods;
 	}
+
+	public ArrayList<Date> getVacationDays(Worker worker) 
+	{
+		ArrayList<Date> getVacationDays = new ArrayList<Date>();
+		//Veo si el trabajador esta
+		boolean found = false;
+		Worker actualWorker;
+		for(int i = 0; i < vacationWatches.size() && !found; i++)
+		{			
+			actualWorker = vacationWatches.get(i).getToAsignWorker();
+			if(actualWorker.equals(worker))
+			{
+				//Si esta retorno los dias que estan asignados a ese trabajador
+				getVacationDays = vacationWatches.get(i).getListVacationWatch();
+				found = true;
+			}
+		}
+		
+		
+		
+		return getVacationDays;
+	}
+
+	public void addVacationDay(Worker worker, Date newDate) 
+	{
+		boolean found = false;
+		Worker actualWorker;
+		//Ver si ya esta guardado ese trabajador
+		for(int i = 0; i < vacationWatches.size() && !found; i++)
+		{
+			actualWorker = vacationWatches.get(i).getToAsignWorker();
+			//si esta guardado se agrega el dia en ese WorkerWithDates
+			if(actualWorker.equals(worker))
+			{
+				vacationWatches.get(i).addVacationWatch(newDate);
+				found = true;
+			}
+			
+		}
+		
+		//sino se crea un WorkerWithDates nuevo y se agrega
+		if(!found)
+		{
+			WorkerWithDates newWorkerWithDates = new WorkerWithDates(worker);
+			newWorkerWithDates.addVacationWatch(newDate);
+		}
+	}
+	
+	
+	
 }

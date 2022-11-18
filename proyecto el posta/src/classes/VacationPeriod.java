@@ -10,16 +10,28 @@ import utils.DateManager;
 import utils.PeriodValidator;
 import utils.Schedule;
 import utils.StatesWorker;
+import utils.TakedDay;
 
 public class VacationPeriod extends PlanningPeriod
 {
 	private Schedule possibleSchedules[] = {Schedule.WORKER_SCHEDULE_1,Schedule.WORKER_SCHEDULE_2};
 	private ArrayList<Worker> workers;
-    public VacationPeriod(Date start, Date end) 
+    public VacationPeriod(Date start, Date end, ArrayList<WorkerWithDates> datesToPlanning) 
     {
         super(start, end);        
         workers = new ArrayList<Worker>();
+        organize(datesToPlanning);
+        TakedDay.getInstance().refresher();
     }
+
+	private void organize(ArrayList<WorkerWithDates> datesToPlanning) 
+	{
+		for(WorkerWithDates i : datesToPlanning)
+		{
+			asign(i.getToAsignWorker(),i.getListVacationWatch());
+		}
+		
+	}
 
 	@Override
 	public void replan(Date pointReference, Person newPerson) 
@@ -107,10 +119,6 @@ public class VacationPeriod extends PlanningPeriod
 					asigned = true;
 					match(newWorker,actualDate,possibleSchedules[j]);
 				}				
-			}
-			if(!asigned)
-			{
-				throw new IllegalArgumentException("No se pudo planificar para el dia" + i);
 			}
 		}
 	}
