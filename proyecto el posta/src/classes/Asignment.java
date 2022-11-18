@@ -29,10 +29,6 @@ public class Asignment{
 		return day;
 	}
     
-    public Person getPersonOnWatch() {
-		return personOnWantch;
-	}
-    
     public void setDone(boolean done){
         this.done = done;
     }
@@ -48,5 +44,8 @@ public class Asignment{
 
 	public Schedule getSchedule() {
 		return schedule;
+	}
+	public Person getPersonOnWatch() {
+		return personOnWantch;
 	}
 }
