@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,8 +15,10 @@ public class DateModel extends DefaultTableModel{
 	public void refresh(ArrayList<Date> dates){
 		setRowCount(0);
 		object = new String[1];
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+		
 		for(Date date:dates){
-			object[0] = date.toString();
+			object[0] = df.format(date);
 			addRow(object);
 		}
 	}

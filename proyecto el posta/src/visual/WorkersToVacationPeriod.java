@@ -30,6 +30,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class WorkersToVacationPeriod extends JDialog {
@@ -47,18 +49,22 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JTable table_1;
 	private DateModel dateModel;
 	private Faculty faculty;
+	private JPanel panel_3;
+	private JButton btnAceptar;
+	private JButton btnCancelar;
 	/**
 	 * Create the dialog.
 	 */
 	public WorkersToVacationPeriod() {
 		faculty = Faculty.getInstance();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WorkersToVacationPeriod.class.getResource("/img/logo mejorado.png")));
-		setBounds(100, 100, 655, 450);
+		setBounds(100, 100, 655, 500);
 		setModal(true);
 		getContentPane().setLayout(null);
 		getContentPane().add(getPanel());
 		getContentPane().add(getPanel_1());
 		getContentPane().add(getPanel_2());
+		getContentPane().add(getPanel_3());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	}
@@ -87,7 +93,7 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
-			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de fechas propuestas por un trabajador", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de fechas propuestas ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_2.setBounds(429, 132, 200, 268);
 			panel_2.setLayout(new CardLayout(0, 0));
 			panel_2.add(getScrollPane_1(), "name_2077712143291400");
@@ -143,6 +149,12 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JTable getTable_2() {
 		if (table == null) {
 			table = new JTable();
+			table.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					dateModel.refresh(faculty.getVacationDays(faculty.getWorkers().get(table.getSelectedRow())));
+				}
+			});
 			table.setModel(Personal.getWorkerModel());
 			table.setFillsViewportHeight(true);
 			table.getColumnModel().getColumn(0).setPreferredWidth(67);
@@ -169,5 +181,40 @@ public class WorkersToVacationPeriod extends JDialog {
 				dateModel.refresh(faculty.getVacationDays(faculty.getWorkers().get(table.getSelectedRow())));
 		}
 		return dateModel;
+	}
+	private JPanel getPanel_3() {
+		if (panel_3 == null) {
+			panel_3 = new JPanel();
+			panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
+			panel_3.setBounds(10, 405, 619, 45);
+			panel_3.setLayout(null);
+			panel_3.add(getBtnAceptar());
+			panel_3.add(getBtnCancelar());
+		}
+		return panel_3;
+	}
+	private JButton getBtnAceptar() {
+		if (btnAceptar == null) {
+			btnAceptar = new JButton("Aceptar");
+			btnAceptar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+			btnAceptar.setBounds(520, 11, 89, 23);
+		}
+		return btnAceptar;
+	}
+	private JButton getBtnCancelar() {
+		if (btnCancelar == null) {
+			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnCancelar.setBounds(421, 11, 89, 23);
+		}
+		return btnCancelar;
 	}
 }
