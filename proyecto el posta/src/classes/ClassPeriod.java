@@ -86,7 +86,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = maleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayMale != aux){
     			aux = maleStudents.get(0);
-				match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
+				match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
 				maleStudents.remove(aux);
 				maleStudents.add((Student)aux);
 				lastPersonHolidayMale = maleStudents.get(i);
@@ -94,7 +94,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = maleStudents.get(0);
-    			match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
+    			match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
 				maleStudents.remove(aux);
 				maleStudents.add((Student)aux);
 				check = true;
@@ -110,13 +110,13 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = femaleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayFemale != aux){
     			aux = femaleStudents.get(0);
-				match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
+				match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
 				lastPersonHolidayMale = femaleStudents.get(i);
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = femaleStudents.get(0);
-    			match(aux, start, Schedule.MALE_STUDENT_SCHEDULE);
+    			match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
 				check = true;
     		}
     	}
@@ -135,7 +135,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = workers.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayWorker != aux){
     			aux = workers.get(0);
-				match(aux, start, schedule);
+				match(aux, day, schedule);
 				if(lastPersonHolidayWorker == lastPersonHolidayWorker1)
 					lastPersonHolidayWorker1 = workers.get(i);
 				else
@@ -145,7 +145,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = workers.get(0);
-    			match(aux, start, schedule);
+    			match(aux, day, schedule);
 				check = true;
     		}
     		index = i;
