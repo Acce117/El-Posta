@@ -48,6 +48,11 @@ public class Faculty{
 		periods.add(newVacationPeriod);
 		
 		ArrayList<Asignment> a = periods.get(0).getAsignments();
+		/*
+		  No borrar este comentario
+		  Testear con esta linea
+		  vacationWatches.clear(); 
+		*/
 		for(Asignment b: a){
 			System.out.println(b.getPersonOnWatch().getName());
 		}
