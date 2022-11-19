@@ -76,7 +76,7 @@ public class Periods extends JDialog {
 	private JPanel panel;
 	private JButton button;
 	private JButton button_1;
-	private JButton btnEditar_1;
+	private JButton btnTurnos;
 	private JPanel panel_4;
 	private JButton button_3;
 	private JButton btnEditar;
@@ -427,7 +427,7 @@ public class Periods extends JDialog {
 			panel.setLayout(null);
 			panel.add(getButton());
 			panel.add(getButton_1());
-			panel.add(getBtnEditar_1());
+			panel.add(getBtnTurnos());
 		}
 		return panel;
 	}
@@ -445,13 +445,22 @@ public class Periods extends JDialog {
 		}
 		return button_1;
 	}
-	private JButton getBtnEditar_1() {
-		if (btnEditar_1 == null) {
-			btnEditar_1 = new JButton("Editar");
-			btnEditar_1.setEnabled(false);
-			btnEditar_1.setBounds(298, 11, 91, 23);
+	private JButton getBtnTurnos() {
+		if (btnTurnos == null) {
+			btnTurnos = new JButton("Ver turnos");
+			btnTurnos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = classPeriodTable.getSelectedRow();
+					if(index != -1){		
+						PeriodAsignmentList window = new PeriodAsignmentList(faculty.getClassPeriods().get(index));
+						window.setVisible(true);
+					}
+				}
+			});
+			//btnEditar_1.setEnabled(false);
+			btnTurnos.setBounds(298, 11, 91, 23);
 		}
-		return btnEditar_1;
+		return btnTurnos;
 	}
 	private JPanel getPanel_4() {
 		if (panel_4 == null) {
@@ -474,8 +483,16 @@ public class Periods extends JDialog {
 	}
 	private JButton getBtnEditar() {
 		if (btnEditar == null) {
-			btnEditar = new JButton("Editar");
-			btnEditar.setEnabled(false);
+			btnEditar = new JButton("Vet turnos");
+			btnEditar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = table_1.getSelectedRow();
+					if(index != -1){		
+						PeriodAsignmentList window = new PeriodAsignmentList(faculty.getVacationPeriods().get(index));
+						window.setVisible(true);
+					}
+				}
+			});
 			btnEditar.setBounds(47, 6, 91, 23);
 		}
 		return btnEditar;

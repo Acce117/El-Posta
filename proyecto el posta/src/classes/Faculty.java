@@ -35,9 +35,12 @@ public class Faculty{
 			PeriodValidator.checkCollisionOnPeriods(i, newClassPeriod);
 		}
 		periods.add(newClassPeriod);
+		
 		ArrayList<Asignment> a = periods.get(0).getAsignments();
+
 		for(Asignment b: a){
-			System.out.println(b.getPersonOnWatch().getName());
+			//System.out.println(b.getPersonOnWatch().getName());
+			System.out.println(b.getDay());
 		}
 
 	}
@@ -46,6 +49,7 @@ public class Faculty{
 	{
 		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches); 
 		periods.add(newVacationPeriod);
+
 		
 		ArrayList<Asignment> a = periods.get(0).getAsignments();
 		/*
@@ -54,8 +58,10 @@ public class Faculty{
 		  vacationWatches.clear(); 
 		*/
 		for(Asignment b: a){
-			System.out.println(b.getPersonOnWatch().getName());
+			//System.out.println(b.getPersonOnWatch().getName());
+			System.out.println(b.getDay());
 		}
+
 	}
 
 	public ArrayList<WorkerWithDates> getVacationWatches() {
