@@ -29,7 +29,11 @@ import javax.swing.border.LineBorder;
 
 import utils.PeriodTableModel;
 import utils.PeriodValidator;
+
 import utils.PersonTableModel;
+
+import utils.VolunteerWorkersModel;
+
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -76,9 +80,14 @@ public class Periods extends JDialog {
 	private JPanel panel_4;
 	private JButton button_3;
 	private JButton btnEditar;
+
 	private PeriodTableModel classPeriodModel;
 	private PeriodTableModel vacationPeriodModel;
-	private Faculty faculty;
+
+
+	private static Faculty faculty;
+	private static VolunteerWorkersModel volunteerWorkersModel;
+
 
 	/**
 	 * Create the dialog.
@@ -262,35 +271,27 @@ public class Periods extends JDialog {
 		}
 		return scrollPane;
 	}
+	//Tabla de trabajadores voluntarios-----------------------------------------------------------------------------------------------------------------
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setFillsViewportHeight(true);
-			table.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null},
-					{null, null},
-					{null, null},
-					{null, null},
-				},
-				new String[] {
-					"ID", "New column"
-				}
-			) {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-				boolean[] columnEditables = new boolean[] {
-					false, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
+			table.setModel(getVolunteerWorkersModel());
 		}
 		return table;
 	}
+	public static VolunteerWorkersModel getVolunteerWorkersModel(){
+		if(volunteerWorkersModel == null){
+			volunteerWorkersModel = new VolunteerWorkersModel();
+			volunteerWorkersModel.addColumn("CI");
+			volunteerWorkersModel.addColumn("Nombre");
+			
+			volunteerWorkersModel.refresh(faculty.getVacationWatches());
+		}
+		
+		return volunteerWorkersModel;
+	}
+	//------------------------------------------------------------------------------------------------------------------
 	private JButton getBtnAgregar() {
 		if (btnAgregar == null) {
 			btnAgregar = new JButton("Agregar");
