@@ -32,6 +32,7 @@ public class PeriodAsignmentList extends JDialog {
 	private VacationPeriod vacationPeriod;
 	/**
 	 * Create the dialog.
+	 * @wbp.parser.constructor
 	 */
 	public PeriodAsignmentList(VacationPeriod vacationPeriod) {
 		this.vacationPeriod = vacationPeriod;
@@ -41,6 +42,7 @@ public class PeriodAsignmentList extends JDialog {
 	
 	public PeriodAsignmentList(ClassPeriod classPeriod) {
 		this.classPeriod = classPeriod;
+		setModal(true);
 		initialize();
 	}
 	
@@ -66,7 +68,7 @@ public class PeriodAsignmentList extends JDialog {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setColumnHeaderView(getTable());
+			scrollPane.setViewportView(getTable());
 		}
 		return scrollPane;
 	}
@@ -82,7 +84,7 @@ public class PeriodAsignmentList extends JDialog {
 	private PeriodAsignModel getPeriodAsignModel(){
 		if(periodAsignModel == null){
 			periodAsignModel = new PeriodAsignModel();
-			periodAsignModel.addColumn("Día");
+			periodAsignModel.addColumn("Fecha");
 			periodAsignModel.addColumn("Turno");
 			periodAsignModel.addColumn("Nombre");
 			periodAsignModel.addColumn("Hecha");
