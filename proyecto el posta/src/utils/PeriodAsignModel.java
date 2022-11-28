@@ -27,4 +27,9 @@ public class PeriodAsignModel extends DefaultTableModel{
 			addRow(object);
 		}
 	}
+	@Override
+	public boolean isCellEditable(int row, int column)
+	{
+		return false;
+	}
 }

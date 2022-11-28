@@ -26,14 +26,19 @@ public class Faculty{
 
 		return instance;
 	}
+	
+	private void checkDuplicatePeriod(PlanningPeriod newPeriod)
+	{
+		for(PlanningPeriod i : periods)
+		{
+			PeriodValidator.checkCollisionOnPeriods(i, newPeriod);
+		}
+	}
 
 	public void planningClassPeriod(Date start, Date end)
 	{
 		ClassPeriod newClassPeriod = new ClassPeriod(start,end,people);
-		for(PlanningPeriod i : periods)
-		{
-			PeriodValidator.checkCollisionOnPeriods(i, newClassPeriod);
-		}
+		checkDuplicatePeriod(newClassPeriod);
 		periods.add(newClassPeriod);
 		
 		ArrayList<Asignment> a = periods.get(0).getAsignments();
@@ -47,7 +52,8 @@ public class Faculty{
 
 	public void planningVacationPeriod(Date start, Date end)
 	{
-		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches); 
+		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches);
+		checkDuplicatePeriod(newVacationPeriod);
 		periods.add(newVacationPeriod);
 
 		

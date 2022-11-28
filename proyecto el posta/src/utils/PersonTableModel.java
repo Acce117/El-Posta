@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ public class PersonTableModel extends DefaultTableModel{
 	
 	public void refreshWorker(ArrayList<Worker> list){
 		setRowCount(0);
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
 		object = new String[6];
 		for(Worker w:list){
 			object[0] = w.getId();
@@ -38,10 +40,16 @@ public class PersonTableModel extends DefaultTableModel{
 			object[3] = w.getSex().getName();
 			object[4] = w.getActualState().getName();
 			if(w.getComebackDate() != null)
-				object[5] = "" + w.getComebackDate();
+				object[5] = "" + df.format(w.getComebackDate());
 			else
 				object[5] = "";
 			addRow(object);
 		}
+	}
+	
+	@Override
+	public boolean isCellEditable(int row, int column)
+	{
+		return false;
 	}
 }

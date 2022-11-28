@@ -73,7 +73,7 @@ public class VacationPeriod extends PlanningPeriod
 
 	public boolean canAsign(Person person, Date date, Schedule schedule) 
 	{
-		boolean can = true;//La variable que retorno
+		boolean can = person.canMatch(date, schedule);//La variable que retorno
 		
 		if(date.before(start) || date.after(end)) //si no se encuentra en el periodo no puede
 			can = false;
@@ -84,7 +84,8 @@ public class VacationPeriod extends PlanningPeriod
 			for(int i = 0; i < asignments.size() && can; i++)
 			{
 				actualAsignment = asignments.get(i);								
-				can = (!person.canMatch(date, schedule) || !actualAsignment.getDay().equals(date));
+				if(DateManager.sameDate(actualAsignment.getDay(), date) && actualAsignment.getSchedule().equals(schedule))
+				 can = false;
 			}						
 		}
 
@@ -104,6 +105,7 @@ public class VacationPeriod extends PlanningPeriod
 	public void asign(Worker newWorker, ArrayList<Date> watches)
 	{
 		
+
 		boolean asigned = false;
 		Date actualDate;
 		//Se recorren las fechas que decidio el trabajador

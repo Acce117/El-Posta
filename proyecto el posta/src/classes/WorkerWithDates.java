@@ -36,8 +36,9 @@ public class WorkerWithDates
 	{
 		if(!DateManager.isWeekend(newDate))
 			throw new IllegalArgumentException("Tiene que ser fin de semana");
-		if(TakedDay.getInstance().isTaked(newDate))
+		if(TakedDay.getInstance().isTaked(newDate) || listVacationWatch.indexOf(newDate)!= -1)
 			throw new IllegalArgumentException("Ya la fecha fue tomada");
+			
 		listVacationWatch.add(newDate);
 		TakedDay.getInstance().addDay(newDate);
 	}
