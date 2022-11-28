@@ -103,6 +103,7 @@ public class PeriodAsignmentList extends JDialog {
 			table.setFillsViewportHeight(true);
 			table.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			table.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 11));
+			table.getTableHeader().setReorderingAllowed(false);
 		}
 		return table;
 	}

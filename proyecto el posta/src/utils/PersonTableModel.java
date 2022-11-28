@@ -22,13 +22,14 @@ public class PersonTableModel extends DefaultTableModel{
 		for(Student s:list){
 			object[0] = s.getId();
 			object[1] = s.getName();
-			object[2] = s.getName();
+			object[2] = s.getLastName();
 			object[3] = s.getSex().getName();
 			object[4] = s.getActualState().getName();
 			addRow(object);
 		}
 	}
 	
+
 	public void refreshWorker(ArrayList<Worker> list){
 		setRowCount(0);
 		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
@@ -36,7 +37,7 @@ public class PersonTableModel extends DefaultTableModel{
 		for(Worker w:list){
 			object[0] = w.getId();
 			object[1] = w.getName();
-			object[2] = w.getName();
+			object[2] = w.getLastName();
 			object[3] = w.getSex().getName();
 			object[4] = w.getActualState().getName();
 			if(w.getComebackDate() != null)

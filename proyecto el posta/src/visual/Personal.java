@@ -485,6 +485,7 @@ public class Personal extends JDialog {
 			studentListTable.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			studentListTable.getTableHeader().setBackground(backgroundColor);
 			studentListTable.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			studentListTable.getTableHeader().setReorderingAllowed(false);
 			//studentListTable.getColumnModel().getColumn(3).setPreferredWidth(40);
 			//studentListTable.getColumnModel().getColumn(4).setPreferredWidth(60);
 		}
@@ -577,9 +578,9 @@ public class Personal extends JDialog {
 						}
 						
 						
-						name = name + lastName + secLastName;
-						
-						faculty.addStudent(id, name, sex, state);
+						//name = name + " " + lastName + " " + secLastName;
+						lastName+= " " + secLastName;
+						faculty.addStudent(id, name, lastName, sex, state);
 						studentModel.refreshStudent(faculty.getStudents());
 						clearStudent();
 					}catch(Exception error){
@@ -733,9 +734,10 @@ public class Personal extends JDialog {
 							comeBackDate = comeBackDateChooser.getDate();
 						}
 						
-						name = name + lastName + secLastName;
-						
-						faculty.addWorker(id, name, sex, state, comeBackDate);
+						//name = name + " " + lastName + " " + secLastName;
+						lastName+= " " + secLastName;
+						//faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
+						faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
 						workerModel.refreshWorker(faculty.getWorkers());
 						clearWorker();
 					}catch(Exception error){
@@ -779,6 +781,7 @@ public class Personal extends JDialog {
 			workerListTable.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			workerListTable.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			workerListTable.getTableHeader().setBackground(backgroundColor);
+			workerListTable.getTableHeader().setReorderingAllowed(false);
 		}
 		return workerListTable;
 	}

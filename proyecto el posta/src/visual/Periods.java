@@ -318,6 +318,7 @@ public class Periods extends JDialog {
 			table.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			table.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			table.getTableHeader().setBackground(backgroundColor);
+			table.getTableHeader().setReorderingAllowed(false);
 		}
 		return table;
 	}
@@ -376,6 +377,7 @@ public class Periods extends JDialog {
 			table_1.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			table_1.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			table_1.getTableHeader().setBackground(backgroundColor);
+			table_1.getTableHeader().setReorderingAllowed(false);
 		}
 		return table_1;
 	}
@@ -412,6 +414,7 @@ public class Periods extends JDialog {
 			classPeriodTable.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			classPeriodTable.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			classPeriodTable.getTableHeader().setBackground(backgroundColor);
+			classPeriodTable.getTableHeader().setReorderingAllowed(false);
 		}
 		return classPeriodTable;
 	}

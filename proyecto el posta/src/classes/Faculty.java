@@ -112,14 +112,14 @@ public class Faculty{
 		return days;
 	}    
 
-	public void addStudent(String id, String name, Genre sex, StatesStudent state)
+	public void addStudent(String id, String name, String lastName, Genre sex, StatesStudent state)
 	{
-		people.add(new Student(id, name, sex, state));
+		people.add(new Student(id, name, lastName, sex, state));
 	}
 
-	public void addWorker(String id, String name, Genre sex, GeneralState state, Date day)
+	public void addWorker(String id, String name, String lastName, Genre sex, GeneralState state, Date day)
 	{
-		people.add(new Worker(id, name, sex, state, day));
+		people.add(new Worker(id, name, lastName, sex, state, day));
 	}
 
 	public void replan(Date pointReference, Person observer) 
