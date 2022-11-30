@@ -2,6 +2,8 @@ package run;
 
 import java.awt.EventQueue;
 
+import javax.swing.UIManager;
+
 import classes.Faculty;
 
 import com.formdev.flatlaf.FlatLightLaf;

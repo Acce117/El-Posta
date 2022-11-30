@@ -20,6 +20,7 @@ import classes.Faculty;
 import classes.Worker;
 
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 import javax.swing.JLabel;
 
@@ -33,6 +34,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 
 public class WorkersToVacationPeriod extends JDialog {
@@ -53,11 +55,14 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JPanel panel_3;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
+	private Color backgroundColor;
 	/**
 	 * Create the dialog.
 	 */
 	public WorkersToVacationPeriod() {
-		faculty = Faculty.getInstance();
+		setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.WHITE);
+		backgroundColor = getBackground();		faculty = Faculty.getInstance();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(WorkersToVacationPeriod.class.getResource("/img/logo mejorado.png")));
 		setBounds(100, 100, 655, 500);
 		setModal(true);
@@ -72,32 +77,35 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de trabajadores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de trabajadores", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 13), null));
 			panel.setBounds(10, 11, 409, 389);
 			panel.setLayout(new CardLayout(0, 0));
 			panel.add(getScrollPane_2(), "name_2078998409183700");
+			panel.setBackground(backgroundColor);
 		}
 		return panel;
 	}
 	private JPanel getPanel_1() {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Insertar fecha", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Insertar fecha", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 13), null));
 			panel_1.setBounds(429, 11, 200, 110);
 			panel_1.setLayout(null);
 			panel_1.add(getDateChooser());
 			panel_1.add(getLblFechaPropuesta());
 			panel_1.add(getBtnAgregar());
+			panel_1.setBackground(backgroundColor);
 		}
 		return panel_1;
 	}
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
-			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de fechas propuestas ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de fechas propuestas ", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 13), new Color(0, 0, 0)));
 			panel_2.setBounds(429, 132, 200, 268);
 			panel_2.setLayout(new CardLayout(0, 0));
 			panel_2.add(getScrollPane_1(), "name_2077712143291400");
+			panel_2.setBackground(backgroundColor);
 		}
 		return panel_2;
 	}
@@ -113,12 +121,17 @@ public class WorkersToVacationPeriod extends JDialog {
 		if (dateChooser == null) {
 			dateChooser = new JDateChooser();
 			dateChooser.setBounds(10, 42, 180, 20);
+			dateChooser.setBackground(backgroundColor);
+			dateChooser.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
+			JTextFieldDateEditor editor = (JTextFieldDateEditor)dateChooser.getDateEditor();
+			editor.setEditable(false);
 		}
 		return dateChooser;
 	}
 	private JLabel getLblFechaPropuesta() {
 		if (lblFechaPropuesta == null) {
 			lblFechaPropuesta = new JLabel("Fecha propuesta:");
+			lblFechaPropuesta.setFont(new Font("Book Antiqua", Font.PLAIN, 13));
 			lblFechaPropuesta.setBounds(10, 24, 97, 14);
 		}
 		return lblFechaPropuesta;
@@ -126,6 +139,8 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JButton getBtnAgregar() {
 		if (btnAgregar == null) {
 			btnAgregar = new JButton("Agregar");
+			btnAgregar.setBackground(Color.WHITE);
+			btnAgregar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnAgregar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int index = table.getSelectedRow();
@@ -161,6 +176,10 @@ public class WorkersToVacationPeriod extends JDialog {
 			table.getColumnModel().getColumn(3).setPreferredWidth(35);
 			table.getColumnModel().getColumn(4).setPreferredWidth(44);
 			table.getColumnModel().getColumn(5).setPreferredWidth(95);
+			table.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table.getTableHeader().setBackground(backgroundColor);
+			table.getTableHeader().setReorderingAllowed(false);
 		}
 		return table;
 	}
@@ -169,6 +188,9 @@ public class WorkersToVacationPeriod extends JDialog {
 			table_1 = new JTable();
 			table_1.setModel(getDateModel());
 			table_1.setFillsViewportHeight(true);
+			table_1.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table_1.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table_1.getTableHeader().setBackground(backgroundColor);
 		}
 		return table_1;
 	}
@@ -190,12 +212,15 @@ public class WorkersToVacationPeriod extends JDialog {
 			panel_3.setLayout(null);
 			panel_3.add(getBtnAceptar());
 			panel_3.add(getBtnCancelar());
+			panel_3.setBackground(backgroundColor);
 		}
 		return panel_3;
 	}
 	private JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar");
+			btnAceptar.setBackground(Color.WHITE);
+			btnAceptar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Periods.getVolunteerWorkersModel().refresh(faculty.getVacationWatches());
@@ -209,6 +234,8 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
+			btnCancelar.setBackground(Color.WHITE);
+			btnCancelar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();

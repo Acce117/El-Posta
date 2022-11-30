@@ -11,8 +11,8 @@ public class Student extends Person{
 
     protected StatesStudent actualState;
 
-    public Student(String id, String name, Genre sex, StatesStudent newState) {
-        super(id, name, sex);
+    public Student(String id, String name, String lastName, Genre sex, StatesStudent newState) {
+        super(id, name, lastName, sex);
         setActualState(newState, null);
     }
 

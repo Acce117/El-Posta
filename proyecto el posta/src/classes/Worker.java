@@ -16,12 +16,13 @@ public class Worker extends Person{
 
 
 
-    public Worker(String id, String name, Genre sex, GeneralState newState, Date comebackDate) 
+    public Worker(String id, String name, String lastName, Genre sex, GeneralState newState, Date comebackDate) 
     {
-        super(id, name, sex);
+        super(id, name, lastName, sex);
         setActualState(newState, null);
         setComebackDate(comebackDate);
     }
+    
 
     public Date getComebackDate() 
     {

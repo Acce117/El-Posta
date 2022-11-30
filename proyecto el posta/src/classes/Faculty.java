@@ -26,22 +26,48 @@ public class Faculty{
 
 		return instance;
 	}
+	
+	private void checkDuplicatePeriod(PlanningPeriod newPeriod)
+	{
+		for(PlanningPeriod i : periods)
+		{
+			PeriodValidator.checkCollisionOnPeriods(i, newPeriod);
+		}
+	}
 
 	public void planningClassPeriod(Date start, Date end)
 	{
 		ClassPeriod newClassPeriod = new ClassPeriod(start,end,people);
-		for(PlanningPeriod i : periods)
-		{
-			PeriodValidator.checkCollisionOnPeriods(i, newClassPeriod);
-		}
+		checkDuplicatePeriod(newClassPeriod);
 		periods.add(newClassPeriod);
+		
+		ArrayList<Asignment> a = periods.get(0).getAsignments();
+
+		for(Asignment b: a){
+			//System.out.println(b.getPersonOnWatch().getName());
+			System.out.println(b.getDay());
+		}
 
 	}
 
 	public void planningVacationPeriod(Date start, Date end)
 	{
-		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches); 
+		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches);
+		checkDuplicatePeriod(newVacationPeriod);
 		periods.add(newVacationPeriod);
+
+		
+		ArrayList<Asignment> a = periods.get(0).getAsignments();
+		/*
+		  No borrar este comentario
+		  Testear con esta linea
+		  vacationWatches.clear(); 
+		*/
+		for(Asignment b: a){
+			//System.out.println(b.getPersonOnWatch().getName());
+			System.out.println(b.getDay());
+		}
+
 	}
 
 	public ArrayList<WorkerWithDates> getVacationWatches() {
@@ -102,14 +128,14 @@ public class Faculty{
 		return days;
 	}    
 
-	public void addStudent(String id, String name, Genre sex, StatesStudent state)
+	public void addStudent(String id, String name, String lastName, Genre sex, StatesStudent state)
 	{
-		people.add(new Student(id, name, sex, state));
+		people.add(new Student(id, name, lastName, sex, state));
 	}
 
-	public void addWorker(String id, String name, Genre sex, GeneralState state, Date day)
+	public void addWorker(String id, String name, String lastName, Genre sex, GeneralState state, Date day)
 	{
-		people.add(new Worker(id, name, sex, state, day));
+		people.add(new Worker(id, name, lastName, sex, state, day));
 	}
 
 	public void replan(Date pointReference, Person observer) 

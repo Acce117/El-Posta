@@ -3,6 +3,7 @@ import java.util.Date;
 import java.util.ArrayList;
 public class TakedDay 
 {
+	private final int TAKE = 2;
 	private ArrayList<Date> takedDays;
 	private static TakedDay instance;
 	
@@ -20,12 +21,14 @@ public class TakedDay
 	
 	public boolean isTaked(Date newDate)
 	{
-		
+		int count = 0;
 		boolean check = false;
 		check = (newDate == null);
 		for(int i = 0; i < takedDays.size() && !check; i++)
 		{
-			check = (DateManager.sameDate(takedDays.get(i), newDate));
+			if((DateManager.sameDate(takedDays.get(i), newDate)))
+				count++;
+			check = (count>=TAKE);
 		}
 		
 		return check;

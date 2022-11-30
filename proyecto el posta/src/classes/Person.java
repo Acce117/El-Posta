@@ -12,10 +12,14 @@ public abstract class Person{
 	protected ArrayList<Observer> observers = new ArrayList<>();
 	protected String id;
     protected String name;
-    protected Genre sex; 
+    protected String lastName;
+    
+    
+	protected Genre sex; 
 
-    public Person(String id, String name, Genre sex){
+    public Person(String id, String name, String lastName, Genre sex){
         setName(name);
+        setLastName(lastName);
         setSex(sex);        
         setId(id);
     }
@@ -37,6 +41,14 @@ public abstract class Person{
         
     	//PersonalValidator.checkName(name);
         this.name = name;
+    }
+    
+    public String getLastName() {
+    	return lastName;
+    }
+    
+    public void setLastName(String lastName) {
+    	this.lastName = lastName;
     }
 
     public Genre getSex() {

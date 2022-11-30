@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import classes.ClassPeriod;
 import classes.Faculty;
@@ -17,6 +18,7 @@ import classes.Faculty;
 import classes.VacationPeriod;
 
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -33,6 +35,8 @@ import utils.PeriodValidator;
 
 
 import utils.VolunteerWorkersModel;
+
+
 
 
 import java.awt.event.ActionListener;
@@ -80,9 +84,11 @@ public class Periods extends JDialog {
 	private JPanel panel_4;
 	private JButton button_3;
 	private JButton btnEditar;
-
+	private Color backgroundColor;
+	
 	private PeriodTableModel classPeriodModel;
 	private PeriodTableModel vacationPeriodModel;
+	
 
 
 	private static Faculty faculty;
@@ -93,6 +99,9 @@ public class Periods extends JDialog {
 	 * Create the dialog.
 	 */
 	public Periods() {
+		getContentPane().setBackground(Color.WHITE);
+		backgroundColor = getContentPane().getBackground();
+		setBackground(backgroundColor);
 		faculty = Faculty.getInstance();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
 		setTitle("Gesti\u00F3n de periodos");
@@ -109,6 +118,8 @@ public class Periods extends JDialog {
 			tabbedPane.setBounds(0, 0, 629, 422);
 			tabbedPane.addTab("Periodo de Clases", null, getClassPeriodPanel(), null);
 			tabbedPane.addTab("Periodo Vacacional", null, getVacationPeriodPanel(), null);
+			tabbedPane.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			tabbedPane.setBackground(backgroundColor);
 		}
 		return tabbedPane;
 	}
@@ -119,6 +130,7 @@ public class Periods extends JDialog {
 			classPeriodPanel.add(getNewClassPeriodPanel());
 			classPeriodPanel.add(getListClassPeriodPanel());
 			classPeriodPanel.add(getPanel());
+			classPeriodPanel.setBackground(backgroundColor);
 		}
 		return classPeriodPanel;
 	}
@@ -129,13 +141,14 @@ public class Periods extends JDialog {
 			vacationPeriodPanel.add(getPanel_1());
 			vacationPeriodPanel.add(getPanel_3());
 			vacationPeriodPanel.add(getPanel_4());
+			vacationPeriodPanel.setBackground(backgroundColor);
 		}
 		return vacationPeriodPanel;
 	}
 	private JPanel getNewClassPeriodPanel() {
 		if (newClassPeriodPanel == null) {
 			newClassPeriodPanel = new JPanel();
-			newClassPeriodPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo periodo de clases", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			newClassPeriodPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo periodo de clases", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 16), new Color(0, 0, 0)));
 			newClassPeriodPanel.setBounds(10, 11, 601, 104);
 			newClassPeriodPanel.setLayout(null);
 			newClassPeriodPanel.add(getClassPeriodStart());
@@ -143,6 +156,7 @@ public class Periods extends JDialog {
 			newClassPeriodPanel.add(getLblFechaInicio());
 			newClassPeriodPanel.add(getLblFechaFin());
 			newClassPeriodPanel.add(getBtnOrganizar());
+			newClassPeriodPanel.setBackground(backgroundColor);
 		}
 		return newClassPeriodPanel;
 	}
@@ -150,9 +164,10 @@ public class Periods extends JDialog {
 		if (listClassPeriodPanel == null) {
 			listClassPeriodPanel = new JPanel();
 			listClassPeriodPanel.setBounds(10, 126, 601, 203);
-			listClassPeriodPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de periodos de clase", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			listClassPeriodPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de periodos de clase", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 16), new Color(0, 0, 0)));
 			listClassPeriodPanel.setLayout(new CardLayout(0, 0));
 			listClassPeriodPanel.add(getScrollPane_2(), "name_1302311777791100");
+			listClassPeriodPanel.setBackground(backgroundColor);
 		}
 		return listClassPeriodPanel;
 	}
@@ -160,19 +175,29 @@ public class Periods extends JDialog {
 		if (classPeriodStart == null) {
 			classPeriodStart = new JDateChooser();
 			classPeriodStart.setBounds(101, 32, 190, 20);
+			classPeriodStart.setBackground(backgroundColor);
+			classPeriodStart.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
+			JTextFieldDateEditor editor = (JTextFieldDateEditor)classPeriodStart.getDateEditor();
+			editor.setEditable(false);
 		}
 		return classPeriodStart;
 	}
 	private JDateChooser getClassPeriodEnd() {
 		if (classPeriodEnd == null) {
 			classPeriodEnd = new JDateChooser();
+			classPeriodEnd.setBorder(null);
 			classPeriodEnd.setBounds(376, 32, 190, 20);
+			classPeriodEnd.setBackground(backgroundColor);
+			classPeriodEnd.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
+			JTextFieldDateEditor editor = (JTextFieldDateEditor)classPeriodEnd.getDateEditor();
+			editor.setEditable(false);
 		}
 		return classPeriodEnd;
 	}
 	private JLabel getLblFechaInicio() {
 		if (lblFechaInicio == null) {
 			lblFechaInicio = new JLabel("Fecha Inicio:");
+			lblFechaInicio.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
 			lblFechaInicio.setBounds(20, 35, 81, 14);
 		}
 		return lblFechaInicio;
@@ -180,6 +205,7 @@ public class Periods extends JDialog {
 	private JLabel getLblFechaFin() {
 		if (lblFechaFin == null) {
 			lblFechaFin = new JLabel("Fecha Fin:");
+			lblFechaFin.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
 			lblFechaFin.setBounds(312, 35, 66, 14);
 		}
 		return lblFechaFin;
@@ -187,6 +213,8 @@ public class Periods extends JDialog {
 	private JButton getBtnOrganizar() {
 		if (btnOrganizar == null) {
 			btnOrganizar = new JButton("Insertar");
+			btnOrganizar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			btnOrganizar.setBackground(Color.WHITE);
 			btnOrganizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Date start = classPeriodStart.getDate();
@@ -212,7 +240,7 @@ public class Periods extends JDialog {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 			panel_1.setLayout(null);
-			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo periodo vacacional", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo periodo vacacional", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 16), new Color(0, 0, 0)));
 			panel_1.setBounds(10, 11, 240, 372);
 			panel_1.add(getVacationPeriodStart());
 			panel_1.add(getVacationPeriodEnd());
@@ -220,6 +248,7 @@ public class Periods extends JDialog {
 			panel_1.add(getLabel_1());
 			panel_1.add(getPanel_2());
 			panel_1.add(getBtnOrganizar_1());
+			panel_1.setBackground(backgroundColor);
 		}
 		return panel_1;
 	}
@@ -227,19 +256,28 @@ public class Periods extends JDialog {
 		if (vacationPeriodStart == null) {
 			vacationPeriodStart = new JDateChooser();
 			vacationPeriodStart.setBounds(20, 48, 197, 20);
+			vacationPeriodStart.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
+			JTextFieldDateEditor editor = (JTextFieldDateEditor)vacationPeriodStart.getDateEditor();
+			editor.setEditable(false);
+			vacationPeriodStart.setBackground(backgroundColor);
 		}
 		return vacationPeriodStart;
 	}
 	private JDateChooser getVacationPeriodEnd() {
 		if (vacationPeriodEnd == null) {
-			vacationPeriodEnd = new JDateChooser();
+			vacationPeriodEnd = new JDateChooser();			
 			vacationPeriodEnd.setBounds(20, 96, 197, 20);
+			vacationPeriodEnd.setBackground(backgroundColor);
+			vacationPeriodEnd.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
+			JTextFieldDateEditor editor = (JTextFieldDateEditor)vacationPeriodEnd.getDateEditor();
+			editor.setEditable(false);
 		}
 		return vacationPeriodEnd;
 	}
 	private JLabel getLabel() {
 		if (label == null) {
 			label = new JLabel("Fecha Inicio:");
+			label.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			label.setBounds(20, 29, 91, 14);
 		}
 		return label;
@@ -247,6 +285,7 @@ public class Periods extends JDialog {
 	private JLabel getLabel_1() {
 		if (label_1 == null) {
 			label_1 = new JLabel("Fecha Fin:");
+			label_1.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 			label_1.setBounds(20, 78, 91, 14);
 		}
 		return label_1;
@@ -254,12 +293,13 @@ public class Periods extends JDialog {
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
-			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado trabajadores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado trabajadores", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 16), new Color(0, 0, 0)));
 			panel_2.setBounds(10, 139, 220, 157);
 			panel_2.setLayout(null);
 			panel_2.add(getScrollPane_1());
 			panel_2.add(getBtnAgregar());
 			panel_2.add(getBtnQuitar());
+			panel_2.setBackground(backgroundColor);
 		}
 		return panel_2;
 	}
@@ -277,6 +317,10 @@ public class Periods extends JDialog {
 			table = new JTable();
 			table.setFillsViewportHeight(true);
 			table.setModel(getVolunteerWorkersModel());
+			table.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table.getTableHeader().setBackground(backgroundColor);
+			table.getTableHeader().setReorderingAllowed(false);
 		}
 		return table;
 	}
@@ -295,23 +339,26 @@ public class Periods extends JDialog {
 	private JButton getBtnAgregar() {
 		if (btnAgregar == null) {
 			btnAgregar = new JButton("Agregar");
+			btnAgregar.setBackground(Color.WHITE);
+			btnAgregar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnAgregar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					WorkersToVacationPeriod wtvp = new WorkersToVacationPeriod();
 					wtvp.setVisible(true);
 				}
 			});
-			btnAgregar.setBounds(44, 129, 80, 23);
+			btnAgregar.setBounds(10, 129, 90, 23);
 		}
 		return btnAgregar;
 	}
 	private JPanel getPanel_3() {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
-			panel_3.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de periodos vacacionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_3.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de periodos vacacionales", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 16), new Color(0, 0, 0)));
 			panel_3.setBounds(264, 11, 347, 332);
 			panel_3.setLayout(new CardLayout(0, 0));
 			panel_3.add(getScrollPane_1_1(), "name_1304084981799700");
+			panel_3.setBackground(backgroundColor);
 		}
 		return panel_3;
 	}
@@ -329,6 +376,10 @@ public class Periods extends JDialog {
 			table_1 = new JTable();
 			table_1.setFillsViewportHeight(true);
 			table_1.setModel(getVacationPeriodModel());
+			table_1.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table_1.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			table_1.getTableHeader().setBackground(backgroundColor);
+			table_1.getTableHeader().setReorderingAllowed(false);
 		}
 		return table_1;
 	}
@@ -362,6 +413,10 @@ public class Periods extends JDialog {
 			classPeriodTable = new JTable();
 			classPeriodTable.setFillsViewportHeight(true);
 			classPeriodTable.setModel(getClassPeriodModel());
+			classPeriodTable.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			classPeriodTable.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			classPeriodTable.getTableHeader().setBackground(backgroundColor);
+			classPeriodTable.getTableHeader().setReorderingAllowed(false);
 		}
 		return classPeriodTable;
 	}
@@ -385,13 +440,17 @@ public class Periods extends JDialog {
 	private JButton getBtnQuitar() {
 		if (btnQuitar == null) {
 			btnQuitar = new JButton("Eliminar");
-			btnQuitar.setBounds(130, 129, 80, 23);
+			btnQuitar.setBackground(Color.WHITE);
+			btnQuitar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			btnQuitar.setBounds(110, 129, 100, 23);
 		}
 		return btnQuitar;
 	}
 	private JButton getBtnEliminar() {
 		if (btnEliminar == null) {
 			btnEliminar = new JButton("Cancelar");
+			btnEliminar.setBackground(Color.WHITE);
+			btnEliminar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnEliminar.setBounds(249, 6, 91, 23);
 		}
 		return btnEliminar;
@@ -399,6 +458,8 @@ public class Periods extends JDialog {
 	private JButton getBtnOrganizar_1() {
 		if (btnOrganizar_1 == null) {
 			btnOrganizar_1 = new JButton("Organizar");
+			btnOrganizar_1.setBackground(Color.WHITE);
+			btnOrganizar_1.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnOrganizar_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Date start = vacationPeriodStart.getDate();
@@ -415,7 +476,7 @@ public class Periods extends JDialog {
 					}
 				}
 			});
-			btnOrganizar_1.setBounds(139, 338, 91, 23);
+			btnOrganizar_1.setBounds(119, 338, 111, 23);
 		}
 		return btnOrganizar_1;
 	}
@@ -428,12 +489,15 @@ public class Periods extends JDialog {
 			panel.add(getButton());
 			panel.add(getButton_1());
 			panel.add(getBtnTurnos());
+			panel.setBackground(backgroundColor);
 		}
 		return panel;
 	}
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("Cancelar");
+			button.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			button.setBackground(Color.WHITE);
 			button.setBounds(500, 11, 91, 23);
 		}
 		return button;
@@ -441,6 +505,8 @@ public class Periods extends JDialog {
 	private JButton getButton_1() {
 		if (button_1 == null) {
 			button_1 = new JButton("Eliminar");
+			button_1.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			button_1.setBackground(Color.WHITE);
 			button_1.setBounds(399, 11, 91, 23);
 		}
 		return button_1;
@@ -448,6 +514,8 @@ public class Periods extends JDialog {
 	private JButton getBtnTurnos() {
 		if (btnTurnos == null) {
 			btnTurnos = new JButton("Ver turnos");
+			btnTurnos.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			btnTurnos.setBackground(Color.WHITE);
 			btnTurnos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int index = classPeriodTable.getSelectedRow();
@@ -458,7 +526,7 @@ public class Periods extends JDialog {
 				}
 			});
 			//btnEditar_1.setEnabled(false);
-			btnTurnos.setBounds(298, 11, 91, 23);
+			btnTurnos.setBounds(285, 11, 104, 23);
 		}
 		return btnTurnos;
 	}
@@ -471,12 +539,15 @@ public class Periods extends JDialog {
 			panel_4.add(getBtnEliminar());
 			panel_4.add(getButton_3());
 			panel_4.add(getBtnEditar());
+			panel_4.setBackground(backgroundColor);
 		}
 		return panel_4;
 	}
 	private JButton getButton_3() {
 		if (button_3 == null) {
 			button_3 = new JButton("Eliminar");
+			button_3.setBackground(Color.WHITE);
+			button_3.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			button_3.setBounds(148, 6, 91, 23);
 		}
 		return button_3;
@@ -484,6 +555,8 @@ public class Periods extends JDialog {
 	private JButton getBtnEditar() {
 		if (btnEditar == null) {
 			btnEditar = new JButton("Vet turnos");
+			btnEditar.setBackground(Color.WHITE);
+			btnEditar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
 			btnEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int index = table_1.getSelectedRow();
@@ -493,7 +566,7 @@ public class Periods extends JDialog {
 					}
 				}
 			});
-			btnEditar.setBounds(47, 6, 91, 23);
+			btnEditar.setBounds(32, 6, 106, 23);
 		}
 		return btnEditar;
 	}

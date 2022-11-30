@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 
 
+
 import javax.swing.table.DefaultTableModel;
 
 import classes.WorkerWithDates;
@@ -24,5 +25,9 @@ public class VolunteerWorkersModel extends DefaultTableModel{
 			addRow(object);
 		}
 	}
-
+	@Override
+	public boolean isCellEditable(int row, int column)
+	{
+		return false;
+	}
 }
