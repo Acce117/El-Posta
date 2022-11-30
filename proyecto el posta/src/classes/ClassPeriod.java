@@ -37,8 +37,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
         holidays = Holiday.getInstance();
 
         split(personList);
-        organize(start, end);
-        
+        organize(start, end);  
 
     }
 
