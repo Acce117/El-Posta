@@ -121,6 +121,14 @@ public class Faculty{
 	{
 		people.add(new Worker(id, name, lastName, sex, state, day));
 	}
+	
+	public void replan(Date pointReferenceStart, Date pointReferenceEnd, Person observer)
+	{
+		for(PlanningPeriod i : periods)
+		{
+			i.replan(pointReferenceStart,observer);
+		}
+	}
 
 	public void replan(Date pointReference, Person observer) 
 	{

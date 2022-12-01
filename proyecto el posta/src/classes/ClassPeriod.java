@@ -183,5 +183,11 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		organize(pointReference, end);
 		
 	}
+	
+	public void replan(Date pointReferenceStart, Date pointReferenceEnd, Person personToChange)
+	{
+		organize(pointReferenceStart,pointReferenceEnd);
+	}
+	
 
 }
