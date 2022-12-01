@@ -109,29 +109,14 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = femaleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayFemale != aux){
     			aux = femaleStudents.get(0);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-				match(aux, day, Schedule.FEMALE_STUDENT_SCHEDULE);
-=======
 				match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
->>>>>>> Stashed changes
-=======
-				match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
->>>>>>> Stashed changes
+
 				lastPersonHolidayMale = femaleStudents.get(i);
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = femaleStudents.get(0);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    			match(aux, day, Schedule.FEMALE_STUDENT_SCHEDULE);
-=======
     			match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
->>>>>>> Stashed changes
-=======
-    			match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
->>>>>>> Stashed changes
 				check = true;
     		}
     	}
@@ -149,14 +134,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	for(int i = index; i < workers.size() && !check; i++){
     		aux = workers.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayWorker != aux){
-<<<<<<< Updated upstream
-    			//aux = workers.get(0);
-=======
-    			aux = workers.get(0);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 				match(aux, day, schedule);
 				if(lastPersonHolidayWorker == lastPersonHolidayWorker1)
 					lastPersonHolidayWorker1 = workers.get(i);
@@ -166,14 +143,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
-<<<<<<< Updated upstream
-    			//aux = workers.get(0);
-=======
-    			aux = workers.get(0);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     			match(aux, day, schedule);
 				check = true;
     		}
