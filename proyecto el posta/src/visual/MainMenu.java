@@ -34,7 +34,6 @@ public class MainMenu extends JFrame{
 	private JMenu mnConsultar;
 	private JMenuItem mntmReport;
 	private JMenuItem mntmReporte;
-	private JMenuItem mntmReporte_1;
 	private JMenuItem mntmReporte_2;
 	private JLabel lblNewLabel;
 	private JPanel panel;	
@@ -145,7 +144,6 @@ public class MainMenu extends JFrame{
 			mnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			mnConsultar.add(getMntmReport());
 			mnConsultar.add(getMntmReporte());
-			mnConsultar.add(getMntmReporte_1());
 			mnConsultar.add(getMntmReporte_2());
 		}
 		return mnConsultar;
@@ -179,21 +177,6 @@ public class MainMenu extends JFrame{
 			});
 		}
 		return mntmReporte;
-	}
-	private JMenuItem getMntmReporte_1() {
-		if (mntmReporte_1 == null) {
-			mntmReporte_1 = new JMenuItem("Conocer los d\u00EDas de guardia de...");
-			mntmReporte_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			mntmReporte_1.setBackground(Color.WHITE);
-			mntmReporte_1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					WatchDay dias = new WatchDay();
-					dias.setModal(true);
-					dias.setVisible(true);
-				}
-			});
-		}
-		return mntmReporte_1;
 	}
 	private JMenuItem getMntmReporte_2() {
 		if (mntmReporte_2 == null) {

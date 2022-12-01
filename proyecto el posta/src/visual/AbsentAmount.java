@@ -2,8 +2,6 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
-
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,29 +9,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 import classes.Faculty;
-
-import com.toedter.calendar.JDateChooser;
-
 import javax.swing.border.LineBorder;
-
 import java.awt.Color;
-
 import javax.swing.SwingConstants;
-
-import utils.AbsentModel;
+import utils.PeriodAssignModel;
 import utils.PeriodTableModel;
-import utils.PeriodValidator;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Date;
 import java.awt.CardLayout;
-
 import javax.swing.JTabbedPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AbsentAmount extends JDialog {
 	/**
@@ -49,13 +34,14 @@ public class AbsentAmount extends JDialog {
 	private JPanel panel;
 	private JScrollPane scrollPane_1;
 	private JTable table_1;
-	private AbsentModel absentModel;
+	private PeriodAssignModel absentModel;
 	private JTabbedPane tabbedPane;
 	private JPanel panel_2;
 	private JScrollPane scrollPane_2;
 	private JTable table_2;
 	private PeriodTableModel classModel;
 	private PeriodTableModel vacationModel;
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -106,12 +92,17 @@ public class AbsentAmount extends JDialog {
 		return table;
 	}
 	
-	private AbsentModel getAbsentModel(){
+	private PeriodAssignModel getAbsentModel(){
 		if(absentModel == null){
-			absentModel = new AbsentModel();
+			absentModel = new PeriodAssignModel();
 			absentModel.addColumn("Fecha");
 			absentModel.addColumn("Turno");
 			absentModel.addColumn("Persona");
+			if(table_1.getSelectedRow() != -1)
+				absentModel.refreshAbsents(Faculty.getInstance().getClassPeriods().get(table_1.getSelectedRow()).getAsignments());
+			else if(table_2.getSelectedRow() != -1){
+				absentModel.refreshAbsents(Faculty.getInstance().getVacationPeriods().get(table_2.getSelectedRow()).getAsignments());
+			}
 		}
 		return absentModel;
 	}
@@ -152,6 +143,12 @@ public class AbsentAmount extends JDialog {
 	private JTable getTable_1() {
 		if (table_1 == null) {
 			table_1 = new JTable();
+			table_1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					absentModel.refreshAbsents(Faculty.getInstance().getClassPeriods().get(table_1.getSelectedRow()).getAsignments());
+				}
+			});
 			table_1.setModel(getClassModel());
 			table_1.setFillsViewportHeight(true);
 		}
@@ -196,6 +193,12 @@ public class AbsentAmount extends JDialog {
 	private JTable getTable_2() {
 		if (table_2 == null) {
 			table_2 = new JTable();
+			table_2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					absentModel.refreshAbsents(Faculty.getInstance().getVacationPeriods().get(table_2.getSelectedRow()).getAsignments());
+				}
+			});
 			table_2.setModel(getVacationModel());
 			table_2.setFillsViewportHeight(true);
 		}

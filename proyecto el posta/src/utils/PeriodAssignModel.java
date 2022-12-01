@@ -27,6 +27,22 @@ public class PeriodAssignModel extends DefaultTableModel{
 			addRow(object);
 		}
 	}
+	
+	public void refreshAbsents(ArrayList<Assignment> list){
+		object = new String[4];
+		
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+		for(Assignment asign:list){
+			if(asign.isDone() == false){
+				object[0] = df.format(asign.getDay());
+				object[1] = asign.getSchedule().getSchedule();
+				object[2] = asign.getPersonOnWatch().getName() + " " + asign.getPersonOnWatch().getLastName();
+				object[3] = (asign.isDone())? "SI" : "NO";
+			
+				addRow(object);
+			}
+		}
+	}
 	@Override
 	public boolean isCellEditable(int row, int column)
 	{
