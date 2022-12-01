@@ -5,20 +5,20 @@ import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
-import classes.Asignment;
+import classes.Assignment;
 
-public class PeriodAsignModel extends DefaultTableModel{
+public class PeriodAssignModel extends DefaultTableModel{
 	String object[];
 	
-	public PeriodAsignModel(){
+	public PeriodAssignModel(){
 		super();
 	}
 	
-	public void refresh(ArrayList<Asignment> list){
+	public void refresh(ArrayList<Assignment> list){
 		object = new String[4];
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
-		for(Asignment asign:list){
+		for(Assignment asign:list){
 			object[0] = df.format(asign.getDay());
 			object[1] = asign.getSchedule().getSchedule();
 			object[2] = asign.getPersonOnWatch().getName();

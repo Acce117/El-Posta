@@ -22,7 +22,7 @@ import javax.swing.JTable;
 
 import classes.ClassPeriod;
 import classes.VacationPeriod;
-import utils.PeriodAsignModel;
+import utils.PeriodAssignModel;
 import utils.PersonTableModel;
 
 import java.awt.Toolkit;
@@ -41,13 +41,13 @@ public class PeriodAsignmentList extends JDialog {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private PeriodAsignModel periodAsignModel;
+	private PeriodAssignModel periodAsignModel;
 	private ClassPeriod classPeriod;
 	private VacationPeriod vacationPeriod;
 	private JPanel panel_1;
 	private JComboBox comboBox;
 	private JTextField textField;
-	private TableRowSorter<PeriodAsignModel> tr;
+	private TableRowSorter<PeriodAssignModel> tr;
 	private JSeparator separator;
 	/**
 	 * Create the dialog.
@@ -109,9 +109,9 @@ public class PeriodAsignmentList extends JDialog {
 		return table;
 	}
 	
-	private PeriodAsignModel getPeriodAsignModel(){
+	private PeriodAssignModel getPeriodAsignModel(){
 		if(periodAsignModel == null){
-			periodAsignModel = new PeriodAsignModel();
+			periodAsignModel = new PeriodAssignModel();
 			periodAsignModel.addColumn("Fecha");
 			periodAsignModel.addColumn("Turno");
 			periodAsignModel.addColumn("Nombre");

@@ -80,7 +80,7 @@ public class VacationPeriod extends PlanningPeriod
 		
 		if(can)
 		{
-			Asignment actualAsignment;
+			Assignment actualAsignment;
 			for(int i = 0; i < asignments.size() && can; i++)
 			{
 				actualAsignment = asignments.get(i);								
@@ -98,7 +98,7 @@ public class VacationPeriod extends PlanningPeriod
 	{
 		if(actualPerson != null && actualDate != null)
 		{
-			asignments.add(new Asignment(actualPerson,actualDate,schedule));
+			asignments.add(new Assignment(actualPerson,actualDate,schedule));
 		}
 	}
 	

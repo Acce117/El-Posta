@@ -4,7 +4,7 @@ import java.util.Date;
 
 import classes.Person;
 
-public class AsignmentValidator 
+public class AssignmentValidator 
 {
     private static boolean validateSchedule(String schedule)
     {

@@ -72,7 +72,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
     @Override
     public void match(Person person, Date date, Schedule schedule){
-    	Asignment asignment = new Asignment(person, date, schedule);
+    	Assignment asignment = new Assignment(person, date, schedule);
     	asignments.add(asignment);
     }
     
@@ -133,7 +133,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	for(int i = index; i < workers.size() && !check; i++){
     		aux = workers.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayWorker != aux){
-    			//aux = workers.get(0);
 				match(aux, day, schedule);
 				if(lastPersonHolidayWorker == lastPersonHolidayWorker1)
 					lastPersonHolidayWorker1 = workers.get(i);
@@ -143,7 +142,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
-    			//aux = workers.get(0);
     			match(aux, day, schedule);
 				check = true;
     		}
