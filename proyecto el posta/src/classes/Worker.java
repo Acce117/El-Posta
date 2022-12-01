@@ -56,7 +56,7 @@ public class Worker extends Person{
 	@Override
 	public boolean isActive() 
 	{
-		return ((actualState instanceof StatesWorkerWithComebackDate) &&(actualState == StatesWorker.ACTIVE));
+		return ((actualState instanceof StatesWorker) &&(actualState == StatesWorker.ACTIVE));
 	}
 
 	@Override

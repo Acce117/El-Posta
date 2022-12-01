@@ -37,8 +37,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
         holidays = Holiday.getInstance();
 
         split(personList);
-        organize(start, end);
-        
+        organize(start, end);  
 
     }
 
@@ -110,13 +109,13 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = femaleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayFemale != aux){
     			aux = femaleStudents.get(0);
-				match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
+				match(aux, day, Schedule.FEMALE_STUDENT_SCHEDULE);
 				lastPersonHolidayMale = femaleStudents.get(i);
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = femaleStudents.get(0);
-    			match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
+    			match(aux, day, Schedule.FEMALE_STUDENT_SCHEDULE);
 				check = true;
     		}
     	}
@@ -134,7 +133,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     	for(int i = index; i < workers.size() && !check; i++){
     		aux = workers.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayWorker != aux){
-    			aux = workers.get(0);
+    			//aux = workers.get(0);
 				match(aux, day, schedule);
 				if(lastPersonHolidayWorker == lastPersonHolidayWorker1)
 					lastPersonHolidayWorker1 = workers.get(i);
@@ -144,11 +143,11 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
-    			aux = workers.get(0);
+    			//aux = workers.get(0);
     			match(aux, day, schedule);
 				check = true;
     		}
-    		index = i;
+    		index = ++i;
     	}
     	
     	return index;
@@ -156,15 +155,18 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     
     public void organize(Date start, Date end){
 
-    	int w = 0;
+    	//int w = 0;
     	int f = 0;
     	int index = 0;
     	while(start.compareTo(end) < 0){
     		asignMaleStudent(start);
     		if(DateManager.isWeekend(start)){
     			if(!lastPersonWorker && !workers.isEmpty()){
-    				index = asignWorker(start, Schedule.WORKER_SCHEDULE_1, 0);
-    				asignWorker(start, Schedule.WORKER_SCHEDULE_1, index);
+    				index = asignWorker(start, Schedule.WORKER_SCHEDULE_1, index);
+    				index = asignWorker(start, Schedule.WORKER_SCHEDULE_2, index);
+    				if(index >= workers.size())
+    					index = 0;
+    					lastPersonWorker = !lastPersonWorker;
     			}
     			else{
     				asignFemaleStudent(start);

@@ -74,6 +74,7 @@ public class Faculty{
 		return vacationWatches;
 	}
 
+	//Reporte
 	public int countAbsent(Date start, Date end)
 	{
 		int absents = 0;
@@ -88,19 +89,34 @@ public class Faculty{
 	}
 
 	//Determina los trabajadores que hacen guardia en vacaciones
-	public ArrayList<Worker> listOfForeignerWorkers()
+	//Reporte
+	public ArrayList<Worker> listOfVacationWorkers()
 	{
-		ArrayList<Worker> foreignerWorkers = new ArrayList<>();
+		ArrayList<Worker> vacationWorkers = new ArrayList<>();
 		for(PlanningPeriod i : periods)
 		{
 			if(i instanceof VacationPeriod)
 			{
-				foreignerWorkers.addAll(((VacationPeriod)i).getWorkers());
+				vacationWorkers.addAll(((VacationPeriod)i).getWorkers());
 			}
 		}
-		return foreignerWorkers;
+		return vacationWorkers;
 	}
 
+	//Reporte
+	public ArrayList<Worker> listOfTravelWorkers(){
+		ArrayList<Worker> travelWorkers = new ArrayList<>();
+		for(Person person: people){
+			if(person instanceof Worker){
+				if(((Worker)person).getActualState() instanceof StatesWorkerWithComebackDate)
+					travelWorkers.add((Worker)person);
+			}
+		}
+		return travelWorkers;
+	}
+	
+	
+	
 	public ArrayList<Date> getListOfWatchDays(Person person)
 	{
 		ArrayList<Date> days = new ArrayList<>();
@@ -207,8 +223,6 @@ public class Faculty{
 					found = true;
 				}
 			}
-
-
 
 		return getVacationDays;
 	}

@@ -13,7 +13,7 @@ import visual.MainMenu;
 public class Main {
 
 	public static void main(String[] args) {
-		//FlatLightLaf.setup();
+		FlatLightLaf.setup();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

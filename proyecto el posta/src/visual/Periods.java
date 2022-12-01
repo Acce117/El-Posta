@@ -14,7 +14,7 @@ import java.awt.Font;
 
 import classes.ClassPeriod;
 import classes.Faculty;
-import classes.PlanningPeriod;
+
 import classes.VacationPeriod;
 
 import com.toedter.calendar.JDateChooser;
@@ -23,7 +23,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
+
 
 import java.awt.Toolkit;
 
@@ -31,7 +31,9 @@ import javax.swing.border.LineBorder;
 
 import utils.PeriodTableModel;
 import utils.PeriodValidator;
-import utils.PersonTableModel;
+
+
+
 import utils.VolunteerWorkersModel;
 
 
