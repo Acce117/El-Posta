@@ -8,6 +8,7 @@ import org.omg.PortableServer.POAManagerPackage.State;
 
 import utils.DateManager;
 import utils.PeriodValidator;
+import utils.PersonalValidator;
 import utils.Schedule;
 import utils.StatesWorker;
 import utils.TakedDay;
@@ -33,38 +34,6 @@ public class VacationPeriod extends PlanningPeriod
 		
 	}
 
-	@Override
-	public void replan(Date pointReference, Person newPerson) 
-	{
-		if(pointReference.before(start) || pointReference.after(end))
-		{
-			throw new IllegalArgumentException("La fecha no se encuentra en el periodo");
-		}
-			
-		//Buscar la persona 
-		int toFindWorkerPosition; 
-		toFindWorkerPosition = workers.indexOf(newPerson);
-		
-		if(toFindWorkerPosition != -1)
-		{
-			//Revisar el estado de la persona
-			
-			//Si no es activo se quita del listado
-			if(!workers.get(toFindWorkerPosition).isActive())
-			{
-				//Para quitar del listado tengo que ver que asignments tienen esa persona y una fecha mayor q la que doy de referencia
-				for(int i = 0; i < asignments.size(); i++)
-				{
-					if(asignments.get(i).getDay().after(pointReference) && asignments.get(i).getPersonOnWatch().equals(newPerson))
-					{
-						asignments.remove(i);
-						i--;
-					}
-				}
-			}
-			
-		}		
-	}
 
 	public ArrayList<Worker> getWorkers() 
 	{
@@ -160,6 +129,55 @@ public class VacationPeriod extends PlanningPeriod
 			
 		}
 	}
+	
+	private void delete(Date pointReferenceStart, Date pointReferenceEnd, Person newPerson)
+	{
+		//Validar las fechas
+		
+		if(DateManager.betweenDates(start, end, pointReferenceStart) || DateManager.betweenDates(start, end, pointReferenceEnd))
+		{
+			//Buscar la persona 
+			int toFindWorkerPosition; 
+			toFindWorkerPosition = workers.indexOf(newPerson);
+			//Encontrar persona
+			if(toFindWorkerPosition != -1)
+			{
+				//Revisar el estado de la persona				
+				//Si no es activo se quita del listado
+				if(!workers.get(toFindWorkerPosition).isActive())
+				{
+					//Para quitar del listado tengo que ver que asignments tienen esa persona y una fecha mayor q la que doy de referencia
+					
+					for(int i = 0; i < asignments.size(); i++)
+					{
+						Date actualDate = asignments.get(i).getDay();
+						Person actualWorker = asignments.get(i).getPersonOnWatch();
+						if(DateManager.betweenDates(pointReferenceStart, pointReferenceEnd, actualDate) && actualWorker.equals(newPerson))
+						{
+							//Borro ese asignment
+							asignments.remove(i);
+							i--;
+						}
+					}				
+				}				
+			}				
+		}
+	}
+	
+	@Override
+	public void replan(Date pointReference, Person newPerson) 
+	{
+		delete(pointReference,end,newPerson);
+	}
+
+
+	@Override
+	public void replan(Date pointReferenceStart, Date pointReferenceEnd,Person changedPerson) 
+	{		
+		delete(pointReferenceStart, pointReferenceEnd, changedPerson);
+	}
+	
+	
     
 
 }

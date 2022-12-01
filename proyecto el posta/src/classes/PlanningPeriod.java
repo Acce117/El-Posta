@@ -79,6 +79,7 @@ public abstract class PlanningPeriod {
     }
 
     public abstract void replan(Date pointReference, Person changedPerson);
+    public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
 
 }
 

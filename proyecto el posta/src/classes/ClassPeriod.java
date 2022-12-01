@@ -109,13 +109,14 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
     		aux = femaleStudents.get(i);
     		if(holidays.isHoliday(day) && lastPersonHolidayFemale != aux){
     			aux = femaleStudents.get(0);
-				match(aux, day, Schedule.FEMALE_STUDENT_SCHEDULE);
+				match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
+
 				lastPersonHolidayMale = femaleStudents.get(i);
 				check = true;
     		}
     		else if(!holidays.isHoliday(day)){
     			aux = femaleStudents.get(0);
-    			match(aux, day, Schedule.FEMALE_STUDENT_SCHEDULE);
+    			match(aux, day, Schedule.MALE_STUDENT_SCHEDULE);
 				check = true;
     		}
     	}
@@ -183,5 +184,11 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		organize(pointReference, end);
 		
 	}
+	
+	public void replan(Date pointReferenceStart, Date pointReferenceEnd, Person personToChange)
+	{
+		organize(pointReferenceStart,pointReferenceEnd);
+	}
+	
 
 }

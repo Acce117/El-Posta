@@ -83,7 +83,7 @@ public class PeriodAsignmentList extends JDialog {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBackground(Color.WHITE);
-			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Turnos de guardia", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.BOLD, 14), null));
+			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Turnos de guardia", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panel.setBounds(10, 78, 464, 322);
 			panel.setLayout(new CardLayout(0, 0));
 			panel.add(getScrollPane(), "name_11768917792600");
@@ -102,8 +102,7 @@ public class PeriodAsignmentList extends JDialog {
 			table = new JTable();
 			table.setModel(getPeriodAsignModel());
 			table.setFillsViewportHeight(true);
-			table.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
-			table.getTableHeader().setFont(new Font("Book Antiqua", Font.PLAIN, 11));
+			table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			table.getTableHeader().setReorderingAllowed(false);
 		}
 		return table;
@@ -127,7 +126,7 @@ public class PeriodAsignmentList extends JDialog {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 			panel_1.setBackground(Color.WHITE);
-			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Buscar por", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.BOLD, 14), new Color(0, 0, 0)));
+			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Buscar por", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(10, 11, 464, 56);
 			panel_1.setLayout(null);
 			panel_1.add(getComboBox());
@@ -140,9 +139,8 @@ public class PeriodAsignmentList extends JDialog {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
 			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Dia", "Turno", "Nombre", "Hecha"}));
-			comboBox.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
-			comboBox.setBounds(93, 25, 118, 20);
-			comboBox.setBorder(null);
+			comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			comboBox.setBounds(93, 25, 81, 20);
 			comboBox.setBackground(Color.WHITE);
 			comboBox.setSelectedIndex(2);
 		}
@@ -151,7 +149,7 @@ public class PeriodAsignmentList extends JDialog {
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField();
-			textField.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
+			textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			textField.setBorder(null);
 			textField.addKeyListener(new KeyAdapter() {
 				@Override
