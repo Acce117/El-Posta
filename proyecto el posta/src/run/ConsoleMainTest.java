@@ -6,7 +6,7 @@ import java.util.Date;
 
 import utils.Genre;
 import utils.StatesStudent;
-import classes.Asignment;
+import classes.Assignment;
 import classes.Faculty;
 import classes.PlanningPeriod;
 import classes.Student;
@@ -22,10 +22,10 @@ public class ConsoleMainTest {
 		Date p = new Date("12/24/2022");
 		fac.planningClassPeriod(d,p);
 		System.out.println("Ya planifique\n\n\n\n");
-		ArrayList<Asignment> a = fac.getClassPeriods().get(0).getAsignments();
+		ArrayList<Assignment> a = (ArrayList<Assignment>) fac.getClassPeriods().get(0).getAsignments();
 		
 		System.out.println("Asi quedo\n\n\n\n");
-		for(Asignment b: a)
+		for(Assignment b: a)
 		{
 			System.out.println(b.getPersonOnWatch().getName() + " " + b.getDay());						
 		}
@@ -33,7 +33,7 @@ public class ConsoleMainTest {
 		Student q = fac.getStudents().get(0);
 		q.setActualState(StatesStudent.LICENCE, new Date("12/10/2022"));
 		System.out.println("Ya modifique\n\n\n\n");
-		for(Asignment b: a)
+		for(Assignment b: a)
 		{
 			System.out.println(b.getPersonOnWatch().getName() + " " + b.getDay());						
 		}

@@ -54,7 +54,8 @@ public class AbsentAmount extends JDialog {
 	private JPanel panel_2;
 	private JScrollPane scrollPane_2;
 	private JTable table_2;
-	private PeriodTableModel periodTableModel;
+	private PeriodTableModel classModel;
+	private PeriodTableModel vacationModel;
 	/**
 	 * Create the dialog.
 	 */
@@ -151,17 +152,21 @@ public class AbsentAmount extends JDialog {
 	private JTable getTable_1() {
 		if (table_1 == null) {
 			table_1 = new JTable();
-			table_1.setModel(getPeriodTableModel());
+			table_1.setModel(getClassModel());
 			table_1.setFillsViewportHeight(true);
 		}
 		return table_1;
 	}
-	private PeriodTableModel getPeriodTableModel() {
-		if(periodTableModel == null){
-			periodTableModel = new PeriodTableModel();
-			periodTableModel.refreshClassPeriod(Faculty.getInstance().getClassPeriods());
+	private PeriodTableModel getClassModel() {
+		if(classModel == null){
+			classModel = new PeriodTableModel();
+			classModel.setRowCount(0);
+			classModel.addColumn("No");
+			classModel.addColumn("Fecha inicio");
+			classModel.addColumn("Fecha fin");
+			classModel.refreshClassPeriod(Faculty.getInstance().getClassPeriods());
 		}
-		return null;
+		return classModel;
 	}
 	private JTabbedPane getTabbedPane() {
 		if (tabbedPane == null) {
@@ -175,7 +180,7 @@ public class AbsentAmount extends JDialog {
 	private JPanel getPanel_2() {
 		if (panel_2 == null) {
 			panel_2 = new JPanel();
-			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lista de peridos vacacionales", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lista de periodos vacacionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_2.setLayout(new CardLayout(0, 0));
 			panel_2.add(getScrollPane_2(), "name_189871109574800");
 		}
@@ -191,8 +196,21 @@ public class AbsentAmount extends JDialog {
 	private JTable getTable_2() {
 		if (table_2 == null) {
 			table_2 = new JTable();
+			table_2.setModel(getVacationModel());
 			table_2.setFillsViewportHeight(true);
 		}
 		return table_2;
+	}
+	
+	private PeriodTableModel getVacationModel() {
+		if(vacationModel == null){
+			vacationModel = new PeriodTableModel();
+			vacationModel.setRowCount(0);
+			vacationModel.addColumn("No");
+			vacationModel.addColumn("Fecha inicio");
+			vacationModel.addColumn("Fecha fin");
+			vacationModel.refreshVacationPeriod(Faculty.getInstance().getVacationPeriods());
+		}
+		return vacationModel;
 	}
 }
