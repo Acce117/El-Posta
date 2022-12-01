@@ -21,8 +21,8 @@ public class PeriodAsignModel extends DefaultTableModel{
 		for(Asignment asign:list){
 			object[0] = df.format(asign.getDay());
 			object[1] = asign.getSchedule().getSchedule();
-			object[2] = asign.getPersonOnWatch().getName();
-			object[3] = "No";
+			object[2] = asign.getPersonOnWatch().getName() + " " + asign.getPersonOnWatch().getLastName();
+			object[3] = (asign.isDone())? "SI" : "NO";
 			
 			addRow(object);
 		}

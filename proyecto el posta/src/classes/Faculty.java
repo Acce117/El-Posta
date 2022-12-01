@@ -126,16 +126,25 @@ public class Faculty{
 			days.addAll(i.getDays(person));
 		}
 		return days;
-	}    
+	}
+
+	
+	private void addPerson(Person toAdd)
+	{
+		Person newPerson = toAdd;
+		Observer observe = new StateObserver(newPerson);
+		people.add(newPerson);
+	}
 
 	public void addStudent(String id, String name, String lastName, Genre sex, StatesStudent state)
 	{
-		people.add(new Student(id, name, lastName, sex, state));
+		addPerson(new Student(id, name, lastName, sex, state));
+		
 	}
 
 	public void addWorker(String id, String name, String lastName, Genre sex, GeneralState state, Date day)
 	{
-		people.add(new Worker(id, name, lastName, sex, state, day));
+		addPerson(new Worker(id, name, lastName, sex, state, day));
 	}
 	
 	public void replan(Date pointReferenceStart, Date pointReferenceEnd, Person observer)

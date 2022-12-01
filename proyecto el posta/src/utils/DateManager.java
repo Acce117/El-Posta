@@ -17,7 +17,7 @@ public class DateManager
     	cal.setTime(day);
     	int weekDay = cal.get(Calendar.DAY_OF_WEEK);
         //if(date.equals("sáb") || date.equals("dom")) 
-        if(weekDay == 7 || weekDay == 1)
+        if(weekDay == 7 || weekDay == 1) //Equivalente a sabado y domingo
     	{ 
             check = true;
         } 
