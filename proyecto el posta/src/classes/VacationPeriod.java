@@ -21,9 +21,23 @@ public class VacationPeriod extends PlanningPeriod
     {
         super(start, end);        
         workers = new ArrayList<Worker>();
+        addWorkers(datesToPlanning);
         organize(datesToPlanning);
         TakedDay.getInstance().refresher();
     }
+
+	private void addWorkers(ArrayList<WorkerWithDates> datesToPlanning) 
+	{
+		Worker actualWorker = null;
+		for(WorkerWithDates i : datesToPlanning)
+		{
+			actualWorker = i.getToAsignWorker();
+			if(workers.indexOf(actualWorker) == -1)
+			{
+				workers.add(actualWorker);
+			}
+		}
+	}
 
 	private void organize(ArrayList<WorkerWithDates> datesToPlanning) 
 	{
@@ -130,6 +144,26 @@ public class VacationPeriod extends PlanningPeriod
 		}
 	}
 	
+	private Worker searchWorker(Person newPerson)
+	{
+		Worker toSearch = null;
+		
+		if(newPerson instanceof Worker)
+		{
+			boolean find = false;
+			for(int i = 0; i < workers.size() && !find; i++)
+			{
+				if(workers.get(i).equals(newPerson))
+				{
+					toSearch = workers.get(i);
+					find = true;
+				}
+			}
+		}
+		
+		return toSearch;
+	}
+	
 	private void delete(Date pointReferenceStart, Date pointReferenceEnd, Person newPerson)
 	{
 		//Validar las fechas
@@ -137,14 +171,14 @@ public class VacationPeriod extends PlanningPeriod
 		if(DateManager.betweenDates(start, end, pointReferenceStart) || DateManager.betweenDates(start, end, pointReferenceEnd))
 		{
 			//Buscar la persona 
-			int toFindWorkerPosition; 
-			toFindWorkerPosition = workers.indexOf(newPerson);
+			Worker toFind = searchWorker(newPerson);
+			
 			//Encontrar persona
-			if(toFindWorkerPosition != -1)
+			if(toFind != null)
 			{
 				//Revisar el estado de la persona				
 				//Si no es activo se quita del listado
-				if(!workers.get(toFindWorkerPosition).isActive())
+				if(!toFind.isActive())
 				{
 					//Para quitar del listado tengo que ver que asignments tienen esa persona y una fecha mayor q la que doy de referencia
 					
@@ -152,6 +186,9 @@ public class VacationPeriod extends PlanningPeriod
 					{
 						Date actualDate = asignments.get(i).getDay();
 						Person actualWorker = asignments.get(i).getPersonOnWatch();
+						//Si se puede tomar esa fecha
+						//Para tomar la fecha tiene que estar despues de la fecha inicial de punto de referencia y menor que el punto la fecha final de punto de referencia
+						//Comprobar tambien que sea ese el trabajador que esta asignado
 						if(DateManager.betweenDates(pointReferenceStart, pointReferenceEnd, actualDate) && actualWorker.equals(newPerson))
 						{
 							//Borro ese asignment

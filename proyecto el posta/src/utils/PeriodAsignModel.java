@@ -3,33 +3,47 @@ package utils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import classes.Asignment;
 
 public class PeriodAsignModel extends DefaultTableModel{
-	String object[];
+	Object object[];
 	
 	public PeriodAsignModel(){
 		super();
 	}
 	
+	public void addCheckBox(int column, JTable table)
+	{
+		TableColumn tc = table.getColumnModel().getColumn(column);
+		tc.setCellEditor(table.getDefaultEditor(Boolean.class));
+		tc.setCellRenderer(table.getDefaultRenderer(Boolean.class));				
+	}
+	
+	public boolean isSelected(int row, int column, JTable table)
+	{
+		return table.getValueAt(row, column) != null;
+	}
+	
 	public void refresh(ArrayList<Asignment> list){
-		object = new String[4];
+		object = new Object[4];
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
 		for(Asignment asign:list){
 			object[0] = df.format(asign.getDay());
 			object[1] = asign.getSchedule().getSchedule();
 			object[2] = asign.getPersonOnWatch().getName() + " " + asign.getPersonOnWatch().getLastName();
-			object[3] = (asign.isDone())? "SI" : "NO";
-			
+			object[3] = asign.isDone();
 			addRow(object);
 		}
 	}
 	@Override
 	public boolean isCellEditable(int row, int column)
 	{
-		return false;
+		return column == 3;
 	}
 }

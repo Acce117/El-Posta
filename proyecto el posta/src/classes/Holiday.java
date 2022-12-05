@@ -10,6 +10,7 @@ public class Holiday{
     private Holiday(){
         this.daysList = new ArrayList<>();
         daysList.add(new Date("12/24/2022"));
+        daysList.add(new Date("12/31/2022"));
     }
 
     public boolean isHoliday(Date day){

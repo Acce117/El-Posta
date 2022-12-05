@@ -32,7 +32,7 @@ public class DateManager
     
     public static boolean betweenDates(Date start, Date end, Date middle)
     {
-    	return ((sameDate(start,middle) || middle.after(start)) && (sameDate(middle, end) || middle.before(end)));
+    	return ((sameDate(start,middle) || middle.after(start)) && (sameDate(middle,end) || middle.before(end)));
     }
     
     

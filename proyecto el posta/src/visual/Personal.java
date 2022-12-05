@@ -36,6 +36,8 @@ import utils.StatesWorkerWithComebackDate;
 
 
 
+
+
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
@@ -69,6 +71,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JCheckBox;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.InputMethodListener;
@@ -89,19 +92,15 @@ public class Personal extends JDialog {
 	private JTextField studentName;
 	private JTextField studentLastName;
 	private JTextField studentID;
-	private JTextField studentSecLastName;
-	private JLabel lblSecLastName;
 	private JRadioButton studentFemale;
 	private JRadioButton studentMale;
 	private ButtonGroup studentsGroupFyM;
 	private ButtonGroup workersGroupFyM;
 	private JLabel lblWorkerLastName;
 	private JTextField workerName;
-	private JLabel lblworkerSecLastName;
 	private JTextField workerLastName;
 	private JLabel lblWorkerName;
 	private JLabel lblWorkerID;
-	private JTextField workerSecLastName;
 	private JTextField workerID;
 	private JComboBox<Object> workerState;
 	private JComboBox<Object> studentState;
@@ -130,13 +129,11 @@ public class Personal extends JDialog {
 	private static PersonTableModel workerModel;
 	private JSeparator separator;
 	private JSeparator separator_1;
-	private JSeparator separator_2;
 	private JSeparator separator_3;
 	
 	private final Color backgroundColor;
 	private JSeparator separator_4;
 	private JSeparator separator_5;
-	private JSeparator separator_6;
 	private JSeparator separator_7;
 	private JPanel panel;
 	private JButton button;
@@ -151,7 +148,7 @@ public class Personal extends JDialog {
 		backgroundColor = getBackground();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
 		setTitle("Gesti\u00F3n del personal");
-		setBounds(100, 100, 740, 470);
+		setBounds(100, 100, 740, 443);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		getContentPane().add(getTabbedPane());
@@ -204,7 +201,7 @@ public class Personal extends JDialog {
 	}
 	private JLabel getLblLastName() {
 		if (lblLastName == null) {
-			lblLastName = new JLabel("1er apellido:");
+			lblLastName = new JLabel("Apellidos:");
 			lblLastName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblLastName.setBounds(20, 76, 86, 14);
 			lblLastName.setHorizontalAlignment(SwingConstants.LEFT);
@@ -215,7 +212,7 @@ public class Personal extends JDialog {
 		if (lblStudentID == null) {
 			lblStudentID = new JLabel("CI:");
 			lblStudentID.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblStudentID.setBounds(20, 170, 71, 14);
+			lblStudentID.setBounds(20, 130, 59, 14);
 			lblStudentID.setHorizontalAlignment(SwingConstants.LEFT);
 		}
 		return lblStudentID;
@@ -249,7 +246,7 @@ public class Personal extends JDialog {
 			studentID = new JTextField();
 			studentID.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			studentID.setBackground(backgroundColor);
-			studentID.setBounds(20, 188, 200, 20);
+			studentID.setBounds(20, 148, 200, 20);
 			studentID.setHorizontalAlignment(SwingConstants.LEFT);
 			studentID.setColumns(10);
 			studentID.setBorder(null);
@@ -257,32 +254,11 @@ public class Personal extends JDialog {
 		}
 		return studentID;
 	}
-	private JTextField getStudentSecLastName() {
-		if (studentSecLastName == null) {
-			studentSecLastName = new JTextField();
-			studentSecLastName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			studentSecLastName.setBackground(backgroundColor);
-			studentSecLastName.setBounds(20, 140, 200, 20);
-			studentSecLastName.setHorizontalAlignment(SwingConstants.LEFT);
-			studentSecLastName.setColumns(10);
-			studentSecLastName.setBorder(null);
-		}
-		return studentSecLastName;
-	}
-	private JLabel getLblSecLastName() {
-		if (lblSecLastName == null) {
-			lblSecLastName = new JLabel("2do apellido:");
-			lblSecLastName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblSecLastName.setBounds(20, 122, 86, 14);
-			lblSecLastName.setHorizontalAlignment(SwingConstants.LEFT);
-		}
-		return lblSecLastName;
-	}
 	private JRadioButton getStudentFemale() {
 		if (studentFemale == null) {
 			studentFemale = new JRadioButton("Femenina");
 			studentFemale.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			studentFemale.setBounds(20, 215, 86, 23);
+			studentFemale.setBounds(20, 180, 86, 23);
 			studentFemale.setBackground(backgroundColor);
 		}
 		return studentFemale;
@@ -291,7 +267,7 @@ public class Personal extends JDialog {
 		if (studentMale == null) {
 			studentMale = new JRadioButton("Masculino");
 			studentMale.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			studentMale.setBounds(110, 215, 95, 23);
+			studentMale.setBounds(107, 180, 95, 23);
 			studentMale.setBackground(backgroundColor);
 		}
 		return studentMale;
@@ -315,7 +291,7 @@ public class Personal extends JDialog {
 	}
 	private JLabel getLblWorkerLastName() {
 		if (lblWorkerLastName == null) {
-			lblWorkerLastName = new JLabel("1er apellido:");
+			lblWorkerLastName = new JLabel("Apellidos:");
 			lblWorkerLastName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblWorkerLastName.setBounds(20, 76, 86, 14);
 			lblWorkerLastName.setHorizontalAlignment(SwingConstants.LEFT);
@@ -332,15 +308,6 @@ public class Personal extends JDialog {
 			workerName.setBackground(backgroundColor);
 		}
 		return workerName;
-	}
-	private JLabel getLblworkerSecLastName() {
-		if (lblworkerSecLastName == null) {
-			lblworkerSecLastName = new JLabel("2do apellido:");
-			lblworkerSecLastName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblworkerSecLastName.setBounds(20, 122, 86, 14);
-			lblworkerSecLastName.setHorizontalAlignment(SwingConstants.LEFT);
-		}
-		return lblworkerSecLastName;
 	}
 	private JTextField getWorkerLastName() {
 		if (workerLastName == null) {
@@ -366,27 +333,16 @@ public class Personal extends JDialog {
 		if (lblWorkerID == null) {
 			lblWorkerID = new JLabel("CI:");
 			lblWorkerID.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblWorkerID.setBounds(20, 170, 59, 14);
+			lblWorkerID.setBounds(20, 130, 59, 14);
 			lblWorkerID.setHorizontalAlignment(SwingConstants.LEFT);
 		}
 		return lblWorkerID;
-	}
-	private JTextField getWorkerSecLastName() {
-		if (workerSecLastName == null) {
-			workerSecLastName = new JTextField();
-			workerSecLastName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			workerSecLastName.setBounds(20, 140, 200, 20);
-			workerSecLastName.setColumns(10);
-			workerSecLastName.setBorder(null);
-			workerSecLastName.setBackground(backgroundColor);
-		}
-		return workerSecLastName;
 	}
 	private JTextField getWorkerID() {
 		if (workerID == null) {
 			workerID = new JTextField();
 			workerID.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			workerID.setBounds(20, 188, 200, 20);
+			workerID.setBounds(20, 148, 200, 20);
 			workerID.setColumns(10);
 			workerID.setBorder(null);
 			workerID.setBackground(backgroundColor);;
@@ -408,7 +364,7 @@ public class Personal extends JDialog {
 					}
 				}
 			});
-			workerState.setBounds(20, 263, 200, 20);
+			workerState.setBounds(20, 235, 200, 20);
 			//Converti el arreglo de enums a String
 			ArrayList<GeneralState> list = new ArrayList<>();
 			
@@ -439,7 +395,7 @@ public class Personal extends JDialog {
 		if (studentState == null) {
 			studentState = new JComboBox<Object>();
 			studentState.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			studentState.setBounds(20, 263, 200, 20);
+			studentState.setBounds(20, 235, 200, 20);
 			//Converti el arreglo de enums a String			
 			StatesStudent list[] = StatesStudent.values();			
 			String listShow[] = new String[list.length];
@@ -458,7 +414,7 @@ public class Personal extends JDialog {
 		if (studentListPanel == null) {
 			studentListPanel = new JPanel();
 			studentListPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de estudiantes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			studentListPanel.setBounds(270, 10, 450, 325);
+			studentListPanel.setBounds(270, 10, 450, 297);
 			studentListPanel.setLayout(new CardLayout(0, 0));
 			studentListPanel.add(getScrollPane(), "name_1304743514853800");
 			studentListPanel.setBackground(backgroundColor);
@@ -508,7 +464,6 @@ public class Personal extends JDialog {
 	{
 		studentName.setText("");
 		studentLastName.setText("");
-		studentSecLastName.setText("");
 		studentID.setText("");
 		studentsGroupFyM.clearSelection();
 		studentState.setSelectedIndex(-1);
@@ -519,7 +474,6 @@ public class Personal extends JDialog {
 	{
 		workerName.setText("");
 		workerLastName.setText("");
-		workerSecLastName.setText("");
 		workerID.setText("");
 		workerState.setSelectedIndex(-1);		
 		workerFemale.setSelected(false);
@@ -541,7 +495,6 @@ public class Personal extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					String name = null;
 					String lastName = null;
-					String secLastName = null;
 					String id = null;
 					Genre sex = null;
 					StatesStudent state = null;
@@ -549,13 +502,11 @@ public class Personal extends JDialog {
 					try{
 						name = studentName.getText();
 						lastName = studentLastName.getText();
-						secLastName = studentSecLastName.getText();
 						id = studentID.getText();
 						
 						
 						PersonalValidator.checkName(name);
 						PersonalValidator.checkName(lastName);
-						PersonalValidator.checkName(secLastName);
 						
 						sex = PersonalValidator.checkSex(studentMale, studentFemale);
 						PersonalValidator.checkID(id, sex);	
@@ -577,16 +528,16 @@ public class Personal extends JDialog {
 						
 						
 						//name = name + " " + lastName + " " + secLastName;
-						lastName+= " " + secLastName;
 						faculty.addStudent(id, name, lastName, sex, state);
 						studentModel.refreshStudent(faculty.getStudents());
 						clearStudent();
 					}catch(Exception error){
+						error.printStackTrace();
 						JOptionPane.showMessageDialog(null, error.getMessage());
 					}
 				}
 			});
-			newStudent.setBounds(135, 343, 85, 23);
+			newStudent.setBounds(135, 316, 85, 23);
 		}
 		return newStudent;
 	}
@@ -596,7 +547,7 @@ public class Personal extends JDialog {
 		if (newStudentPanel == null) {
 			newStudentPanel = new JPanel();
 			newStudentPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo estudiante", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			newStudentPanel.setBounds(10, 10, 240, 377);
+			newStudentPanel.setBounds(10, 10, 240, 353);
 			newStudentPanel.setLayout(null);
 			newStudentPanel.add(getLblStudentName());
 			newStudentPanel.add(getLblLastName());
@@ -604,8 +555,6 @@ public class Personal extends JDialog {
 			newStudentPanel.add(getStudentName());
 			newStudentPanel.add(getStudentLastName());
 			newStudentPanel.add(getStudentID());
-			newStudentPanel.add(getStudentSecLastName());
-			newStudentPanel.add(getLblSecLastName());
 			newStudentPanel.add(getStudentFemale());
 			newStudentPanel.add(getStudentMale());
 			newStudentPanel.add(getStudentState());
@@ -613,7 +562,6 @@ public class Personal extends JDialog {
 			newStudentPanel.add(getLblStudentState());
 			newStudentPanel.add(getSeparator());
 			newStudentPanel.add(getSeparator_1());
-			newStudentPanel.add(getSeparator_2());
 			newStudentPanel.add(getSeparator_3());
 			newStudentPanel.setBackground(backgroundColor);
 		}
@@ -623,7 +571,7 @@ public class Personal extends JDialog {
 		if (lblStudentState == null) {
 			lblStudentState = new JLabel("Estado:");
 			lblStudentState.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblStudentState.setBounds(20, 245, 56, 14);
+			lblStudentState.setBounds(20, 210, 59, 14);
 		}
 		return lblStudentState;
 	}
@@ -631,15 +579,13 @@ public class Personal extends JDialog {
 		if (newWorkerPanel == null) {
 			newWorkerPanel = new JPanel();
 			newWorkerPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Nuevo trabajador", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			newWorkerPanel.setBounds(10, 10, 240, 377);
+			newWorkerPanel.setBounds(10, 10, 240, 353);
 			newWorkerPanel.setLayout(null);
 			newWorkerPanel.add(getLblWorkerLastName());
 			newWorkerPanel.add(getWorkerName());
-			newWorkerPanel.add(getLblworkerSecLastName());
 			newWorkerPanel.add(getWorkerLastName());
 			newWorkerPanel.add(getLblWorkerName());
 			newWorkerPanel.add(getLblWorkerID());
-			newWorkerPanel.add(getWorkerSecLastName());
 			newWorkerPanel.add(getWorkerID());
 			newWorkerPanel.add(getWorkerState());
 			newWorkerPanel.add(getLblWorkerState());
@@ -651,7 +597,6 @@ public class Personal extends JDialog {
 			newWorkerPanel.setBackground(backgroundColor);
 			newWorkerPanel.add(getSeparator_4_1());
 			newWorkerPanel.add(getSeparator_5());
-			newWorkerPanel.add(getSeparator_6());
 			newWorkerPanel.add(getSeparator_7());
 		}
 		return newWorkerPanel;
@@ -660,7 +605,7 @@ public class Personal extends JDialog {
 		if (lblWorkerState == null) {
 			lblWorkerState = new JLabel("Estado:");
 			lblWorkerState.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblWorkerState.setBounds(20, 245, 59, 14);
+			lblWorkerState.setBounds(20, 210, 59, 14);
 		}
 		return lblWorkerState;
 	}
@@ -668,7 +613,7 @@ public class Personal extends JDialog {
 		if (workerFemale == null) {
 			workerFemale = new JRadioButton("Femenina");
 			workerFemale.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			workerFemale.setBounds(20, 215, 86, 23);
+			workerFemale.setBounds(20, 180, 86, 23);
 			workerFemale.setBackground(backgroundColor);
 		}
 		return workerFemale;
@@ -677,7 +622,7 @@ public class Personal extends JDialog {
 		if (workerMale == null) {
 			workerMale = new JRadioButton("Masculino");
 			workerMale.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			workerMale.setBounds(110, 215, 95, 23);
+			workerMale.setBounds(107, 180, 95, 23);
 			workerMale.setBackground(backgroundColor);
 		}
 		return workerMale;
@@ -685,13 +630,12 @@ public class Personal extends JDialog {
 	private JButton getNewWorker() {
 		if (newWorker == null) {
 			newWorker = new JButton("Agregar");
-			newWorker.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			newWorker.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			newWorker.setBackground(Color.WHITE);
 			newWorker.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String name = null;
 					String lastName = null;
-					String secLastName = null;
 					String id = null;
 					Genre sex = null;
 					GeneralState state = null;
@@ -700,13 +644,11 @@ public class Personal extends JDialog {
 					try{
 						name = workerName.getText();
 						lastName = workerLastName.getText();
-						secLastName = workerSecLastName.getText();
 						id = workerID.getText();
 						sex = PersonalValidator.checkSex(workerMale, workerFemale);
 						
 						PersonalValidator.checkName(name);
 						PersonalValidator.checkName(lastName);
-						PersonalValidator.checkName(secLastName);
 						
 						PersonalValidator.checkID(id, sex);	
 						
@@ -733,9 +675,12 @@ public class Personal extends JDialog {
 						}
 						
 						//name = name + " " + lastName + " " + secLastName;
-						lastName+= " " + secLastName;
 						//faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
-						faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
+						if(comeBackDate!=null)
+							faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
+						else
+							faculty.addWorker(id, name, lastName, sex, state);
+						
 						workerModel.refreshWorker(faculty.getWorkers());
 						clearWorker();
 					}catch(Exception error){
@@ -743,7 +688,7 @@ public class Personal extends JDialog {
 					}
 				}
 			});
-			newWorker.setBounds(135, 343, 85, 23);
+			newWorker.setBounds(135, 316, 85, 23);
 		}
 		return newWorker;
 	}
@@ -751,7 +696,7 @@ public class Personal extends JDialog {
 		if (workerListPanel == null) {
 			workerListPanel = new JPanel();
 			workerListPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lista de trabajadores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			workerListPanel.setBounds(270, 10, 450, 325);
+			workerListPanel.setBounds(270, 10, 450, 297);
 			workerListPanel.setLayout(new CardLayout(0, 0));
 			workerListPanel.add(getScrollPane_1_1(), "name_1304922936460400");
 			workerListPanel.setBackground(backgroundColor);
@@ -802,7 +747,18 @@ public class Personal extends JDialog {
 	private JButton getBtnEliminar() {
 		if (btnEliminar == null) {
 			btnEliminar = new JButton("Eliminar");
-			btnEliminar.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			btnEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					int index =	workerListTable.getSelectedRow();
+					Faculty fac = Faculty.getInstance();
+					PersonTableModel model = getWorkerModel();
+					String s = (String) model.getValueAt(index, 0);
+					fac.removePerson(s);
+					workerModel.refreshWorker(fac.getWorkers());
+				}
+			});
+			btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnEliminar.setBackground(Color.WHITE);
 			btnEliminar.setBounds(248, 11, 91, 23);
 		}
@@ -811,9 +767,17 @@ public class Personal extends JDialog {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Editar");
-			btnNewButton.setFont(new Font("Book Antiqua", Font.BOLD, 14));
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int index = workerListTable.getSelectedRow();
+					if(index != -1){
+						EditWorker window = new EditWorker(Faculty.getInstance().getWorkers().get(index),workerModel);
+						window.setVisible(true);
+					}
+				}
+			});
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnNewButton.setBackground(Color.WHITE);
-			btnNewButton.setEnabled(false);
 			btnNewButton.setBounds(147, 11, 91, 23);
 		}
 		return btnNewButton;
@@ -823,7 +787,7 @@ public class Personal extends JDialog {
 			comeBackDateChooser = new JDateChooser();
 
 			comeBackDateChooser.setEnabled(false);
-			comeBackDateChooser.setBounds(20, 311, 200, 20);
+			comeBackDateChooser.setBounds(20, 284, 200, 20);
 			comeBackDateChooser.setBackground(backgroundColor);
 			comeBackDateChooser.setBorder(null);
 			comeBackDateChooser.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -837,7 +801,7 @@ public class Personal extends JDialog {
 		if (lblcomeBackDate == null) {
 			lblcomeBackDate = new JLabel("D\u00EDa de retorno");
 			lblcomeBackDate.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblcomeBackDate.setBounds(20, 293, 99, 14);
+			lblcomeBackDate.setBounds(20, 266, 99, 14);
 		}
 		return lblcomeBackDate;
 	}
@@ -845,7 +809,7 @@ public class Personal extends JDialog {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 			panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel_1.setBounds(270, 340, 450, 45);
+			panel_1.setBounds(270, 318, 450, 41);
 			panel_1.setLayout(null);
 			panel_1.add(getBtnNewButton());
 			panel_1.add(getBtnEliminar());
@@ -858,7 +822,7 @@ public class Personal extends JDialog {
 	private JButton getBtnCancelar_1() {
 		if (btnCancelar_1 == null) {
 			btnCancelar_1 = new JButton("Cancelar");
-			btnCancelar_1.setFont(new Font("Book Antiqua", Font.BOLD, 13));
+			btnCancelar_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnCancelar_1.setBackground(Color.WHITE);
 			btnCancelar_1.setBounds(349, 11, 91, 23);
 		}
@@ -882,20 +846,11 @@ public class Personal extends JDialog {
 		}
 		return separator_1;
 	}
-	private JSeparator getSeparator_2() {
-		if (separator_2 == null) {
-			separator_2 = new JSeparator();
-			separator_2.setForeground(Color.BLACK);
-			separator_2.setBounds(20, 164, 200, 2);
-			separator_2.setBackground(backgroundColor);
-		}
-		return separator_2;
-	}
 	private JSeparator getSeparator_3() {
 		if (separator_3 == null) {
 			separator_3 = new JSeparator();
 			separator_3.setForeground(Color.BLACK);
-			separator_3.setBounds(20, 211, 200, 2);
+			separator_3.setBounds(20, 171, 200, 2);
 			separator_3.setBackground(backgroundColor);
 		}
 		return separator_3;
@@ -918,21 +873,12 @@ public class Personal extends JDialog {
 		}
 		return separator_5;
 	}
-	private JSeparator getSeparator_6() {
-		if (separator_6 == null) {
-			separator_6 = new JSeparator();
-			separator_6.setForeground(Color.BLACK);
-			separator_6.setBackground(SystemColor.menu);
-			separator_6.setBounds(20, 164, 200, 2);
-		}
-		return separator_6;
-	}
 	private JSeparator getSeparator_7() {
 		if (separator_7 == null) {
 			separator_7 = new JSeparator();
 			separator_7.setForeground(Color.BLACK);
 			separator_7.setBackground(SystemColor.menu);
-			separator_7.setBounds(20, 211, 200, 2);
+			separator_7.setBounds(20, 171, 200, 2);
 		}
 		return separator_7;
 	}
@@ -942,7 +888,7 @@ public class Personal extends JDialog {
 			panel.setLayout(null);
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel.setBackground(Color.WHITE);
-			panel.setBounds(270, 340, 450, 45);
+			panel.setBounds(270, 318, 450, 41);
 			panel.add(getButton());
 			panel.add(getButton_1());
 			panel.add(getButton_2());
@@ -952,8 +898,16 @@ public class Personal extends JDialog {
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("Editar");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int index = studentListTable.getSelectedRow();
+					if(index != -1){
+						EditStudent window = new EditStudent(Faculty.getInstance().getStudents().get(index),studentModel);
+						window.setVisible(true);
+					}
+				}
+			});
 			button.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			button.setEnabled(false);
 			button.setBackground(Color.WHITE);
 			button.setBounds(147, 11, 91, 23);
 		}
@@ -962,6 +916,17 @@ public class Personal extends JDialog {
 	private JButton getButton_1() {
 		if (button_1 == null) {
 			button_1 = new JButton("Eliminar");
+			button_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					int index =	studentListTable.getSelectedRow();
+					Faculty fac = Faculty.getInstance();
+					PersonTableModel model = getStudentModel();
+					String s = (String) model.getValueAt(index, 0);
+					fac.removePerson(s);
+					studentModel.refreshStudent(fac.getStudents());					
+				}
+			});
 			button_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			button_1.setBackground(Color.WHITE);
 			button_1.setBounds(248, 11, 91, 23);

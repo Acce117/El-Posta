@@ -40,7 +40,7 @@ public class Student extends Person{
 	@Override
 	public boolean canMatch(Date newDate, Schedule newSchedule) 
 	{
-		boolean check = true;
+		boolean check =  enabled(newDate);
 		
 		if(!isActive() && newSchedule != Schedule.MALE_STUDENT_SCHEDULE && sex == Genre.MALE)
 			check = false;

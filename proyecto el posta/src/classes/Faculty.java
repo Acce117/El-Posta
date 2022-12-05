@@ -108,7 +108,7 @@ public class Faculty{
 		ArrayList<Worker> travelWorkers = new ArrayList<>();
 		for(Person person: people){
 			if(person instanceof Worker){
-				if(((Worker)person).getActualState() instanceof StatesWorkerWithComebackDate)
+				if(((Worker)person).isOnTravel())
 					travelWorkers.add((Worker)person);
 			}
 		}
@@ -140,6 +140,10 @@ public class Faculty{
 	{
 		addPerson(new Student(id, name, lastName, sex, state));
 		
+	}
+	public void addWorker(String id, String name, String lastName, Genre sex, GeneralState state)
+	{
+		addPerson(new Worker(id, name, lastName, sex, state));
 	}
 
 	public void addWorker(String id, String name, String lastName, Genre sex, GeneralState state, Date day)
@@ -260,6 +264,33 @@ public class Faculty{
 			WorkerWithDates newWorkerWithDates = new WorkerWithDates(worker);			
 			newWorkerWithDates.addVacationWatch(newDate);
 			vacationWatches.add(newWorkerWithDates);
+		}
+	}
+
+	private Person findPerson(String id)
+	{
+		Person toFind = null;
+		for(int i = 0; i < people.size() && (toFind == null); i++)
+		{
+			if(people.get(i).getId().equals(id))
+			{
+				toFind = people.get(i);
+			}
+		}
+		return toFind;
+	}
+	
+	public void removePerson(String id) 
+	{
+		Person toRemove = findPerson(id);
+		if(toRemove != null)
+		{
+			int index = people.indexOf(toRemove);
+			if(toRemove instanceof Student)
+				((Student)toRemove).setActualState(StatesStudent.DROPPED_OUT, new Date());
+			else
+				((Worker)toRemove).setActualState(StatesWorker.DROPPED_OUT, new Date());
+			people.remove(index);
 		}
 	}
 
