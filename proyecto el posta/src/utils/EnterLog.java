@@ -73,7 +73,7 @@ public class EnterLog
 				{
 					//Si la fecha de entrada es null no puedo contar con la persona 
 					//desde la fecha de salida en adelante
-					check = DateManager.sameDate(exit,toAdd) || toAdd.after(exit);
+					check = !DateManager.sameDate(exit,toAdd) || toAdd.after(exit);
 				}
 				else
 				{

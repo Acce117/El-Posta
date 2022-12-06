@@ -2,8 +2,6 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
-
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,47 +9,45 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
 import classes.Faculty;
-
-import com.toedter.calendar.JDateChooser;
-
 import javax.swing.border.LineBorder;
-
 import java.awt.Color;
-
 import javax.swing.SwingConstants;
-
-import utils.PeriodValidator;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Date;
+import utils.PeriodAssignModel;
+import utils.PeriodTableModel;
+import java.awt.CardLayout;
+import javax.swing.JTabbedPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AbsentAmount extends JDialog {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel panel;
 	private JPanel panel_1;
-	private JDateChooser dateChooser;
-	private JDateChooser dateChooser_1;
-	private JLabel lblFechaInicio;
-	private JLabel lblFechaFinal;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private JButton btnMostrarAusentes;
 	private JLabel lblCantidadTotalDe;
 	private JLabel lblAnswer;
 	private final JPanel contentPanel = new JPanel();
+	private JPanel panel;
+	private JScrollPane scrollPane_1;
+	private JTable table_1;
+	private PeriodAssignModel absentModel;
+	private JTabbedPane tabbedPane;
+	private JPanel panel_2;
+	private JScrollPane scrollPane_2;
+	private JTable table_2;
+	private PeriodTableModel classModel;
+	private PeriodTableModel vacationModel;
+	
 	/**
 	 * Create the dialog.
 	 */
 	public AbsentAmount() {
 		setTitle("Cantidad de ausentes");
-		setBounds(100, 100, 680, 415);
+		setBounds(100, 100, 680, 450);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(".\\src\\img\\logo mejorado.png"));
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -59,30 +55,16 @@ public class AbsentAmount extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		contentPanel.setLayout(null);
-		contentPanel.add(getPanel());
 		contentPanel.add(getPanel_1());
+		contentPanel.add(getTabbedPane());
 		setResizable(false);
 		
-	}
-	private JPanel getPanel() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Rango de periodos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			panel.setBounds(10, 11, 653, 108);
-			panel.setLayout(null);
-			panel.add(getDateChooser());
-			panel.add(getDateChooser_1());
-			panel.add(getLblFechaInicio());
-			panel.add(getLblFechaFinal());
-			panel.add(getBtnMostrarAusentes());
-		}
-		return panel;
 	}
 	private JPanel getPanel_1() {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Listado de ausentes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			panel_1.setBounds(10, 130, 653, 235);
+			panel_1.setBounds(10, 190, 653, 205);
 			panel_1.setLayout(null);
 			panel_1.add(getScrollPane());
 			panel_1.add(getLblCantidadTotalDe());
@@ -90,88 +72,46 @@ public class AbsentAmount extends JDialog {
 		}
 		return panel_1;
 	}
-	private JDateChooser getDateChooser() {
-		if (dateChooser == null) {
-			dateChooser = new JDateChooser();
-			dateChooser.setBounds(93, 29, 230, 20);
-		}
-		return dateChooser;
-	}
-	private JDateChooser getDateChooser_1() {
-		if (dateChooser_1 == null) {
-			dateChooser_1 = new JDateChooser();
-			dateChooser_1.setBounds(400, 29, 230, 20);
-		}
-		return dateChooser_1;
-	}
-	private JLabel getLblFechaInicio() {
-		if (lblFechaInicio == null) {
-			lblFechaInicio = new JLabel("Fecha inicio:");
-			lblFechaInicio.setBounds(13, 32, 70, 14);
-		}
-		return lblFechaInicio;
-	}
-	private JLabel getLblFechaFinal() {
-		if (lblFechaFinal == null) {
-			lblFechaFinal = new JLabel("Fecha final:");
-			lblFechaFinal.setBounds(333, 32, 70, 14);
-		}
-		return lblFechaFinal;
-	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 23, 633, 159);
+			scrollPane.setBounds(10, 21, 633, 140);
 			scrollPane.setViewportView(getTable());
 		}
 		return scrollPane;
 	}
+	
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
-			table.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-				},
-				new String[] {
-					"ID", "Nombre", "Apellidos"
-				}
-			));
+			table.setModel(getAbsentModel());
 			table.getColumnModel().getColumn(0).setResizable(false);
 			table.getColumnModel().getColumn(1).setResizable(false);
 			table.getColumnModel().getColumn(2).setResizable(false);
 		}
 		return table;
 	}
-	private JButton getBtnMostrarAusentes() {
-		if (btnMostrarAusentes == null) {
-			btnMostrarAusentes = new JButton("Aceptar");
-			btnMostrarAusentes.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					Date start = dateChooser.getDate();
-					Date end = dateChooser_1.getDate();
-					PeriodValidator.checkPeriods(start, end);
-					lblAnswer.setText(Faculty.getInstance().countAbsent(start, end)+"");
-				}
-			});
-			btnMostrarAusentes.setBounds(539, 74, 91, 23);
+	
+	private PeriodAssignModel getAbsentModel(){
+		if(absentModel == null){
+			absentModel = new PeriodAssignModel();
+			absentModel.addColumn("Fecha");
+			absentModel.addColumn("Turno");
+			absentModel.addColumn("Persona");
+			if(table_1.getSelectedRow() != -1)
+				absentModel.refreshAbsents(Faculty.getInstance().getClassPeriods().get(table_1.getSelectedRow()).getAsignments());
+			else if(table_2.getSelectedRow() != -1){
+				absentModel.refreshAbsents(Faculty.getInstance().getVacationPeriods().get(table_2.getSelectedRow()).getAsignments());
+			}
 		}
-		return btnMostrarAusentes;
+		return absentModel;
 	}
+	
 	private JLabel getLblCantidadTotalDe() {
 		if (lblCantidadTotalDe == null) {
 			lblCantidadTotalDe = new JLabel("Cantidad total de ausentes: ");
 			lblCantidadTotalDe.setHorizontalAlignment(SwingConstants.CENTER);
-			lblCantidadTotalDe.setBounds(10, 203, 165, 14);
+			lblCantidadTotalDe.setBounds(10, 177, 165, 14);
 		}
 		return lblCantidadTotalDe;
 	}
@@ -180,8 +120,100 @@ public class AbsentAmount extends JDialog {
 			lblAnswer = new JLabel("");
 			lblAnswer.setHorizontalAlignment(SwingConstants.CENTER);
 			lblAnswer.setBorder(new LineBorder(Color.black, 1));
-			lblAnswer.setBounds(185, 198, 93, 24);
+			lblAnswer.setBounds(186, 172, 93, 24);
 		}
 		return lblAnswer;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lista de periodos de clases", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setLayout(new CardLayout(0, 0));
+			panel.add(getScrollPane_1(), "name_183238331445600");
+		}
+		return panel;
+	}
+	private JScrollPane getScrollPane_1() {
+		if (scrollPane_1 == null) {
+			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setViewportView(getTable_1());
+		}
+		return scrollPane_1;
+	}
+	private JTable getTable_1() {
+		if (table_1 == null) {
+			table_1 = new JTable();
+			table_1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					absentModel.refreshAbsents(Faculty.getInstance().getClassPeriods().get(table_1.getSelectedRow()).getAsignments());
+				}
+			});
+			table_1.setModel(getClassModel());
+			table_1.setFillsViewportHeight(true);
+		}
+		return table_1;
+	}
+	private PeriodTableModel getClassModel() {
+		if(classModel == null){
+			classModel = new PeriodTableModel();
+			classModel.setRowCount(0);
+			classModel.addColumn("No");
+			classModel.addColumn("Fecha inicio");
+			classModel.addColumn("Fecha fin");
+			classModel.refreshClassPeriod(Faculty.getInstance().getClassPeriods());
+		}
+		return classModel;
+	}
+	private JTabbedPane getTabbedPane() {
+		if (tabbedPane == null) {
+			tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+			tabbedPane.setBounds(10, 11, 654, 178);
+			tabbedPane.addTab("New tab", null, getPanel(), null);
+			tabbedPane.addTab("New tab", null, getPanel_2(), null);
+		}
+		return tabbedPane;
+	}
+	private JPanel getPanel_2() {
+		if (panel_2 == null) {
+			panel_2 = new JPanel();
+			panel_2.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Lista de periodos vacacionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_2.setLayout(new CardLayout(0, 0));
+			panel_2.add(getScrollPane_2(), "name_189871109574800");
+		}
+		return panel_2;
+	}
+	private JScrollPane getScrollPane_2() {
+		if (scrollPane_2 == null) {
+			scrollPane_2 = new JScrollPane();
+			scrollPane_2.setViewportView(getTable_2());
+		}
+		return scrollPane_2;
+	}
+	private JTable getTable_2() {
+		if (table_2 == null) {
+			table_2 = new JTable();
+			table_2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					absentModel.refreshAbsents(Faculty.getInstance().getVacationPeriods().get(table_2.getSelectedRow()).getAsignments());
+				}
+			});
+			table_2.setModel(getVacationModel());
+			table_2.setFillsViewportHeight(true);
+		}
+		return table_2;
+	}
+	
+	private PeriodTableModel getVacationModel() {
+		if(vacationModel == null){
+			vacationModel = new PeriodTableModel();
+			vacationModel.setRowCount(0);
+			vacationModel.addColumn("No");
+			vacationModel.addColumn("Fecha inicio");
+			vacationModel.addColumn("Fecha fin");
+			vacationModel.refreshVacationPeriod(Faculty.getInstance().getVacationPeriods());
+		}
+		return vacationModel;
 	}
 }

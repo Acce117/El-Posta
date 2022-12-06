@@ -25,8 +25,8 @@ public class PeriodTableModel extends DefaultTableModel{
 		int n = 1;
 		for(ClassPeriod s:list){
 			object[0] = n + "";
-			object[1] = df.format(s.getStart()) + "";
-			object[2] = df.format(s.getEnd()) + "";
+			object[1] = df.format(s.getStart());
+			object[2] = df.format(s.getEnd());
 			addRow(object);
 			n++;
 		}

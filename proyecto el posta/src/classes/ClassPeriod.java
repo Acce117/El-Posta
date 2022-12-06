@@ -70,12 +70,13 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
     @Override
     public void match(Person person, Date date, Schedule schedule){
-    	Asignment asignment = new Asignment(person, date, schedule);
+    	Assignment asignment = new Assignment(person, date, schedule);
     	int asignmentIndex = asignments.indexOf(asignment);
     	if(asignmentIndex == -1)
     		asignments.add(asignment);
     	else
     		asignments.set(asignmentIndex, asignment);
+
     }
     
     //Metodo de organizacion----------------------------------------------------------------------------------
@@ -257,5 +258,54 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		
 	}
 	
+	
 
+	private int ableStudent(int lastIndex, Date newDate)
+	{
+		int index = lastIndex;
+		int size = maleStudents.size();//Prueba
+		
+		for(int auxIndex = (index+1)%size; auxIndex != index; auxIndex = (auxIndex+1)%size)
+		{
+			if(maleStudents.get(auxIndex).canMatch(newDate, null))
+			{
+				index = auxIndex;
+			}
+		}
+		
+		return index;
+	}
+	
+	private int ableFemaleStudent(int lastIndex, Date newDate)
+	{
+		int index = lastIndex;
+		int size = femaleStudents.size();//Prueba
+		
+		for(int auxIndex = (index+1)%size; auxIndex != index; auxIndex = (auxIndex+1)%size)
+		{
+			if(femaleStudents.get(auxIndex).canMatch(newDate, null))
+			{
+				index = auxIndex;
+			}
+		}
+		
+		return index;
+	}
+	
+	private int ableWorker(int lastIndex, Date newDate)
+	{
+		int index = lastIndex;
+		int size = workers.size();
+		
+		for(int auxIndex = (index+1)%size; auxIndex != index; auxIndex = (auxIndex+1)%size)
+		{
+			if(workers.get(auxIndex).canMatch(newDate, null))
+			{
+				index = auxIndex;
+			}
+		}
+		
+		return index;
+	}
+	
 }

@@ -41,9 +41,9 @@ public class Faculty{
 		checkDuplicatePeriod(newClassPeriod);
 		periods.add(newClassPeriod);
 		
-		ArrayList<Asignment> a = periods.get(0).getAsignments();
+		ArrayList<Assignment> a = periods.get(0).getAsignments();
 
-		for(Asignment b: a){
+		for(Assignment b: a){
 			//System.out.println(b.getPersonOnWatch().getName());
 			System.out.println(b.getDay());
 		}
@@ -57,13 +57,13 @@ public class Faculty{
 		periods.add(newVacationPeriod);
 
 		
-		ArrayList<Asignment> a = periods.get(0).getAsignments();
+		ArrayList<Assignment> a = periods.get(0).getAsignments();
 		/*
 		  No borrar este comentario
 		  Testear con esta linea
 		  vacationWatches.clear(); 
 		*/
-		for(Asignment b: a){
+		for(Assignment b: a){
 			//System.out.println(b.getPersonOnWatch().getName());
 			System.out.println(b.getDay());
 		}
@@ -75,7 +75,7 @@ public class Faculty{
 	}
 
 	//Reporte
-	public int countAbsent(Date start, Date end)
+	/*public int countAbsent()
 	{
 		int absents = 0;
 		if(!periods.isEmpty())
@@ -86,7 +86,7 @@ public class Faculty{
 			}
 		}
 		return absents;
-	}
+	}*/
 
 	//Determina los trabajadores que hacen guardia en vacaciones
 	//Reporte
@@ -114,8 +114,6 @@ public class Faculty{
 		}
 		return travelWorkers;
 	}
-	
-	
 	
 	public ArrayList<Date> getListOfWatchDays(Person person)
 	{

@@ -35,8 +35,8 @@ public class StateObserver extends Observer
 	
 	public boolean toCount(Date toAdd)
 	{
-		boolean check = true;
-		for(int i = 0; i < personLog.size() && check; i++)
+		boolean check = false;
+		for(int i = 0; i < personLog.size() && !check; i++)
 		{
 			check = personLog.get(i).canCount(toAdd);
 		}
