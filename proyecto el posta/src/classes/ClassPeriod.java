@@ -16,7 +16,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 	private boolean lastPersonWorker;
 
 	private ArrayList<Worker> workers;
-	private ArrayList<Student> absent;
+	private ArrayList<Person> absents;
 
 	private ArrayList<Person> noActivePeople;
 
@@ -28,7 +28,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
 		super(start, end);        
-		this.absent = new ArrayList<>();
+		this.absents = new ArrayList<>();
 		this.maleStudents = new ArrayList<>();
 		this.femaleStudents = new ArrayList<>();
 		this.workers = new ArrayList<>();
@@ -42,10 +42,10 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	}
 
-	public int countAbsent(){
-		return absent.size();
+	/*public int countAbsent(){
+		return absents.size();
 
-	}
+	}*/
 	//----------------------------------------------------------------------------------------------------------
 
 	//Splitea la lista completa de personas en trabajadores y estudiantes
@@ -178,5 +178,8 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		organize(pointReferenceStart,pointReferenceEnd);
 	}
 
+	public ArrayList<Person> getAbsents(){
+		return absents;
+	}
 
 }

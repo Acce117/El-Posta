@@ -176,8 +176,4 @@ public class VacationPeriod extends PlanningPeriod
 	{		
 		delete(pointReferenceStart, pointReferenceEnd, changedPerson);
 	}
-	
-	
-    
-
 }
