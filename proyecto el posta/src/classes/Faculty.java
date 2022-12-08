@@ -54,20 +54,22 @@ public class Faculty{
 	{
 		VacationPeriod newVacationPeriod = new VacationPeriod(start,end,vacationWatches);
 		checkDuplicatePeriod(newVacationPeriod);
+		cleanVacationWatches();
 		periods.add(newVacationPeriod);
 
 		
 		ArrayList<Assignment> a = periods.get(0).getAsignments();
-		/*
-		  No borrar este comentario
-		  Testear con esta linea
-		  vacationWatches.clear(); 
-		*/
+		
 		for(Assignment b: a){
 			//System.out.println(b.getPersonOnWatch().getName());
 			System.out.println(b.getDay());
 		}
 
+	}
+	
+	public void cleanVacationWatches()
+	{
+		vacationWatches.clear();
 	}
 
 	public ArrayList<WorkerWithDates> getVacationWatches() {

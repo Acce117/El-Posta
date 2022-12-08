@@ -22,6 +22,7 @@ import javax.swing.JTable;
 
 import classes.ClassPeriod;
 import classes.VacationPeriod;
+import utils.PeriodAsignModel;
 import utils.PeriodAssignModel;
 import utils.PersonTableModel;
 
@@ -32,11 +33,16 @@ import javax.swing.JTextField;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSeparator;
 import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PeriodAsignmentList extends JDialog {
 
@@ -44,14 +50,15 @@ public class PeriodAsignmentList extends JDialog {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private PeriodAssignModel periodAsignModel;
+	private PeriodAsignModel periodAsignModel;
 	private ClassPeriod classPeriod;
 	private VacationPeriod vacationPeriod;
 	private JPanel panel_1;
 	private JTextField textField;
-	private TableRowSorter<PeriodAssignModel> tr;
+	private TableRowSorter<PeriodAsignModel> tr;
 	private JSeparator separator;
 	private JCheckBox chckbxAusentes;
+	private JButton btnSave;
 	/**
 	 * Create the dialog.
 	 * @wbp.parser.constructor
@@ -75,10 +82,11 @@ public class PeriodAsignmentList extends JDialog {
 	private void initialize(){
 		setModal(true);
 		setLocationRelativeTo(null);
-		setBounds(100, 100, 500, 450);
+		setBounds(100, 100, 500, 480);
 		getContentPane().setLayout(null);
 		getContentPane().add(getPanel());
 		getContentPane().add(getPanel_1());
+		getContentPane().add(getBtnSave());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));		
 	}
@@ -112,9 +120,9 @@ public class PeriodAsignmentList extends JDialog {
 		return table;
 	}
 	
-	private PeriodAssignModel getPeriodAsignModel(){
+	private PeriodAsignModel getPeriodAsignModel(){
 		if(periodAsignModel == null){
-			periodAsignModel = new PeriodAssignModel();
+			periodAsignModel = new PeriodAsignModel();
 			periodAsignModel.addColumn("Fecha");
 			periodAsignModel.addColumn("Turno");
 			periodAsignModel.addColumn("Nombre");
@@ -179,5 +187,30 @@ public class PeriodAsignmentList extends JDialog {
 			chckbxAusentes.setBounds(87, 24, 97, 23);
 		}
 		return chckbxAusentes;
+	}
+	private JButton getBtnSave() {
+		if (btnSave == null) {
+			btnSave = new JButton("Aceptar");
+			btnSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						
+						for(int index = 0; index < table.getRowCount(); index++)
+						{
+							String s = (String)table.getValueAt(index, 0);
+							SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+							Date d = df.parse(s);
+							System.out.println(d);							
+						}
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	
+				}
+			});
+			btnSave.setBounds(385, 407, 89, 23);
+		}
+		return btnSave;
 	}
 }

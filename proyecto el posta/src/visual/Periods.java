@@ -14,7 +14,6 @@ import java.awt.Font;
 
 import classes.ClassPeriod;
 import classes.Faculty;
-
 import classes.VacationPeriod;
 
 import com.toedter.calendar.JDateChooser;
@@ -25,10 +24,12 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 
+
 import java.awt.Toolkit;
 
 import javax.swing.border.LineBorder;
 
+import utils.PeriodRenderer;
 import utils.PeriodTableModel;
 import utils.PeriodValidator;
 
@@ -39,11 +40,14 @@ import utils.VolunteerWorkersModel;
 
 
 
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.Date;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Periods extends JDialog {
 	/**
@@ -79,8 +83,6 @@ public class Periods extends JDialog {
 	private JButton btnOrganizar_1;
 	private JPanel panel;
 	private JButton button;
-	private JButton button_1;
-	private JButton btnTurnos;
 	private JPanel panel_4;
 	private JButton button_3;
 	private JButton btnEditar;
@@ -372,7 +374,7 @@ public class Periods extends JDialog {
 	//Tabla de peridos vacacionales------------------------------------------------------------------------------------------------------------------------
 	private JTable getTable_1() {
 		if (table_1 == null) {
-			table_1 = new JTable();
+			table_1 = new JTable();			
 			table_1.setFillsViewportHeight(true);
 			table_1.setModel(getVacationPeriodModel());
 			table_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -409,11 +411,24 @@ public class Periods extends JDialog {
 	private JTable getClassPeriodTable() {
 		if (classPeriodTable == null) {
 			classPeriodTable = new JTable();
-			classPeriodTable.setFillsViewportHeight(true);
+			
+			classPeriodTable.setDefaultRenderer(Object.class, new PeriodRenderer());
 			classPeriodTable.setModel(getClassPeriodModel());
+			classPeriodTable.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					int index = classPeriodTable.getSelectedRow();
+					if(index != -1){		
+						PeriodAsignmentList window = new PeriodAsignmentList(faculty.getClassPeriods().get(index));
+						window.setVisible(true);
+					}
+				}
+			});
+			classPeriodTable.setFillsViewportHeight(true);
 			classPeriodTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			classPeriodTable.getTableHeader().setBackground(backgroundColor);
 			classPeriodTable.getTableHeader().setReorderingAllowed(false);
+			
 		}
 		return classPeriodTable;
 	}
@@ -423,7 +438,7 @@ public class Periods extends JDialog {
 			classPeriodModel = new PeriodTableModel();
 			classPeriodModel.addColumn("No");
 			classPeriodModel.addColumn("Fecha de inicio");
-			classPeriodModel.addColumn("Fecha de fin");		
+			classPeriodModel.addColumn("Fecha de fin");
 			
 			ArrayList<ClassPeriod> classPeriods = faculty.getClassPeriods(); 
 			
@@ -466,6 +481,7 @@ public class Periods extends JDialog {
 						PeriodValidator.checkPeriods(start, end);
 						Faculty.getInstance().planningVacationPeriod(start, end);
 						vacationPeriodModel.refreshVacationPeriod(faculty.getVacationPeriods());
+						volunteerWorkersModel.refresh(Faculty.getInstance().getVacationWatches());
 					}
 					catch(IllegalArgumentException ex)
 					{
@@ -484,8 +500,6 @@ public class Periods extends JDialog {
 			panel.setBounds(10, 340, 601, 40);
 			panel.setLayout(null);
 			panel.add(getButton());
-			panel.add(getButton_1());
-			panel.add(getBtnTurnos());
 			panel.setBackground(backgroundColor);
 		}
 		return panel;
@@ -498,34 +512,6 @@ public class Periods extends JDialog {
 			button.setBounds(500, 11, 91, 23);
 		}
 		return button;
-	}
-	private JButton getButton_1() {
-		if (button_1 == null) {
-			button_1 = new JButton("Eliminar");
-			button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			button_1.setBackground(Color.WHITE);
-			button_1.setBounds(399, 11, 91, 23);
-		}
-		return button_1;
-	}
-	private JButton getBtnTurnos() {
-		if (btnTurnos == null) {
-			btnTurnos = new JButton("Ver turnos");
-			btnTurnos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnTurnos.setBackground(Color.WHITE);
-			btnTurnos.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					int index = classPeriodTable.getSelectedRow();
-					if(index != -1){		
-						PeriodAsignmentList window = new PeriodAsignmentList(faculty.getClassPeriods().get(index));
-						window.setVisible(true);
-					}
-				}
-			});
-			//btnEditar_1.setEnabled(false);
-			btnTurnos.setBounds(285, 11, 104, 23);
-		}
-		return btnTurnos;
 	}
 	private JPanel getPanel_4() {
 		if (panel_4 == null) {

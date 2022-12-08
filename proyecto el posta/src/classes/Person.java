@@ -77,12 +77,13 @@ public abstract class Person{
     protected boolean enabled(Date newDate)
     {
     	boolean check = false;
-    	Observer actualObserver;
+    	Observer actualObserver;    	
     	for(int i = 0; i < observers.size() && !check; i++)
     	{
     		actualObserver = observers.get(i);
     		if(actualObserver instanceof StateObserver)
     		{
+    			check = ((StateObserver)actualObserver).toCount(newDate);
     			//comprueba en cada registro si la fecha no se encuentra entra su fecha de entrada y salida
     			//esta modelado para que la salida sea siempre distinto de null
     			//si la entrada es null es xq no se puede contar con la persona, despues de su fecha de salida
