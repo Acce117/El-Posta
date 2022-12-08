@@ -20,6 +20,7 @@ import java.awt.CardLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import classes.Assignment;
 import classes.ClassPeriod;
 import classes.VacationPeriod;
 import utils.PeriodAsignModel;
@@ -197,10 +198,19 @@ public class PeriodAsignmentList extends JDialog {
 						
 						for(int index = 0; index < table.getRowCount(); index++)
 						{
-							String s = (String)table.getValueAt(index, 0);
-							SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
-							Date d = df.parse(s);
-							System.out.println(d);							
+							boolean absent = ((Boolean)table.getValueAt(index, 3)).booleanValue();
+							if(absent)
+							{
+								String s = (String)table.getValueAt(index, 0);
+								SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+								Date d = df.parse(s);
+								//System.out.println(d);
+								Assignment fail = classPeriod.findAsignment(d);
+								fail.setDone(true);
+								System.out.println(fail);
+								
+							}							
+												
 						}
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block

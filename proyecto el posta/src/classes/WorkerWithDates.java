@@ -43,6 +43,4 @@ public class WorkerWithDates
 		TakedDay.getInstance().addDay(newDate);
 	}
 	
-	
-	
 }

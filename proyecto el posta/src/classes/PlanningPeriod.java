@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import utils.DateManager;
 import utils.Schedule;
 
 
@@ -86,7 +87,22 @@ public abstract class PlanningPeriod {
 	public abstract void replan(Date pointReference, Person changedPerson);
 	public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
 	
-	
+	public Assignment findAsignment(Date toFind)
+	{
+		Assignment assignmentToFind = null;
+		boolean find = false;
+		
+		for(int i = 0; i < asignments.size() && !find; i++)
+		{
+			if(DateManager.sameDate(asignments.get(i).getDay(), toFind))
+			{
+				assignmentToFind = asignments.get(i);
+				find = true;
+			}
+		}
+		
+		return assignmentToFind;
+	}
 
 }
 
