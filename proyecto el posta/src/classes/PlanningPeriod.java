@@ -4,34 +4,39 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import utils.DateManager;
 import utils.Schedule;
 
 
 public abstract class PlanningPeriod {
 
-    protected Date start;
-    protected Date end;
-    
+	protected static Person lastPersonHolidayMale;
+	protected static Person lastPersonHolidayFemale;
+	protected static Person lastPersonHolidayWorker1;
+	protected static Person lastPersonHolidayWorker2;
+	protected Date start;
+	protected Date end;
+	
     protected ArrayList<Assignment> asignments;
 
-    public PlanningPeriod(Date start, Date end)
-    {
-        setStart(start);
-        setEnd(end);
-        asignments = new ArrayList<Assignment>();
-        
-    }
 
-    public abstract void match(Person actualPerson, Date actualDate, Schedule schedule);
+	public PlanningPeriod(Date start, Date end)
+	{
+		setStart(start);
+		setEnd(end);
+		asignments = new ArrayList<Assignment>();
+
+	}
+
+	public abstract void match(Person actualPerson, Date actualDate, Schedule schedule);
 
 
-    public void setStart(Date start) 
-    {
-        if(start == null)
-            throw new IllegalArgumentException("Fecha vacia");
-        this.start = start;
-        
-    }
+	public void setStart(Date start) 
+	{
+		if(start == null)
+			throw new IllegalArgumentException("Fecha vacia");
+		this.start = start;
+	}
 
     public void setEnd(Date end) 
     {
@@ -42,15 +47,6 @@ public abstract class PlanningPeriod {
         this.end = end;
     }
     
-    public Date getStart() 
-    {
-    	return start;
-    }
-    
-    public Date getEnd() 
-    {
-    	return end;
-    }
     
     public ArrayList<Date> getDays(Person watcher)
     {
@@ -78,8 +74,35 @@ public abstract class PlanningPeriod {
         return absents;
     }
 
-    public abstract void replan(Date pointReference, Person changedPerson);
-    public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
+	public Date getStart() 
+	{
+		return start;
+	}
+
+	public Date getEnd() 
+	{
+		return end;
+	}
+
+	public abstract void replan(Date pointReference, Person changedPerson);
+	public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
+	
+	public Assignment findAsignment(Date toFind)
+	{
+		Assignment assignmentToFind = null;
+		boolean find = false;
+		
+		for(int i = 0; i < asignments.size() && !find; i++)
+		{
+			if(DateManager.sameDate(asignments.get(i).getDay(), toFind))
+			{
+				assignmentToFind = asignments.get(i);
+				find = true;
+			}
+		}
+		
+		return assignmentToFind;
+	}
 
 }
 

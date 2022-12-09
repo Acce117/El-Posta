@@ -54,7 +54,6 @@ public class WorkersToVacationPeriod extends JDialog {
 	private Faculty faculty;
 	private JPanel panel_3;
 	private JButton btnAceptar;
-	private JButton btnCancelar;
 	private Color backgroundColor;
 	/**
 	 * Create the dialog.
@@ -88,7 +87,7 @@ public class WorkersToVacationPeriod extends JDialog {
 	private JPanel getPanel_1() {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Insertar fecha", TitledBorder.LEADING, TitledBorder.TOP, new Font("Book Antiqua", Font.PLAIN, 13), null));
+			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Insertar fecha", TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 13), null));
 			panel_1.setBounds(429, 11, 200, 110);
 			panel_1.setLayout(null);
 			panel_1.add(getDateChooser());
@@ -209,7 +208,6 @@ public class WorkersToVacationPeriod extends JDialog {
 			panel_3.setBounds(10, 405, 619, 45);
 			panel_3.setLayout(null);
 			panel_3.add(getBtnAceptar());
-			panel_3.add(getBtnCancelar());
 			panel_3.setBackground(backgroundColor);
 		}
 		return panel_3;
@@ -228,19 +226,5 @@ public class WorkersToVacationPeriod extends JDialog {
 			btnAceptar.setBounds(520, 11, 89, 23);
 		}
 		return btnAceptar;
-	}
-	private JButton getBtnCancelar() {
-		if (btnCancelar == null) {
-			btnCancelar = new JButton("Cancelar");
-			btnCancelar.setBackground(Color.WHITE);
-			btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btnCancelar.setBounds(421, 11, 89, 23);
-		}
-		return btnCancelar;
 	}
 }

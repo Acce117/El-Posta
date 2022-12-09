@@ -36,7 +36,9 @@ public class MainMenu extends JFrame{
 	private JMenuItem mntmReporte;
 	private JMenuItem mntmReporte_2;
 	private JLabel lblNewLabel;
-	private JPanel panel;	
+	private JPanel panel;
+	public static final int MAIN_MENU_WITDTH = Toolkit.getDefaultToolkit().getScreenSize().width; 
+	public static final int MAIN_MENU_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height; 
 
 	/**
 	 * Create the application.

@@ -20,8 +20,10 @@ import java.awt.CardLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import classes.Assignment;
 import classes.ClassPeriod;
 import classes.VacationPeriod;
+import utils.PeriodAsignModel;
 import utils.PeriodAssignModel;
 import utils.PersonTableModel;
 
@@ -32,8 +34,16 @@ import javax.swing.JTextField;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSeparator;
+import javax.swing.JCheckBox;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PeriodAsignmentList extends JDialog {
 
@@ -41,14 +51,15 @@ public class PeriodAsignmentList extends JDialog {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private PeriodAssignModel periodAsignModel;
+	private PeriodAsignModel periodAsignModel;
 	private ClassPeriod classPeriod;
 	private VacationPeriod vacationPeriod;
 	private JPanel panel_1;
-	private JComboBox comboBox;
 	private JTextField textField;
-	private TableRowSorter<PeriodAssignModel> tr;
+	private TableRowSorter<PeriodAsignModel> tr;
 	private JSeparator separator;
+	private JCheckBox chckbxAusentes;
+	private JButton btnSave;
 	/**
 	 * Create the dialog.
 	 * @wbp.parser.constructor
@@ -72,10 +83,11 @@ public class PeriodAsignmentList extends JDialog {
 	private void initialize(){
 		setModal(true);
 		setLocationRelativeTo(null);
-		setBounds(100, 100, 500, 450);
+		setBounds(100, 100, 500, 480);
 		getContentPane().setLayout(null);
 		getContentPane().add(getPanel());
 		getContentPane().add(getPanel_1());
+		getContentPane().add(getBtnSave());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));		
 	}
@@ -104,17 +116,18 @@ public class PeriodAsignmentList extends JDialog {
 			table.setFillsViewportHeight(true);
 			table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			table.getTableHeader().setReorderingAllowed(false);
+			periodAsignModel.addCheckBox(3, table);
 		}
 		return table;
 	}
 	
-	private PeriodAssignModel getPeriodAsignModel(){
+	private PeriodAsignModel getPeriodAsignModel(){
 		if(periodAsignModel == null){
-			periodAsignModel = new PeriodAssignModel();
+			periodAsignModel = new PeriodAsignModel();
 			periodAsignModel.addColumn("Fecha");
 			periodAsignModel.addColumn("Turno");
 			periodAsignModel.addColumn("Nombre");
-			periodAsignModel.addColumn("Hecha");
+			periodAsignModel.addColumn("Ausente");			
 			if(vacationPeriod == null)
 				periodAsignModel.refresh(classPeriod.getAsignments());
 			else
@@ -129,22 +142,11 @@ public class PeriodAsignmentList extends JDialog {
 			panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Buscar por", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(10, 11, 464, 56);
 			panel_1.setLayout(null);
-			panel_1.add(getComboBox());
 			panel_1.add(getTextField());
 			panel_1.add(getSeparator());
+			panel_1.add(getChckbxAusentes());
 		}
 		return panel_1;
-	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Dia", "Turno", "Nombre", "Hecha"}));
-			comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			comboBox.setBounds(93, 25, 81, 20);
-			comboBox.setBackground(Color.WHITE);
-			comboBox.setSelectedIndex(2);
-		}
-		return comboBox;
 	}
 	private JTextField getTextField() {
 		if (textField == null) {
@@ -155,11 +157,7 @@ public class PeriodAsignmentList extends JDialog {
 				@Override
 				public void keyTyped(KeyEvent arg0) {
 					String filter = textField.getText();
-					int index = comboBox.getSelectedIndex();
-					if(index != -1)
-					{
-						tr.setRowFilter(RowFilter.regexFilter(filter, index));
-					}
+					tr.setRowFilter(RowFilter.regexFilter(filter, 2));
 				}
 			});
 			tr = new TableRowSorter<>(periodAsignModel);
@@ -176,5 +174,53 @@ public class PeriodAsignmentList extends JDialog {
 			separator.setBounds(221, 45, 233, 2);
 		}
 		return separator;
+	}
+	private JCheckBox getChckbxAusentes() {
+		if (chckbxAusentes == null) {
+			chckbxAusentes = new JCheckBox("Ausentes");
+			chckbxAusentes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String search = chckbxAusentes.isSelected()? "true" : "";
+					tr.setRowFilter(RowFilter.regexFilter(search,3));
+				}
+			});
+			chckbxAusentes.setBackground(Color.WHITE);
+			chckbxAusentes.setBounds(87, 24, 97, 23);
+		}
+		return chckbxAusentes;
+	}
+	private JButton getBtnSave() {
+		if (btnSave == null) {
+			btnSave = new JButton("Aceptar");
+			btnSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						
+						for(int index = 0; index < table.getRowCount(); index++)
+						{
+							boolean absent = ((Boolean)table.getValueAt(index, 3)).booleanValue();
+							if(absent)
+							{
+								String s = (String)table.getValueAt(index, 0);
+								SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+								Date d = df.parse(s);
+								//System.out.println(d);
+								Assignment fail = classPeriod.findAsignment(d);
+								fail.setDone(true);
+								System.out.println(fail);
+								
+							}							
+												
+						}
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	
+				}
+			});
+			btnSave.setBounds(385, 407, 89, 23);
+		}
+		return btnSave;
 	}
 }

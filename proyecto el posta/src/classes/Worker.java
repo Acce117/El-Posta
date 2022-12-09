@@ -3,6 +3,7 @@ package classes;
 
 
 
+
 import java.util.Date;
 
 import utils.DateManager;
@@ -15,13 +16,16 @@ public class Worker extends Person{
 
 	protected GeneralState actualState;
 
-
-
-    public Worker(String id, String name, String lastName, Genre sex, GeneralState newState, Date comebackDate) 
+    public Worker(String id, String name, String lastName, Genre sex, GeneralState newState) 
     {
         super(id, name, lastName, sex);
         setActualState(newState, null);
-        setComebackDate(comebackDate);
+    }
+    
+    public Worker(String id, String name, String lastName, Genre sex, GeneralState newState, Date comebackDate)
+    {
+    	this(id,name,lastName,sex,newState);
+    	setComebackDate(comebackDate);
     }
     
 
@@ -63,11 +67,16 @@ public class Worker extends Person{
 	@Override
 	public boolean canMatch(Date newDate, Schedule newSchedule) 
 	{
-		boolean check = true;
+		boolean check = enabled(newDate);
 		if(!isActive() && !DateManager.isWeekend(newDate) || ((newSchedule != Schedule.WORKER_SCHEDULE_1) && (newSchedule != Schedule.WORKER_SCHEDULE_2)))
 			check = false;
 		
 		return check;		
+	}
+	
+	public boolean isOnTravel()
+	{
+		return (getActualState() instanceof StatesWorkerWithComebackDate);
 	}
 
 
