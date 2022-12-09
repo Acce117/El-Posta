@@ -1,8 +1,6 @@
 package visual;
 
 
-import interfaces.GeneralState;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -36,6 +34,7 @@ import utils.StatesWorkerWithComebackDate;
 
 
 
+
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
@@ -47,6 +46,7 @@ import java.awt.Color;
 import java.awt.Toolkit;
 
 import classes.Faculty;
+import classes.GeneralState;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -69,6 +69,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JCheckBox;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.InputMethodListener;

@@ -1,9 +1,10 @@
 package classes;
 
-import interfaces.GeneralState;
+
 
 
 import java.util.Date;
+
 import utils.DateManager;
 import utils.Genre;
 import utils.Schedule;
