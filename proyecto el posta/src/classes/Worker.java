@@ -1,6 +1,6 @@
 package classes;
 
-import interfaces.GeneralState;
+
 
 
 

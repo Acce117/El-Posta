@@ -2,7 +2,7 @@ package utils;
 
 import java.util.Date;
 
-import interfaces.GeneralState;
+import classes.GeneralState;
 
 public class StatesWorkerWithComebackDate implements GeneralState 
 {

@@ -1,13 +1,12 @@
 package utils;
 
-import interfaces.GeneralState;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JRadioButton;
 
 import classes.Faculty;
+import classes.GeneralState;
 import classes.Person;
 
 public final class PersonalValidator 

@@ -1,8 +1,6 @@
 package visual;
 
 
-import interfaces.GeneralState;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -29,15 +27,6 @@ import utils.StatesWorker;
 import utils.StatesStudent;
 import utils.StatesWorkerWithComebackDate;
 
-
-
-
-
-
-
-
-
-
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
@@ -49,6 +38,7 @@ import java.awt.Color;
 import java.awt.Toolkit;
 
 import classes.Faculty;
+import classes.GeneralState;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;

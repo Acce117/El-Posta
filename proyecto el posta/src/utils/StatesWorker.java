@@ -1,8 +1,8 @@
 package utils;
 
-import interfaces.GeneralState;
-
 import java.util.Date;
+
+import classes.GeneralState;
 
 public enum StatesWorker implements GeneralState 
 {

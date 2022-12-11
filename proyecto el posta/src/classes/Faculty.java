@@ -1,8 +1,7 @@
 package classes;
 
-import interfaces.GeneralState;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import utils.*;
@@ -35,18 +34,35 @@ public class Faculty{
 		}
 	}
 
-	public void planningClassPeriod(Date start, Date end)
-	{
-		ClassPeriod newClassPeriod = new ClassPeriod(start,end,people);
+	public void planningClassPeriod(Date start, Date end){
+		ClassPeriod newClassPeriod;
+		ArrayList<PlanningPeriod> periodsAux = (ArrayList<PlanningPeriod>) periods.clone();
+		ArrayList<Person> peopleAux = new ArrayList<>();
+		
+		Collections.reverse(periodsAux);
+		ClassPeriod aux = null;
+		
+		for(int i = 0; i < periodsAux.size() && aux == null; i++){
+			if(periodsAux.get(i) instanceof ClassPeriod)
+					aux = (ClassPeriod)periodsAux.get(i);
+		}
+		
+		if(aux != null)
+			peopleAux.addAll(aux.getAbsents());
+		
+		peopleAux.addAll(people);
+		
+		newClassPeriod = new ClassPeriod(start, end, peopleAux);
+		
 		checkDuplicatePeriod(newClassPeriod);
 		periods.add(newClassPeriod);
 		
-		ArrayList<Assignment> a = periods.get(0).getAsignments();
+		//ArrayList<Assignment> a = periods.get(0).getAsignments();
 
-		for(Assignment b: a){
+		/*for(Assignment b: a){
 			//System.out.println(b.getPersonOnWatch().getName());
 			System.out.println(b.getDay());
-		}
+		}*/
 
 	}
 
