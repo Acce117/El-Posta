@@ -79,7 +79,7 @@ public class EnterLog
 				{
 					//Sino la fecha no se puede encontrar entre
 					//la fecha de salida y la de entrada
-					check = !DateManager.betweenDates(exit, enter, toAdd);
+					check = !DateManager.betweenDates(exit, enter, toAdd) || DateManager.sameDate(toAdd, enter);
 				}				
 			}
 			else

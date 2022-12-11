@@ -18,8 +18,9 @@ public class ConsoleMainTest {
 	public static void main(String[] args) 
 	{
 		Faculty fac = Faculty.getInstance();
-		fac.addStudent("02011068328", "Pedrito", "Trabajador", Genre.MALE, StatesStudent.ACTIVE);
-		fac.addStudent("02011068328", "Edito", "Trabajador", Genre.MALE, StatesStudent.ACTIVE);
+		fac.addStudent("02011068328", "Pedrito", "Estudiante", Genre.MALE, StatesStudent.ACTIVE);
+		fac.addStudent("02011068328", "Edito", "Estudiante", Genre.MALE, StatesStudent.ACTIVE);
+		fac.addStudent("02011068328", "Dito", "Estudiante", Genre.MALE, StatesStudent.ACTIVE);
 		
 		/*
 		fac.addWorker("02011068328", "Pedrito", "Trabajador", Genre.MALE, StatesWorker.ACTIVE);
@@ -29,8 +30,8 @@ public class ConsoleMainTest {
 		fac.addVacationDate(fac.getWorkers().get(1), new Date("12/3/2022"));
 		*/
 		
-		Date d = new Date();
-		Date p = new Date("12/24/2022");
+		Date d = new Date("12/1/2022");
+		Date p = new Date("12/10/2022");
 		fac.planningClassPeriod(d, p);
 		//fac.planningVacationPeriod(d, p);
 		System.out.println("Ya planifique\n\n\n\n");
@@ -44,8 +45,8 @@ public class ConsoleMainTest {
 		
 //		Worker q = fac.getWorkers().get(0);
 		Student q = fac.getStudents().get(0);
-		q.setActualState(StatesStudent.LICENCE, new Date("12/6/2022"));
-		q.setActualState(StatesStudent.ACTIVE, new Date("12/20/2022"));
+		q.setActualState(StatesStudent.LICENCE, new Date("12/5/2022"));
+		q.setActualState(StatesStudent.ACTIVE, new Date("12/8/2022"));
 		System.out.println("Ya modifique\n\n\n\n");
 		for(Assignment b: a)
 		{

@@ -320,6 +320,7 @@ public class EditWorker extends JDialog {
 						dispose();
 					}catch(Exception error){
 						JOptionPane.showMessageDialog(null, error.getMessage());
+						error.printStackTrace();
 					}
 				}
 			});

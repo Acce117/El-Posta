@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import classes.PlanningPeriod;
@@ -43,6 +44,7 @@ public class PeriodValidator
      */
     public static void checkCollisionOnPeriods(PlanningPeriod a, PlanningPeriod b)
     {
+    	SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
     	Date initialDateFirst = a.getStart();
     	Date finalDateFirst = a.getEnd();
     	Date initialDateSecond = b.getStart();
@@ -50,12 +52,12 @@ public class PeriodValidator
     	//Verificar que A no solape a B
     	if(between(initialDateFirst,initialDateSecond,finalDateSecond) || between(finalDateFirst,initialDateSecond,finalDateSecond))
     	{
-    		throw new IllegalArgumentException("Se solapan los periodos\n" + "el de [" + a.getStart() + "," + a.getEnd() + "] con [" + b.getStart() + "," + b.getEnd() + "]");
+    		throw new IllegalArgumentException("Se solapan los periodos\n" + "el de [" + df.format(initialDateFirst) + " : " + df.format(finalDateFirst) + "] con [" + df.format(initialDateSecond) + " : " + df.format(finalDateSecond) + "]");
     	}
     	//Verificar que B no solape a A
     	if(between(initialDateSecond,initialDateFirst,finalDateFirst) || between(finalDateSecond,initialDateFirst,finalDateFirst))    	
     	{
-    		throw new IllegalArgumentException("Se solapan los periodos\n" + "el de [" + a.getStart() + "," + a.getEnd() + "] con [" + b.getStart() + "," + b.getEnd() + "]");
+    		throw new IllegalArgumentException("Se solapan los periodos\n" + "el de [" + df.format(initialDateFirst) + " : " + df.format(finalDateFirst) + "] con [" + df.format(initialDateSecond) + " : " + df.format(finalDateSecond) + "]");
     	}
     }
     

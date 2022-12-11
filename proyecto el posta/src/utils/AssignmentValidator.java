@@ -19,7 +19,7 @@ public class AssignmentValidator
     public static void checkSchedule(String schedule) 
     {
         if(!validateSchedule(schedule))
-            throw new IllegalArgumentException("Horario no v√°lido");
+            throw new IllegalArgumentException("Horario no v·lido");
         
     }
 

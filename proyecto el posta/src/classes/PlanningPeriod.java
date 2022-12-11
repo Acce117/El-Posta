@@ -87,17 +87,19 @@ public abstract class PlanningPeriod {
 	public abstract void replan(Date pointReference, Person changedPerson);
 	public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
 	
-	public Assignment findAsignment(Date toFind)
+	public Assignment findAsignment(Date toFind, Schedule schedule)
 	{
 		Assignment assignmentToFind = null;
 		boolean find = false;
 		
+		Assignment actualAssignment;
 		for(int i = 0; i < asignments.size() && !find; i++)
 		{
-			if(DateManager.sameDate(asignments.get(i).getDay(), toFind))
+			actualAssignment = asignments.get(i);
+			if(DateManager.sameDate(actualAssignment.getDay(), toFind) && actualAssignment.getSchedule() == schedule)
 			{
-				assignmentToFind = asignments.get(i);
-				find = true;
+					assignmentToFind = asignments.get(i);
+					find = true;					
 			}
 		}
 		

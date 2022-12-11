@@ -54,24 +54,24 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	//Splitea la lista completa de personas en trabajadores y estudiantes
 
-//	protected void split(ArrayList<Person> personList){
-//		if(personList.size() == 0)
-//			throw new IllegalArgumentException("Lista vacía, no se puede planificar guardia sin personal");
-//
-//		for(Person p: personList){
-//			if(p.isActive())
-//				if(p instanceof Student){
-//					if(p.getSex() == Genre.MALE)
-//						maleStudents.add((Student) p);
-//					else
-//						femaleStudents.add((Student) p);
-//				}
-//				else
-//					workers.add((Worker) p);
-//			else
-//				noActivePeople.add(p);
-//		}
-//	}
+	//	protected void split(ArrayList<Person> personList){
+	//		if(personList.size() == 0)
+	//			throw new IllegalArgumentException("Lista vacía, no se puede planificar guardia sin personal");
+	//
+	//		for(Person p: personList){
+	//			if(p.isActive())
+	//				if(p instanceof Student){
+	//					if(p.getSex() == Genre.MALE)
+	//						maleStudents.add((Student) p);
+	//					else
+	//						femaleStudents.add((Student) p);
+	//				}
+	//				else
+	//					workers.add((Worker) p);
+	//			else
+	//				noActivePeople.add(p);
+	//		}
+	//	}
 
 	@Override
 	public void match(Person person, Date date, Schedule schedule){
@@ -115,7 +115,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	private void asignMaleStudent(Date day){
 		Person aux = maleStudents.get(0);
-		System.out.println(ableStudent(0, day));
 		if(holidays.isHoliday(day)){ 
 			if(lastPersonHolidayMale == null || !lastPersonHolidayMale.equals(aux))
 				lastPersonHolidayMale = maleStudents.get(0);
@@ -175,11 +174,15 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 		int index = 0;
 		while(start.compareTo(end) < 0){
+			updateList(start);
 			if(!maleStudents.isEmpty())
 				asignMaleStudent(start);
-			
+
 			if(DateManager.isWeekend(start)){
-				if((!lastPersonWorker && !workers.isEmpty())){// || femaleStudents.isEmpty()){
+				//Comprueba si no se ha repetido el ultimo trabajador ademas de que la lista de trabajadores ni la de las hembras puede estar vacia
+				//if((!lastPersonWorker && !workers.isEmpty())|| (femaleStudents.isEmpty()) && !workers.isEmpty()){
+				//El mismo if comentado, lo que aplicando el axioma de distributiva para hacerlo m�s corto
+				if(!workers.isEmpty() && (!lastPersonWorker || femaleStudents.isEmpty())){
 					System.out.println(index);
 					index = asignWorker(start, Schedule.WORKER_SCHEDULE_1, index);
 					//TODO arreglar esto para si la lista de trabajadores es impar, ahora mismo planifica doble a los trabajadores
@@ -202,129 +205,142 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 		}
 	}
 	//-----------------------------------------------------------------------------------------------------------
-		//-----------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
 
-		public void replan(Date pointReference, Person personToChange){
-			clearAsignments(pointReference,end);
-			updatePerson(personToChange);
-			organize(pointReference, end);		
-		}
+	private void updateList(Date start) {
+		// TODO Auto-generated method stub
+		
+		int deleteIndex = 0;
+		//remover los que no estan disponibles y pasarlos a la lista de inactivos revisando en las respectivas listas
+		deleteIndex = deleteInactivePeople(start);
+		//los que pueden ese dia se van para la su respectiva lista de activos
+		addActive(deleteIndex,start);
+		
+		//se agregan de ultimo a la de inactivos
+		//se agregan de primeros a la respectiva lista
+	}
 
-		public void replan(Date pointReferenceStart, Date pointReferenceEnd, Person personToChange){
-			clearAsignments(pointReferenceStart,pointReferenceEnd);
-			updatePerson(personToChange);
-			organize(pointReferenceStart,pointReferenceEnd);
-		}
-
-		private void clearAsignments(Date pointReferenceStart,Date pointReferenceEnd){
-
-			boolean finished = false;
-			for(int i = 0; i < asignments.size() && !finished; i++){
-
-				if(DateManager.betweenDates(pointReferenceStart, pointReferenceEnd, asignments.get(i).getDay())){
-					asignments.remove(i);
-					i--;
-				}
+	private int deleteInactivePeople(Date start) {
+		int deleted = 0;
+		int size;
+		
+		//se recorre cada lista
+		for(int i = 0; i < maleStudents.size(); i++)
+		{
+			if(!maleStudents.get(i).enabled(start))
+			{
+				size = noActivePeople.size();
+				removePerson(maleStudents.get(i));
+				deleted+=size - noActivePeople.size()+1;//el +1 es porque agrego una persona en el metodo removePerson				
 			}
-
 		}
+		for(int i = 0; i < femaleStudents.size(); i++)
+		{
+			if(!femaleStudents.get(i).enabled(start))
+			{
+				size = noActivePeople.size();
+				removePerson(femaleStudents.get(i));
+				deleted+=size - noActivePeople.size()+1;//el +1 es porque agrego una persona en el metodo removePerson				
+			}
+		}
+		for(int i = 0; i < workers.size(); i++)
+		{
+			if(!workers.get(i).enabled(start))
+			{
+				size = noActivePeople.size();
+				removePerson(workers.get(i));
+				deleted+=size - noActivePeople.size()+1;//el +1 es porque agrego una persona en el metodo removePerson				
+			}
+		}
+				
+		return deleted;
+	}
 
-		private void updatePerson(Person personToChange) {
-			if(personToChange.isActive())
+	private void addActive(int deleteIndex, Date start) {
+		// TODO Auto-generated method stub
+		Person personToChange = null;
+		for(int i = 0; i < noActivePeople.size()-deleteIndex; i++)
+		{
+			personToChange = noActivePeople.get(i);
+			if(personToChange.enabled(start))
 				addPerson(personToChange);
-			else
-				removePerson(personToChange);		
 		}
+		
+	}
 
-		private void removePerson(Person personToChange) {
+	public void replan(Date pointReference, Person personToChange){
+		clearAsignments(pointReference,end);
+		updatePerson(personToChange);
+		organize(pointReference, end);		
+	}
 
-			int index;
+	public void replan(Date pointReferenceStart, Date pointReferenceEnd, Person personToChange){
+		clearAsignments(pointReferenceStart,pointReferenceEnd);
+		updatePerson(personToChange);
+		organize(pointReferenceStart,pointReferenceEnd);
+	}
 
-			if(personToChange instanceof Worker){
-				index = workers.indexOf(personToChange);
-				if(index != -1)
-					workers.removeAll(Collections.singleton(personToChange));
+	private void clearAsignments(Date pointReferenceStart,Date pointReferenceEnd){
 
-			}else{
+		boolean finished = false;
+		for(int i = 0; i < asignments.size() && !finished; i++){
 
-				if(personToChange.getSex() == Genre.MALE){
-
-					index = maleStudents.indexOf(personToChange);
-					if(index != -1)
-						maleStudents.removeAll(Collections.singleton(personToChange));
-
-				}else{
-
-					index = femaleStudents.indexOf(personToChange);
-					if(index != -1)
-						femaleStudents.removeAll(Collections.singleton(personToChange));				
-				}						
-			}		
-		}
-
-		private void addPerson(Person personToChange){
-
-			if(personToChange instanceof Worker)
-				workers.add(0,(Worker) personToChange);		
-			else{
-
-				if(personToChange.getSex() == Genre.MALE)
-					maleStudents.add(0,(Student) personToChange);
-				else
-					femaleStudents.add(0,(Student) personToChange);
+			if(DateManager.betweenDates(pointReferenceStart, pointReferenceEnd, asignments.get(i).getDay())){
+				asignments.remove(i);
+				i--;
 			}
-
-		}
-
-
-
-		private int ableStudent(int lastIndex, Date newDate)
-		{
-			int index = lastIndex;
-			int size = maleStudents.size();//Prueba
-
-			for(int auxIndex = (index+1)%size; auxIndex != lastIndex; auxIndex = (auxIndex+1)%size)
-			{
-				System.out.println(auxIndex + " " + index);
-				if(maleStudents.get(auxIndex).canMatch(newDate, null))
-				{
-					index = auxIndex;
-				}
-			}
-
-			return index;
-		}
-
-		private int ableFemaleStudent(int lastIndex, Date newDate)
-		{
-			int index = lastIndex;
-			int size = femaleStudents.size();//Prueba
-
-			for(int auxIndex = (index+1)%size; auxIndex != index; auxIndex = (auxIndex+1)%size)
-			{
-				if(femaleStudents.get(auxIndex).canMatch(newDate, null))
-				{
-					index = auxIndex;
-				}
-			}
-
-			return index;
-		}
-
-		private int ableWorker(int lastIndex, Date newDate)
-		{
-			int index = lastIndex;
-			int size = workers.size();
-
-			for(int auxIndex = (index+1)%size; auxIndex != index; auxIndex = (auxIndex+1)%size)
-			{
-				if(workers.get(auxIndex).canMatch(newDate, null))
-				{
-					index = auxIndex;
-				}
-			}
-
-			return index;
 		}
 
 	}
+
+	private void updatePerson(Person personToChange) {
+		if(personToChange.isActive())
+			addPerson(personToChange);
+		else
+			removePerson(personToChange);		
+	}
+
+	private void removePerson(Person personToChange) {
+
+		int index;
+		//Para evitar duplicados en noActivePeople
+		noActivePeople.removeAll(Collections.singleton(personToChange));
+		noActivePeople.add(personToChange);
+		if(personToChange instanceof Worker){
+			index = workers.indexOf(personToChange);
+			if(index != -1)
+				workers.removeAll(Collections.singleton(personToChange));
+
+		}else{
+
+			if(personToChange.getSex() == Genre.MALE){
+
+				index = maleStudents.indexOf(personToChange);
+				if(index != -1)
+					maleStudents.removeAll(Collections.singleton(personToChange));
+
+			}else{
+
+				index = femaleStudents.indexOf(personToChange);
+				if(index != -1)
+					femaleStudents.removeAll(Collections.singleton(personToChange));				
+			}						
+		}		
+	}
+
+	private void addPerson(Person personToChange){
+
+		noActivePeople.removeAll(Collections.singleton(personToChange));
+		if(personToChange instanceof Worker)
+			workers.add(0,(Worker) personToChange);		
+		else{
+
+			if(personToChange.getSex() == Genre.MALE)
+				maleStudents.add(0,(Student) personToChange);
+			else
+				femaleStudents.add(0,(Student) personToChange);
+		}
+
+	}
+
+}

@@ -72,9 +72,9 @@ public abstract class Person{
         }
     }
     public abstract boolean isActive();
-    public abstract boolean canMatch(Date newDate, Schedule newSchedule);
+    public abstract boolean canMatch(Date newDate, Schedule newSchedule);    
     
-    protected boolean enabled(Date newDate)
+    public boolean enabled(Date newDate)
     {
     	boolean check = false;
     	Observer actualObserver;    	
@@ -92,7 +92,7 @@ public abstract class Person{
     		
     			
     	}
-    	return check;
+    	return (check && isActive());
     }
 
 	public Date getBirthDay() {
