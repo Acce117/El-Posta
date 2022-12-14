@@ -74,9 +74,9 @@ public class Faculty{
 		periods.add(newVacationPeriod);
 
 		
-		ArrayList<Assignment> a = periods.get(0).getAsignments();
+		ArrayList<Asignment> a = periods.get(0).getAsignments();
 		
-		for(Assignment b: a){
+		for(Asignment b: a){
 			//System.out.println(b.getPersonOnWatch().getName());
 			System.out.println(b.getDay());
 		}
@@ -283,7 +283,7 @@ public class Faculty{
 		}
 	}
 
-	private Person findPerson(String id)
+	public Person findPerson(String id)
 	{
 		Person toFind = null;
 		for(int i = 0; i < people.size() && (toFind == null); i++)

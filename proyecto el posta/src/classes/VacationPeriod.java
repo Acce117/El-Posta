@@ -63,7 +63,7 @@ public class VacationPeriod extends PlanningPeriod
 		
 		if(can)
 		{
-			Assignment actualAsignment;
+			Asignment actualAsignment;
 			for(int i = 0; i < asignments.size() && can; i++)
 			{
 				actualAsignment = asignments.get(i);								
@@ -81,7 +81,7 @@ public class VacationPeriod extends PlanningPeriod
 	{
 		if(actualPerson != null && actualDate != null)
 		{
-			asignments.add(new Assignment(actualPerson,actualDate,schedule));
+			asignments.add(new Asignment(actualPerson,actualDate,schedule));
 		}
 	}
 	
@@ -143,8 +143,8 @@ public class VacationPeriod extends PlanningPeriod
 			
 		}
 	}
-	
-	private Worker searchWorker(Person newPerson)
+	//TODO volverlo a hacer private
+	public Worker searchWorker(Person newPerson)
 	{
 		Worker toSearch = null;
 		

@@ -16,7 +16,6 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 	private boolean lastPersonWorker;
 
 	private ArrayList<Worker> workers;
-	private ArrayList<Student> absent;
 
 	private ArrayList<Person> noActivePeople;
 
@@ -45,36 +44,15 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	}
 
-	public int countAbsent(){
+	/*public int countAbsent(){
 		return absent.size();
 
-	}
+	}*/
 	//----------------------------------------------------------------------------------------------------------
-
-	//Splitea la lista completa de personas en trabajadores y estudiantes
-
-//	protected void split(ArrayList<Person> personList){
-//		if(personList.size() == 0)
-//			throw new IllegalArgumentException("Lista vacía, no se puede planificar guardia sin personal");
-//
-//		for(Person p: personList){
-//			if(p.isActive())
-//				if(p instanceof Student){
-//					if(p.getSex() == Genre.MALE)
-//						maleStudents.add((Student) p);
-//					else
-//						femaleStudents.add((Student) p);
-//				}
-//				else
-//					workers.add((Worker) p);
-//			else
-//				noActivePeople.add(p);
-//		}
-//	}
 
 	@Override
 	public void match(Person person, Date date, Schedule schedule){
-		Assignment asignment = new Assignment(person, date, schedule);
+		Asignment asignment = new Asignment(person, date, schedule);
 		int asignmentIndex = asignments.indexOf(asignment);
 		if(asignmentIndex == -1)
 			asignments.add(asignment);
@@ -93,7 +71,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	protected void split(ArrayList<Person> personList){
 		if(personList.size() == 0)
-			throw new IllegalArgumentException("Lista vacía, no se puede planificar guardia sin personal");
+			throw new IllegalArgumentException("Lista vac\u00eda, no se puede planificar guardia sin personal");
 
 		for(Person p: personList){
 			if(p.isActive())
@@ -111,7 +89,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 	}
 
 	//Metodo de organizacion----------------------------------------------------------------------------------
-
+	//TODO hacerlo public, si es public hacerla private
 	private void asignMaleStudent(Date day){
 		Person aux = maleStudents.get(0);
 		System.out.println(ableStudent(0, day));
@@ -325,5 +303,21 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 			return index;
 		}
-
+		
+		//Estos getters son para las pruebas, no son relevantes para el sistema en si
+		public ArrayList<Person> getAbsents(){
+			return absents;
+		}
+		
+		public ArrayList<Student> getFemaleStudents() {
+			return femaleStudents;
+		}
+		
+		public ArrayList<Student> getMaleStudents() {
+			return maleStudents;
+		}
+		
+		public ArrayList<Worker> getWorkers() {
+			return workers;
+		}
 	}

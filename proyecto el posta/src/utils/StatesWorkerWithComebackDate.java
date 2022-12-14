@@ -7,16 +7,16 @@ import classes.GeneralState;
 public class StatesWorkerWithComebackDate implements GeneralState 
 {
     private final String NAME = "Extranjero";
-    private Date ocmebackDate;
+    private Date comebackDate;
 
     public void setCombackDate(Date comebackDate)
     {
-        this.ocmebackDate = comebackDate;
+        this.comebackDate = comebackDate;
     }
 
     public Date getCombackDate()
     {
-        return ocmebackDate;
+        return comebackDate;
     }
 
     @Override

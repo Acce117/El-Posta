@@ -5,13 +5,13 @@ import java.util.Date;
 import utils.Schedule;
 
 
-public class Assignment{
+public class Asignment{
     private Date day;
     private Schedule schedule;
     private boolean done;
     private Person personOnWantch;
 
-    public Assignment(Person personOnWatch, Date day, Schedule schedule){
+    public Asignment(Person personOnWatch, Date day, Schedule schedule){
         this.day = day;
         setPersonOnWatch(personOnWatch);
         setSchedule(schedule);

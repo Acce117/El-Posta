@@ -20,7 +20,7 @@ import java.awt.CardLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import classes.Assignment;
+import classes.Asignment;
 import classes.ClassPeriod;
 import classes.VacationPeriod;
 import utils.PeriodAsignModel;
@@ -205,7 +205,7 @@ public class PeriodAsignmentList extends JDialog {
 								SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
 								Date d = df.parse(s);
 								//System.out.println(d);
-								Assignment fail = classPeriod.findAsignment(d);
+								Asignment fail = classPeriod.findAsignment(d);
 								fail.setDone(true);
 								System.out.println(fail);
 								

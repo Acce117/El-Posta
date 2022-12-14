@@ -7,7 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import classes.Assignment;
+import classes.Asignment;
 
 public class PeriodAsignModel extends DefaultTableModel{
 	Object object[];
@@ -28,11 +28,11 @@ public class PeriodAsignModel extends DefaultTableModel{
 		return table.getValueAt(row, column) != null;
 	}
 	
-	public void refresh(ArrayList<Assignment> list){
+	public void refresh(ArrayList<Asignment> list){
 		object = new Object[4];
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
-		for(Assignment asign:list){
+		for(Asignment asign:list){
 			object[0] = df.format(asign.getDay());
 			object[1] = asign.getSchedule().getSchedule();
 			object[2] = asign.getPersonOnWatch().getName() + " " + asign.getPersonOnWatch().getLastName();

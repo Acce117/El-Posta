@@ -1,6 +1,6 @@
 package visual;
 
-import interfaces.GeneralState;
+import classes.GeneralState;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

@@ -17,14 +17,14 @@ public abstract class PlanningPeriod {
 	protected Date start;
 	protected Date end;
 	
-    protected ArrayList<Assignment> asignments;
+    protected ArrayList<Asignment> asignments;
 
 
 	public PlanningPeriod(Date start, Date end)
 	{
 		setStart(start);
 		setEnd(end);
-		asignments = new ArrayList<Assignment>();
+		asignments = new ArrayList<Asignment>();
 
 	}
 
@@ -54,7 +54,7 @@ public abstract class PlanningPeriod {
         return days;
     }        
         
-    public ArrayList<Assignment> getAsignments() 
+    public ArrayList<Asignment> getAsignments() 
     {
     	return asignments;
     }
@@ -63,7 +63,7 @@ public abstract class PlanningPeriod {
     {
         int absents = 0; 
         Date actualDate;
-        for(Assignment i : asignments)
+        for(Asignment i : asignments)
         {
         	actualDate = i.getDay();
         	if((actualDate.after(start) || actualDate.equals(start)) && ((actualDate.before(end) || actualDate.equals(end)) && !i.isDone()))
@@ -87,9 +87,9 @@ public abstract class PlanningPeriod {
 	public abstract void replan(Date pointReference, Person changedPerson);
 	public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
 	
-	public Assignment findAsignment(Date toFind)
+	public Asignment findAsignment(Date toFind)
 	{
-		Assignment assignmentToFind = null;
+		Asignment assignmentToFind = null;
 		boolean find = false;
 		
 		for(int i = 0; i < asignments.size() && !find; i++)

@@ -154,4 +154,13 @@ public final class PersonalValidator
             throw new IllegalArgumentException("Nombre vacio");
     }
 
+    public static boolean checkComebackDate(Date comeBackDate, GeneralState state)throws Exception{
+    	boolean check = false;
+    	if(state instanceof StatesWorkerWithComebackDate){
+			if(comeBackDate==null)
+				throw new Exception("Se debe introducir la fecha de retorno del trabajador");
+			check = true;
+		}
+		return check;
+    }
 }

@@ -664,9 +664,7 @@ public class Personal extends JDialog {
 							comeBackDate = comeBackDateChooser.getDate();
 						}
 						
-						//name = name + " " + lastName + " " + secLastName;
-						//faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
-						if(comeBackDate!=null)
+						if(PersonalValidator.checkComebackDate(comeBackDate, state))
 							faculty.addWorker(id, name, lastName, sex, state, comeBackDate);
 						else
 							faculty.addWorker(id, name, lastName, sex, state);
