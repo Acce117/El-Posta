@@ -8,7 +8,7 @@ import utils.Schedule;
 public class Assignment{
     private Date day;
     private Schedule schedule;
-    private boolean done;
+    private boolean fail;
     private Person personOnWantch;
 
     public Assignment(Person personOnWatch, Date day, Schedule schedule){
@@ -29,12 +29,12 @@ public class Assignment{
 		return day;
 	}
     
-    public void setDone(boolean done){
-        this.done = done;
+    public void setFail(boolean fail){
+        this.fail = fail;
     }
 
-    public boolean isDone(){
-        return this.done;
+    public boolean isFailed(){
+        return this.fail;
     }
 
 

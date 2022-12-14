@@ -1,6 +1,6 @@
 package visual;
 
-import interfaces.GeneralState;
+import classes.GeneralState;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -9,7 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+//TODO
+//Valta validar las fechas de entrada y salida
+//Se busca la myor fecha y se compara con la fecha de entrada
 import classes.Faculty;
 import classes.Student;
 import classes.Worker;
@@ -312,10 +314,16 @@ public class EditWorker extends JDialog {
 						workerReference.setName(name);
 						workerReference.setLastName(lastName);
 						workerReference.setId(id);
-						if(changeState != null && changeState.after(today))							
-							workerReference.setActualState(state, changeState);
+						if(changeState != null && changeState.after(today))
+						{
+							PersonalValidator.checkLogs(workerReference, changeState);
+							workerReference.setActualState(state, changeState);							
+						}
 						else
-							workerReference.setActualState(state, today);
+						{
+							PersonalValidator.checkLogs(workerReference, today);
+							workerReference.setActualState(state, today);							
+						}
 						tableReference.refreshWorker(Faculty.getInstance().getWorkers());
 						dispose();
 					}catch(Exception error){

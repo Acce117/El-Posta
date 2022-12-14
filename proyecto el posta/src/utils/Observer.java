@@ -16,7 +16,7 @@ public abstract class Observer
 		setObservable(observable);
 	}
 	
-	public abstract void update(Date pointReference, Person observable);
+	public abstract void update(Date pointReference);
 	
 	public Person getObservable() {
 		return observable;

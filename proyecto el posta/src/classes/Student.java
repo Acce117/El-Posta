@@ -5,6 +5,7 @@ import java.util.Date;
 import utils.DateManager;
 import utils.Genre;
 import utils.Schedule;
+import utils.StateObserver;
 import utils.StatesStudent;
 
 public class Student extends Person{
@@ -49,5 +50,6 @@ public class Student extends Person{
 		
 		return check;
 	}
+	
     
 }

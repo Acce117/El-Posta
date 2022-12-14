@@ -66,7 +66,7 @@ public abstract class PlanningPeriod {
         for(Assignment i : asignments)
         {
         	actualDate = i.getDay();
-        	if((actualDate.after(start) || actualDate.equals(start)) && ((actualDate.before(end) || actualDate.equals(end)) && !i.isDone()))
+        	if((actualDate.after(start) || actualDate.equals(start)) && ((actualDate.before(end) || actualDate.equals(end)) && !i.isFailed()))
         	{
         		absents++;
         	}

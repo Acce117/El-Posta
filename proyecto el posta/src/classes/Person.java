@@ -68,7 +68,7 @@ public abstract class Person{
     {
         for(Observer i : observers)
         {
-            i.update(pointReference,this);
+            i.update(pointReference);
         }
     }
     public abstract boolean isActive();
@@ -93,18 +93,23 @@ public abstract class Person{
     			
     	}
     	return (check && isActive());
-    }
-
-	public Date getBirthDay() {
-		Date birthDay = null;
-		
-		String birthID = id.substring(0,6);
-		int actualYear = (new Date()).getYear() + 1900;
-		int idYear = ((birthID.charAt(0)-'0')*10 + (birthID.charAt(1)-'0')) + actualYear - actualYear%100;
-
-		int idMonth = ((birthID.charAt(2)-'0')*10 + (birthID.charAt(3)-'0'));
-		int idDay = ((birthID.charAt(4)-'0')*10 + (birthID.charAt(5)-'0'));
-		birthDay = new Date(idMonth+"/" + idDay+"/" + idYear+"");
-		return birthDay;
-	} 
+    } 
+	
+	
+	public Date lastLog()
+	{
+		Date last = null;
+		StateObserver state = null;
+		for(int i = 0; i < observers.size() && state == null; i++)
+		{
+			if(observers.get(i) instanceof StateObserver)
+			{
+				state = (StateObserver) observers.get(i);
+			}
+		}
+		if(state != null)
+			last = state.maxLog();
+		return last;
+	}
+	
 }

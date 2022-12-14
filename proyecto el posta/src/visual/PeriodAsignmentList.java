@@ -223,7 +223,7 @@ public class PeriodAsignmentList extends JDialog {
 								Date d = df.parse(s);
 								//System.out.println(d);
 								Assignment fail = classPeriod.findAsignment(d,sched);
-								fail.setDone(true);
+								fail.setFail(true);
 								dispose();
 								
 							}							

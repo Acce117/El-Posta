@@ -25,10 +25,10 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	private ArrayList<Person> absents;
 
-	private Person lastPersonHolidayMale;
-	private Person lastPersonHolidayFemale;
-	private Person lastPersonHolidayWorker1;
-	private Person lastPersonHolidayWorker2;
+//	private Person lastPersonHolidayMale;
+//	private Person lastPersonHolidayFemale;
+//	private Person lastPersonHolidayWorker1;
+//	private Person lastPersonHolidayWorker2;
 
 	public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
 		super(start, end);        
@@ -340,6 +340,10 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				femaleStudents.add(0,(Student) personToChange);
 		}
 
+	}
+	
+	public ArrayList<Person> getAbsents(){
+		return absents;
 	}
 
 }

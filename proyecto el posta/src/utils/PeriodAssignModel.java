@@ -25,7 +25,7 @@ public class PeriodAssignModel extends DefaultTableModel{
 			object[0] = df.format(asign.getDay());
 			object[1] = asign.getSchedule().getSchedule();
 			object[2] = asign.getPersonOnWatch().getName() + " " + asign.getPersonOnWatch().getLastName();
-			object[3] = (asign.isDone())? "SI" : "NO";
+			object[3] = (asign.isFailed())? "SI" : "NO";
 			
 			addRow(object);
 		}
@@ -39,7 +39,7 @@ public class PeriodAssignModel extends DefaultTableModel{
 				object[0] = df.format(asign.getDay());
 				object[1] = asign.getSchedule().getSchedule();
 				object[2] = asign.getPersonOnWatch().getName() + " " + asign.getPersonOnWatch().getLastName();
-				object[3] = asign.isDone();
+				object[3] = asign.isFailed();
 			
 				addRow(object);
 		}
