@@ -88,12 +88,12 @@ public abstract class PlanningPeriod {
 	public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
 	
 
-	public Assignment findAsignment(Date toFind, Schedule schedule)
+	public Asignment findAsignment(Date toFind, Schedule schedule)
 	{
 		Asignment assignmentToFind = null;
 		boolean find = false;
 		
-		Assignment actualAssignment;
+		Asignment actualAssignment;
 		for(int i = 0; i < asignments.size() && !find; i++)
 		{
 			actualAssignment = asignments.get(i);

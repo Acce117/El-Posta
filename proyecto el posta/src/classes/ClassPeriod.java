@@ -24,10 +24,10 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 
 	private ArrayList<Person> absents;
 
-//	private Person lastPersonHolidayMale;
-//	private Person lastPersonHolidayFemale;
-//	private Person lastPersonHolidayWorker1;
-//	private Person lastPersonHolidayWorker2;
+	//	private Person lastPersonHolidayMale;
+	//	private Person lastPersonHolidayFemale;
+	//	private Person lastPersonHolidayWorker1;
+	//	private Person lastPersonHolidayWorker2;
 
 	public ClassPeriod(Date start, Date end, ArrayList<Person> personList){
 		super(start, end);        
@@ -151,7 +151,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				if(!workers.isEmpty() && (!lastPersonWorker || femaleStudents.isEmpty())){
 					System.out.println(index);
 					index = asignWorker(start, Schedule.WORKER_SCHEDULE_1, index);
-					
+
 					index = asignWorker(start, Schedule.WORKER_SCHEDULE_2, index%workers.size());
 					if(index == workers.size()%2){
 						index = 0;
@@ -174,13 +174,13 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 	//-----------------------------------------------------------------------------------------------------------
 
 	private void updateList(Date start) {
-		
+
 		int deleteIndex = 0;
 		//remover los que no estan disponibles y pasarlos a la lista de inactivos revisando en las respectivas listas
 		deleteIndex = deleteInactivePeople(start);
 		//los que pueden ese dia se van para la su respectiva lista de activos
 		addActive(deleteIndex,start);
-		
+
 		//se agregan de ultimo a la de inactivos
 		//se agregan de primeros a la respectiva lista
 	}
@@ -188,7 +188,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 	private int deleteInactivePeople(Date start) {
 		int deleted = 0;
 		int size;
-		
+
 		//se recorre cada lista
 		for(int i = 0; i < maleStudents.size(); i++)
 		{
@@ -217,7 +217,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				deleted+=size - noActivePeople.size()+1;//el +1 es porque agrego una persona en el metodo removePerson				
 			}
 		}
-				
+
 		return deleted;
 	}
 
@@ -230,7 +230,7 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 			if(personToChange.enabled(start))
 				addPerson(personToChange);
 		}
-		
+
 	}
 
 	public void replan(Date pointReference, Person personToChange){
@@ -254,25 +254,25 @@ public class ClassPeriod extends PlanningPeriod implements IOrganize{
 				asignments.remove(i);
 				i--;
 			}
-		}
-		
-		//Estos getters son para las pruebas, no son relevantes para el sistema en si
-		public ArrayList<Person> getAbsents(){
-			return absents;
-		}
-		
-		public ArrayList<Student> getFemaleStudents() {
-			return femaleStudents;
-		}
-		
-		public ArrayList<Student> getMaleStudents() {
-			return maleStudents;
-		}
-		
-		public ArrayList<Worker> getWorkers() {
-			return workers;
-		}
+		}	
 	}
+	//Estos getters son para las pruebas, no son relevantes para el sistema en si
+	public ArrayList<Person> getAbsents(){
+		return absents;
+	}
+
+	public ArrayList<Student> getFemaleStudents() {
+		return femaleStudents;
+	}
+
+	public ArrayList<Student> getMaleStudents() {
+		return maleStudents;
+	}
+
+	public ArrayList<Worker> getWorkers() {
+		return workers;
+	}
+
 
 	private void updatePerson(Person personToChange) {
 		if(personToChange.isActive())

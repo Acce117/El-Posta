@@ -32,7 +32,6 @@ public class MainMenu extends JFrame{
 	private JMenuItem mntmListado;
 	private JMenuItem mntmPeriodos;
 	private JMenu mnConsultar;
-	private JMenuItem mntmReport;
 	private JMenuItem mntmReporte;
 	private JMenuItem mntmReporte_2;
 	private JLabel lblNewLabel;
@@ -144,26 +143,10 @@ public class MainMenu extends JFrame{
 			mnConsultar = new JMenu("Consultar");
 			mnConsultar.setBackground(SystemColor.control);
 			mnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			mnConsultar.add(getMntmReport());
 			mnConsultar.add(getMntmReporte());
 			mnConsultar.add(getMntmReporte_2());
 		}
 		return mnConsultar;
-	}
-	private JMenuItem getMntmReport() {
-		if (mntmReport == null) {
-			mntmReport = new JMenuItem("Cantidad de ausentes");
-			mntmReport.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			mntmReport.setBackground(Color.WHITE);
-			mntmReport.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					AbsentAmount cant = new AbsentAmount();
-					cant.setModal(true);
-					cant.setVisible(true);
-				}
-			});
-		}
-		return mntmReport;
 	}
 	private JMenuItem getMntmReporte() {
 		if (mntmReporte == null) {

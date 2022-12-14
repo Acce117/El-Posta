@@ -309,5 +309,18 @@ public class Faculty{
 			people.remove(index);
 		}
 	}
+	
+	public ArrayList<Worker> getAwareWorkers(){
+		ArrayList<Worker> awareWorkers = new ArrayList<>();
+		Worker aux;
+		for(Person w:people){
+			if(w instanceof Worker){
+				aux = (Worker)w;
+				if(aux.isOnTravel())
+					awareWorkers.add(aux);
+			}
+		}
+		return awareWorkers;
+	}
 
 }

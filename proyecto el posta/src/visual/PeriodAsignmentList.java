@@ -25,7 +25,6 @@ import classes.Asignment;
 import classes.ClassPeriod;
 import classes.VacationPeriod;
 import utils.PeriodAsignModel;
-import utils.PeriodAssignModel;
 import utils.PersonTableModel;
 import utils.Schedule;
 
@@ -223,7 +222,7 @@ public class PeriodAsignmentList extends JDialog {
 								Date d = df.parse(s);
 								//System.out.println(d);
 
-								Assignment fail = classPeriod.findAsignment(d,sched);
+								Asignment fail = classPeriod.findAsignment(d,sched);
 								fail.setFail(true);
 								dispose();								
 							}							
