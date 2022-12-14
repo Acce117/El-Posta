@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +27,7 @@ import classes.VacationPeriod;
 import utils.PeriodAsignModel;
 import utils.PeriodAssignModel;
 import utils.PersonTableModel;
+import utils.Schedule;
 
 import java.awt.Toolkit;
 
@@ -45,6 +47,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 public class PeriodAsignmentList extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -60,6 +65,7 @@ public class PeriodAsignmentList extends JDialog {
 	private JSeparator separator;
 	private JCheckBox chckbxAusentes;
 	private JButton btnSave;
+	private JLabel lblNombre;
 	/**
 	 * Create the dialog.
 	 * @wbp.parser.constructor
@@ -145,6 +151,7 @@ public class PeriodAsignmentList extends JDialog {
 			panel_1.add(getTextField());
 			panel_1.add(getSeparator());
 			panel_1.add(getChckbxAusentes());
+			panel_1.add(getLblNombre());
 		}
 		return panel_1;
 	}
@@ -185,7 +192,7 @@ public class PeriodAsignmentList extends JDialog {
 				}
 			});
 			chckbxAusentes.setBackground(Color.WHITE);
-			chckbxAusentes.setBounds(87, 24, 97, 23);
+			chckbxAusentes.setBounds(58, 24, 97, 23);
 		}
 		return chckbxAusentes;
 	}
@@ -202,18 +209,29 @@ public class PeriodAsignmentList extends JDialog {
 							if(absent)
 							{
 								String s = (String)table.getValueAt(index, 0);
+								String turn = (String)table.getValueAt(index, 1);
+								Schedule sched;
+								if(turn.equals("20:00pm - 8:00am"))
+									sched = Schedule.MALE_STUDENT_SCHEDULE;
+								else if(turn.equals("8:00am - 20:00pm"))
+									sched = Schedule.FEMALE_STUDENT_SCHEDULE;
+								else if(turn.equals("9:00am - 14:00pm"))
+									sched = Schedule.WORKER_SCHEDULE_1;
+								else
+									sched = Schedule.WORKER_SCHEDULE_2;
 								SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
 								Date d = df.parse(s);
 								//System.out.println(d);
-								Asignment fail = classPeriod.findAsignment(d);
-								fail.setDone(true);
-								System.out.println(fail);
-								
+
+								Assignment fail = classPeriod.findAsignment(d,sched);
+								fail.setFail(true);
+								dispose();								
 							}							
 												
 						}
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e.getMessage());
 						e.printStackTrace();
 					}
 	
@@ -222,5 +240,13 @@ public class PeriodAsignmentList extends JDialog {
 			btnSave.setBounds(385, 407, 89, 23);
 		}
 		return btnSave;
+	}
+	private JLabel getLblNombre() {
+		if (lblNombre == null) {
+			lblNombre = new JLabel("Nombre:");
+			lblNombre.setHorizontalAlignment(SwingConstants.TRAILING);
+			lblNombre.setBounds(127, 28, 90, 14);
+		}
+		return lblNombre;
 	}
 }

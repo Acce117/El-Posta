@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import javax.swing.JRadioButton;
 import classes.Faculty;
 import classes.GeneralState;
 import classes.Person;
+import classes.Student;
 
 public final class PersonalValidator 
 {
@@ -152,6 +154,18 @@ public final class PersonalValidator
             throw new IllegalArgumentException("Nombre vacio");
         if(name.equals("") || name.trim().equals(""))
             throw new IllegalArgumentException("Nombre vacio");
+    }
+    
+    public static void checkLogs(Person toCheck, Date toAdd)
+    {
+    	SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+    	Date max = toCheck.lastLog();
+    	if(toAdd == null)
+    		throw new IllegalArgumentException("La fecha de modificacion esta vacia");
+    	else if(max != null && !toAdd.after(max))
+    		throw new IllegalArgumentException("La fecha de modificacion tiene que ser despues de " + df.format(max));
+    	System.out.println(max + " " + toAdd);
+    	
     }
 
     public static boolean checkComebackDate(Date comeBackDate, GeneralState state)throws Exception{

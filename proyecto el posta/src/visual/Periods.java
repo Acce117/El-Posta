@@ -95,6 +95,7 @@ public class Periods extends JDialog {
 
 	private static Faculty faculty;
 	private static VolunteerWorkersModel volunteerWorkersModel;
+	private JButton btnVerTurnos;
 
 
 	/**
@@ -231,6 +232,7 @@ public class Periods extends JDialog {
 					catch(IllegalArgumentException ex)
 					{
 						JOptionPane.showMessageDialog(null, ex.getMessage());
+						ex.printStackTrace();
 					}
 				}
 			});
@@ -414,16 +416,6 @@ public class Periods extends JDialog {
 			
 			classPeriodTable.setDefaultRenderer(Object.class, new PeriodRenderer());
 			classPeriodTable.setModel(getClassPeriodModel());
-			classPeriodTable.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					int index = classPeriodTable.getSelectedRow();
-					if(index != -1){		
-						PeriodAsignmentList window = new PeriodAsignmentList(faculty.getClassPeriods().get(index));
-						window.setVisible(true);
-					}
-				}
-			});
 			classPeriodTable.setFillsViewportHeight(true);
 			classPeriodTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			classPeriodTable.getTableHeader().setBackground(backgroundColor);
@@ -501,6 +493,7 @@ public class Periods extends JDialog {
 			panel.setLayout(null);
 			panel.add(getButton());
 			panel.setBackground(backgroundColor);
+			panel.add(getBtnVerTurnos());
 		}
 		return panel;
 	}
@@ -554,4 +547,22 @@ public class Periods extends JDialog {
 		return btnEditar;
 	}
 
+	private JButton getBtnVerTurnos() {
+		if (btnVerTurnos == null) {
+			btnVerTurnos = new JButton("Ver Turnos");
+			btnVerTurnos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int index = classPeriodTable.getSelectedRow();
+					if(index != -1){		
+						PeriodAsignmentList window = new PeriodAsignmentList(faculty.getClassPeriods().get(index));
+						window.setVisible(true);
+					}
+				}
+			});
+			btnVerTurnos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnVerTurnos.setBackground(Color.WHITE);
+			btnVerTurnos.setBounds(382, 12, 108, 23);
+		}
+		return btnVerTurnos;
+	}
 }

@@ -56,6 +56,7 @@ public class EnterLog
 		return check;
 	}
 	
+	
 	public boolean canCount(Date toAdd)
 	{
 		boolean check = !isFull(); //Si se cumple esto puedo contar con cualquier dia
@@ -79,7 +80,7 @@ public class EnterLog
 				{
 					//Sino la fecha no se puede encontrar entre
 					//la fecha de salida y la de entrada
-					check = !DateManager.betweenDates(exit, enter, toAdd);
+					check = !DateManager.betweenDates(exit, enter, toAdd) || DateManager.sameDate(toAdd, enter);
 				}				
 			}
 			else
@@ -101,6 +102,20 @@ public class EnterLog
 		
 		
 		return check;
+	}
+
+	public Date maxDate() {
+		// TODO Auto-generated method stub
+		Date max = null;
+		if(enter == null)
+			max = exit;
+		else
+			max = enter;
+		
+		if(max != null && max.before(exit))
+			max = exit;
+			
+		return max;
 	}
 
 }

@@ -265,13 +265,20 @@ public class EditStudent extends JDialog {
 						studentReference.setLastName(lastName);
 						studentReference.setId(id);
 						if(changeState != null && changeState.after(today))							
-							studentReference.setActualState(state, changeState);
+						{
+							PersonalValidator.checkLogs(studentReference, changeState);
+							studentReference.setActualState(state, changeState);							
+						}
 						else
+						{
+							PersonalValidator.checkLogs(studentReference, today);
 							studentReference.setActualState(state, today);
+						}
 						tableReference.refreshStudent(Faculty.getInstance().getStudents());
 						dispose();
 					}catch(Exception error){
 						JOptionPane.showMessageDialog(null, error.getMessage());
+						error.printStackTrace();
 					}
 				}
 			});

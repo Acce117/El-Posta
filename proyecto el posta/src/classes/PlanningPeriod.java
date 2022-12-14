@@ -66,7 +66,7 @@ public abstract class PlanningPeriod {
         for(Asignment i : asignments)
         {
         	actualDate = i.getDay();
-        	if((actualDate.after(start) || actualDate.equals(start)) && ((actualDate.before(end) || actualDate.equals(end)) && !i.isDone()))
+        	if((actualDate.after(start) || actualDate.equals(start)) && ((actualDate.before(end) || actualDate.equals(end)) && !i.isFailed()))
         	{
         		absents++;
         	}
@@ -87,17 +87,20 @@ public abstract class PlanningPeriod {
 	public abstract void replan(Date pointReference, Person changedPerson);
 	public abstract void replan(Date pointReferenceStart, Date pointReferenceEnd, Person changedPerson);
 	
-	public Asignment findAsignment(Date toFind)
+
+	public Assignment findAsignment(Date toFind, Schedule schedule)
 	{
 		Asignment assignmentToFind = null;
 		boolean find = false;
 		
+		Assignment actualAssignment;
 		for(int i = 0; i < asignments.size() && !find; i++)
 		{
-			if(DateManager.sameDate(asignments.get(i).getDay(), toFind))
+			actualAssignment = asignments.get(i);
+			if(DateManager.sameDate(actualAssignment.getDay(), toFind) && actualAssignment.getSchedule() == schedule)
 			{
-				assignmentToFind = asignments.get(i);
-				find = true;
+					assignmentToFind = asignments.get(i);
+					find = true;					
 			}
 		}
 		

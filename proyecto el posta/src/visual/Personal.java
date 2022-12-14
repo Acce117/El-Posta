@@ -501,7 +501,8 @@ public class Personal extends JDialog {
 						sex = PersonalValidator.checkSex(studentMale, studentFemale);
 						PersonalValidator.checkID(id, sex);	
 						
-						
+						if(studentState.getSelectedIndex() == -1)
+							throw new Exception("No se ha elegido el estado");
 						switch((String)studentState.getSelectedItem()){
 							case "Activo":
 								state = StatesStudent.ACTIVE;
@@ -642,7 +643,8 @@ public class Personal extends JDialog {
 						
 						PersonalValidator.checkID(id, sex);	
 						
-						
+						if(workerState.getSelectedIndex() == -1)
+							throw new Exception("No se ha elegido el estado");
 						switch((String)workerState.getSelectedItem()){
 							case "Activo":
 								state = StatesWorker.ACTIVE;

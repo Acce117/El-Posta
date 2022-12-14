@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
 
 import classes.Person;
 import classes.Student;
@@ -17,21 +18,34 @@ public class StateObserver extends Observer
 		personLog = new ArrayList<>();
 	}
 
-	public void update(Date pointReference, Person observer){
-		
-		addDate(pointReference, observer);
-		faculty.replan(pointReference, observer);		
+//	public void update(Date pointReference, Person observer){
+//		addDate(pointReference, observer);
+//		faculty.replan(pointReference, observer);		
+//	}
+	public void update(Date pointReference){
+		addDate(pointReference);
+		faculty.replan(pointReference, observable);		
 	}
 	
 	
-	private void addDate(Date newDate, Person observer)
+//	private void addDate(Date newDate, Person observer)
+//	{
+//		//Crea un registro nuevo si la lista esta vacia o si esta llena en la ultima posicion
+//		if(personLog.isEmpty() || personLog.get(personLog.size()-1).isFull())
+//			personLog.add(new EnterLog());
+//		
+//		personLog.get(personLog.size()-1).addDate(newDate, observer);									
+//	}
+	
+	private void addDate(Date newDate)
 	{
 		//Crea un registro nuevo si la lista esta vacia o si esta llena en la ultima posicion
 		if(personLog.isEmpty() || personLog.get(personLog.size()-1).isFull())
 			personLog.add(new EnterLog());
 		
-		personLog.get(personLog.size()-1).addDate(newDate, observer);									
+		personLog.get(personLog.size()-1).addDate(newDate, observable);									
 	}
+	
 	
 	public boolean toCount(Date toAdd)
 	{
@@ -43,6 +57,14 @@ public class StateObserver extends Observer
 		return check;
 	}
 		
-
+	public Date maxLog()
+	{
+		Date max = null;
+		
+		if(!personLog.isEmpty())
+			max = personLog.get(personLog.size()-1).maxDate();
+		
+		return max;
+	}
 
 }
